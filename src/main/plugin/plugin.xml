@@ -1,0 +1,46 @@
+<plugin xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
+    <name>database-query-plugin</name>
+    <description>Adds ability to query the databases directly from the Admin Console.</description>
+    <author>Sean M. Staley</author>
+    <authorURL>http://www.jivesoftware.com/</authorURL>
+    <version>5.0.3</version>
+    <minServerVersion>5.0.3</minServerVersion>
+    <maxServerVersion>5.0.3</maxServerVersion>
+    <databaseKey>1000000</databaseKey>
+
+    <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>
+
+    <components>
+        <component id="admin-console">
+            <tab id="system">
+                <section id="section-database-query" name="admin.decorator.menu.system.dbQuery.section"
+                         description="admin.decorator.menu.system.dbQuery.section.desc">
+
+                    <item id="database-query-page" name="admin.decorator.menu.system.dbQuery.item.application"
+                          url="database-query-page.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.application.desc" />
+
+                    <item id="analytics-query-page" name="admin.decorator.menu.system.dbQuery.item.analytics"
+                          url="analytics-query-page.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.analytics.desc" />
+                </section>
+            </tab>
+        </component>
+    </components>
+	<!-- 
+    <authorURL>
+    <pluginURL>
+    <databaseKey>
+    <databaseVersion>
+    <components>
+    <css>
+    <soy>
+    <javascript>
+    <widget>
+    <macro>
+    <urlmapping>
+    <sitemesh>
+	-->
+
+</plugin>

@@ -1,0 +1,16 @@
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+        "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+    <package name="database-query-plugin-actions" extends="community-admin-default" namespace="/admin">
+
+        <action name="database-query-page" class="com.jivesoftware.plugin.dbQuery.action.RunQueryAction">
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
+        </action>
+
+        <action name="analytics-query-page" class="com.jivesoftware.plugin.dbQuery.action.RunAnalyticsQueryAction">
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+        </action>
+    </package>
+</struts>

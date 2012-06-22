@@ -1,0 +1,2 @@
+build.project.name=\${build.project.name}
+build.number=\${build.number}

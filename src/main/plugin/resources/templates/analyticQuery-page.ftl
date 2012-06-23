@@ -25,21 +25,21 @@
                 To view the schema of the analytics database, follow this <a href=<@s.text name="dbQuery.link.database.analytics" /> title="Jive 5.0 Analytics Database Schema">link</a>.
                 <br>
                 <br>
-                <#if selectQuery == false>
+                <#if !selectQuery>
                     <div id="jive-error-box" class="jive-error-box" style>
                         <span class="jive-icon-med jive-icon-redalert"></span>
                         <@s.text name="dbQuery.query.error.databaseQuery.notSelect" />
                     </div>
                 </#if>
 
-                <#if cleanQuery == false>
+                <#if !cleanQuery>
                     <div id="jive-error-box" class="jive-error-box" style>
                         <span class="jive-icon-med jive-icon-redalert"></span>
                         <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
                     </div>
                 </#if>
 
-            <form action="database-query-page.jspa" method="POST">
+            <form action="analytics-query-page.jspa" method="POST">
                 <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10"></textarea>
                 <br>
                 <input type="submit" value="Submit" /> <input type="reset" value="Clear" />
@@ -56,6 +56,7 @@
                 </#if>
             </p>
         <#else>
+            <!-- TODO: Add Jive URL syntax -->
             Please enable analytics by going to <strong><a href="/admin/settings-analytics_input.jspa" title="Analytics Setup" target="_blank"></u>Settings > Analytics</a></strong>.
         </#if>
     </body>

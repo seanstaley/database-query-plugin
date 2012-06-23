@@ -7,11 +7,9 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
        default-autowire="no" default-init-method="init" default-destroy-method="destroy">
 
-    <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
+    <import resource="classpath:spring-analyticsContext.xml" />
 
-    <bean id="analyticsDataSource" class="com.jivesoftware.base.database.ProxoolDataSource" destroy-method="destroy">
-        <property name="poolAlias" value="analyticsPool"/>
-    </bean>
+    <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
 
     <bean id="queryExecute" class="com.jivesoftware.plugin.dbQuery.dao.QueryExecute">
         <property name="dataSource">

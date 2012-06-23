@@ -24,6 +24,8 @@ public class RunQueryAction extends AdminActionSupport {
 
     @Override
     public String execute() {
+        log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
+
         //Setting selectQuery and assuming query is clean, so to true for now...
         setSelectQuery(true);
         setIsCleanQuery(true);
@@ -31,13 +33,14 @@ public class RunQueryAction extends AdminActionSupport {
 
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null){
+            log.info("Database Query Plugin: Application query was blank.");
             setCompleted(false);
             return INPUT;
         }
 
         //Is the query NOT a SELECT query?
-        if (!queryExecute.validateSelectQuery(databaseQuery)) {
-            log.info("Query did not begin with a SELECT. Try again...");
+        else if (!queryExecute.validateSelectQuery(databaseQuery)) {
+            log.info("Database Query Plugin: Query did not begin with a SELECT! Try again...");
             setSelectQuery(false);
             setCompleted(false);
             return INPUT;
@@ -46,9 +49,9 @@ public class RunQueryAction extends AdminActionSupport {
         //Catching dirty SQL talk and running a nice query.
         try{
             queryResults = queryExecute.runQuery(databaseQuery);
-            log.info("Query Results: " + queryResults);
+            log.info("Database Query Plugin: Query Results: " + queryResults);
         } catch (BadSqlGrammarException e) {
-            log.error("Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
+            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
             setCompleted(false);
             setIsCleanQuery(false);
             return INPUT;

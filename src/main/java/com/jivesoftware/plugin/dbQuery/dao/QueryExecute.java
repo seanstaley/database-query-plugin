@@ -24,18 +24,18 @@ public class QueryExecute extends JiveJdbcDaoSupport {
      * @return TRUE is the query is a SELECT statement, FALSE if anything else
      */
     public boolean validateSelectQuery(String queryInput){
-        //Initially validation is FALSE.
+        log.debug("Database Query Plugin: Inside of validateSelectQuery() of QueryExecute class...");
         boolean validated = false;
 
         //Trying to catch some null pointers!
         try{
             //Make sure the string starts with SELECT and does not have the word INTO.
             if(queryInput.toUpperCase().startsWith("SELECT") && !queryInput.toUpperCase().contains("INTO")){
-                log.info("Query, " + queryInput + ", is a SELECT query and has been validated.");
+                log.info("Database Query Plugin: Query, " + queryInput + ", is a SELECT query and has been validated.");
                 validated = true;
             }
         } catch(NullPointerException e){
-            log.error("Validating the query has generated a NullPointerException. Stack: " + e);
+            log.error("Database Query Plugin: Validating the query has generated a NullPointerException.", e);
             validated = true;
         }
         return validated;
@@ -48,14 +48,14 @@ public class QueryExecute extends JiveJdbcDaoSupport {
      */
     @Audit
     public List<Map<String, Object>> runQuery(String queryInput){
-        log.debug("Inside of the QueryExecute.runQuery method.");
-
         List<Map<String, Object>> results;
+
+        log.debug("Database Query Plugin: Inside of the QueryExecute.runQuery method...");
 
         //Querying the database for a list of mapped results and setting that to results.
         results = getSimpleJdbcTemplate().queryForList(queryInput);
-        log.info("runQuery method in Database Query Plugin provided these results for the " + queryInput + " query:" +
-                '\n' + results);
+        log.info("Database Query Plugin: runQuery method in Database Query Plugin provided these results for the "
+                + queryInput + " query:" + '\n' + results);
 
         return results;
     }

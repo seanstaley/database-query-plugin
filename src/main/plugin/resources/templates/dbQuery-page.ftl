@@ -21,19 +21,17 @@
         to the application database.
         <br>
         <br>
-        To view the schema of the application database, follow this <a href="http://docs.jivesoftware.com/schemas/5_0/sbs/" title="Jive 5.0 Application Database Schema" target="_blank">link</a>.
+        To view the schema of the application database, follow this <a href=<@s.text name="dbQuery.link.database.application" /> title="Jive 5.0 Application Database Schema" target="_blank">link</a>.
         <br>
         <br>
-        <#if selectQuery == false>
+        <#if !selectQuery>
             <div id="jive-error-box" class="jive-error-box" style>
-                <div>
                     <span class="jive-icon-med jive-icon-redalert"></span>
                     <@s.text name="dbQuery.query.error.databaseQuery.notSelect" />
-                </div>
             </div>
         </#if>
 
-        <#if cleanQuery == false>
+        <#if !cleanQuery>
             <div id="jive-error-box" class="jive-error-box" style>
                 <span class="jive-icon-med jive-icon-redalert"></span>
                 <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />

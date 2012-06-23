@@ -14,7 +14,7 @@
     </head>
 
     <body>
-        <#if analyticsEnabled>
+        <#if analyticsModuleAvailable && analyticsAvailable>
             <p>
                 This page provides you with the ability to directly query the analytics database from within the
                 <i>Admin Console</i> of your Jive application. Please note that you can only perform <strong>SELECT</strong> queries
@@ -22,23 +22,21 @@
                 to the application database.
                 <br>
                 <br>
-                To view the schema of the analytics database, follow this <a href="http://docs.jivesoftware.com/schemas/5_0/analytics/" title="Jive 5.0 Analytics Database Schema">link</a>.
+                To view the schema of the analytics database, follow this <a href=<@s.text name="dbQuery.link.database.analytics" /> title="Jive 5.0 Analytics Database Schema">link</a>.
                 <br>
                 <br>
                 <#if selectQuery == false>
-                <div id="jive-error-box" class="jive-error-box" style>
-                    <div>
+                    <div id="jive-error-box" class="jive-error-box" style>
                         <span class="jive-icon-med jive-icon-redalert"></span>
                         <@s.text name="dbQuery.query.error.databaseQuery.notSelect" />
                     </div>
-                </div>
                 </#if>
 
                 <#if cleanQuery == false>
-                <div id="jive-error-box" class="jive-error-box" style>
-                    <span class="jive-icon-med jive-icon-redalert"></span>
-                    <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
-                </div>
+                    <div id="jive-error-box" class="jive-error-box" style>
+                        <span class="jive-icon-med jive-icon-redalert"></span>
+                        <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
+                    </div>
                 </#if>
 
             <form action="database-query-page.jspa" method="POST">

@@ -48,8 +48,16 @@
             <br>
             <i><@s.text name="dbQuery.query.success.databaseQuery.message" /> ${databaseQuery}</i>
             <br><br>
+
+            <#if !results>
+                <div id="jive-info-box" class="jive-info-box" style>
+                    <span class="jive-icon-med jive-icon-info"></span>
+                    <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
+                </div>
+            </#if>
+
             <#list queryResults as queryResults>
-                ${queryResults}<br>
+                ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
                 <hr size="2"/><br>
             </#list>
         </#if>

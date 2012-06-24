@@ -19,17 +19,16 @@ public class RunQueryAction extends AdminActionSupport {
 
     private String databaseQuery;
     private List<Map<String, Object>> queryResults;
-    private boolean isSelectQuery, isCleanQuery, isCompleted;
     private QueryExecute queryExecute;
+
+    private boolean isSelectQuery = true;
+    private boolean isCleanQuery = true;
+    private boolean isCompleted = true;
+    private boolean isResults = true;
 
     @Override
     public String execute() {
         log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
-
-        //Setting selectQuery and assuming query is clean, so to true for now...
-        setSelectQuery(true);
-        setIsCleanQuery(true);
-        setCompleted(true);
 
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null){
@@ -55,6 +54,11 @@ public class RunQueryAction extends AdminActionSupport {
             setCompleted(false);
             setIsCleanQuery(false);
             return INPUT;
+        }
+
+        if (queryResults.isEmpty()) {
+            log.info("Database Query Plugin: Results of query returned 0 results...");
+            setIsResults(false);
         }
 
         return SUCCESS;
@@ -106,5 +110,13 @@ public class RunQueryAction extends AdminActionSupport {
 
     public void setIsCleanQuery(boolean isCleanQuery) {
         this.isCleanQuery = isCleanQuery;
+    }
+
+    public boolean isResults() {
+        return this.isResults;
+    }
+
+    public void setIsResults(boolean results) {
+        this.isResults = results;
     }
 }

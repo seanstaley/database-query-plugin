@@ -21,4 +21,7 @@
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
+    <bean id="activityQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.ActivityQueryExecute">
+    </bean>
+
 </beans>

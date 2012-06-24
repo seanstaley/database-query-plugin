@@ -13,13 +13,13 @@
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
         </action>
 
-        <action name="activity-query-page" class="com.jivesoftware.plugin.dbQuery.action.RunAnalyticsQueryAction">
-            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+        <action name="activity-query-page" class="com.jivesoftware.plugin.dbQuery.action.RunActivityQueryAction">
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/activityQuery-page.ftl</result>
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/activityQuery-page.ftl</result>
         </action>
 
-        <action name="query-auditor-page" class="com.jivesoftware.plugin.dbQuery.action.RunAnalyticsQueryAction">
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+        <action name="query-auditor-page" class="com.jivesoftware.plugin.dbQuery.action.QueryAuditorAction">
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/auditQuery-page.ftl</result>
         </action>
     </package>
 </struts>

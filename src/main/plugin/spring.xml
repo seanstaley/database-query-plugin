@@ -21,7 +21,10 @@
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
-    <bean id="activityQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.ActivityQueryExecute">
+    <bean id="queryAuditor" class="com.jivesoftware.plugin.dbQuery.audit.QueryAuditor">
+        <property name="dataSource">
+            <util:property-path path="dataSourceFactory.dataSource"/>
+        </property>
     </bean>
 
 </beans>

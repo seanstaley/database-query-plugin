@@ -1,7 +1,6 @@
 package com.jivesoftware.plugin.dbQuery.dao;
 
 import com.jivesoftware.base.database.dao.JiveJdbcDaoSupport;
-import com.jivesoftware.community.audit.aop.Audit;
 import org.apache.log4j.Logger;
 
 import javax.management.timer.Timer;
@@ -46,11 +45,10 @@ public class QueryExecute extends JiveJdbcDaoSupport {
      * @param queryInput Query to execute against the database
      * @return The results of the query that was performed against the application database.
      */
-    @Audit
     public List<Map<String, Object>> runQuery(String queryInput){
-        List<Map<String, Object>> results;
-
         log.debug("Database Query Plugin: Inside of the QueryExecute.runQuery method...");
+
+        List<Map<String, Object>> results;
 
         //Querying the database for a list of mapped results and setting that to results.
         results = getSimpleJdbcTemplate().queryForList(queryInput);

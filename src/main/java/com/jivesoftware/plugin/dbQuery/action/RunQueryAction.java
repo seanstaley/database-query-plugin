@@ -1,6 +1,7 @@
 package com.jivesoftware.plugin.dbQuery.action;
 
 import com.jivesoftware.community.action.admin.AdminActionSupport;
+import com.jivesoftware.plugin.dbQuery.audit.QueryAuditor;
 import com.jivesoftware.plugin.dbQuery.dao.QueryExecute;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.BadSqlGrammarException;
@@ -20,6 +21,7 @@ public class RunQueryAction extends AdminActionSupport {
     private String databaseQuery;
     private List<Map<String, Object>> queryResults;
     private QueryExecute queryExecute;
+    private QueryAuditor queryAuditor;
 
     private boolean isSelectQuery = true;
     private boolean isCleanQuery = true;
@@ -29,6 +31,8 @@ public class RunQueryAction extends AdminActionSupport {
     @Override
     public String execute() {
         log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
+
+        int auditSuccess = 0;
 
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null){
@@ -44,6 +48,8 @@ public class RunQueryAction extends AdminActionSupport {
             setCompleted(false);
             return INPUT;
         }
+
+        //auditSuccess = queryAuditor.addEntry(queryAuditor.buildEntry(getUser().getUsername(),"APPLICATION", databaseQuery, 10000000));
 
         //Catching dirty SQL talk and running a nice query.
         try{

@@ -7,7 +7,9 @@
     <version>5.0.3-2</version>
     <minServerVersion>5.0.3</minServerVersion>
     <maxServerVersion>5.0.3</maxServerVersion>
-    <databaseKey>1000000</databaseKey>
+
+    <databaseKey>database-query</databaseKey>
+    <databaseVersion>1050302</databaseVersion>
 
     <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>
 

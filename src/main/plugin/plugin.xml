@@ -4,10 +4,10 @@
     <description>Adds ability to query the databases directly from the Admin Console.</description>
     <author>Sean M. Staley</author>
     <authorURL>http://www.jivesoftware.com/</authorURL>
-    <version>5.0.3</version>
+    <version>5.0.3-2</version>
     <minServerVersion>5.0.3</minServerVersion>
     <maxServerVersion>5.0.3</maxServerVersion>
-    <databaseKey>1000000</databaseKey>
+    <databaseKey>1005032</databaseKey>
 
     <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>
 
@@ -24,6 +24,14 @@
                     <item id="analytics-query-page" name="admin.decorator.menu.system.dbQuery.item.analytics"
                           url="analytics-query-page.jspa"
                           description="admin.decorator.menu.system.dbQuery.item.analytics.desc" />
+
+                    <item id="activity-query-page" name="admin.decorator.menu.system.dbQuery.item.activity"
+                          url="activity-query-page.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.activity.desc" />
+
+                    <item id="query-auditor-page" name="admin.decorator.menu.system.dbQuery.item.auditor"
+                          url="query-auditor-page.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.auditor.desc" />
                 </section>
             </tab>
         </component>

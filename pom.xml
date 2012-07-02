@@ -16,7 +16,7 @@
     <groupId>com.jivesoftware.plugin.dbQuery</groupId>
     <artifactId>database-query-plugin</artifactId>
     <name>database-query-plugin</name>
-    <version>1.0</version>
+    <version>2</version>
     <packaging>jar</packaging>
     <url>http://www.jivesoftware.com</url>
 
@@ -34,7 +34,7 @@
     <properties>
         <!-- If using <parent> section, remove the <jive.version> line below. -->
         <jive.version>5.0.3.0</jive.version>
-        <final.name>${project.artifactId}-${project.version}-${jive.version}</final.name>
+        <final.name>${project.artifactId}-${jive.version}-${project.version}</final.name>
         <build.number>${env.BUILD_NUMBER}</build.number>
         <build.project.name>${env.TEAMCITY_PROJECT_NAME}</build.project.name>
         <emma-maven-plugin.version>1.0-alpha-3</emma-maven-plugin.version>

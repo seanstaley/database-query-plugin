@@ -64,7 +64,7 @@
                 </#if>
             </p>
         <#else>
-            <@s.text name="analytics.module.disabled" />
+            <@s.text name="dbQuery.analytics.module.disabled" />
         </#if>
     </body>
 </html>

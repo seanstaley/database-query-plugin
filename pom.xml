@@ -20,17 +20,6 @@
     <packaging>jar</packaging>
     <url>http://www.jivesoftware.com</url>
 
-    <!--
-    If this is plugin in a customization project, it is recommended to use a parent reference
-    to pull project-wide properties (incl. jive.version and maven dependencies)
-    by uncommenting the following parent section and making appropriate replacements.
-        <parent>
-            <groupId>com.jivesoftware.plugin.dbQuery</groupId>
-            <artifactId>REPLACE_ME_WITH_PARENT_ARTIFACT_ID</artifactId>
-            <version>REPLACE_ME_WITH_PARENT_VERSION</version>
-            <relativePath>../pom.xml</relativePath>
-        </parent>
-    -->
     <properties>
         <!-- If using <parent> section, remove the <jive.version> line below. -->
         <jive.version>5.0.3.0</jive.version>

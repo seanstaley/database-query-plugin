@@ -1,7 +1,7 @@
 <html>
     <head>
         <title>Activity Database Querying</title>
-        <meta name="pageID" content="database-query-page"/>
+        <meta name="pageID" content="activity-query-page"/>
         <content tag="pagetitle">Activity Database Querying</content>
         <content tag="pageID">activity-query-page</content>
         <content tag="pagehelp">
@@ -46,7 +46,7 @@
 
             <#if completed>
             <br>
-            <i><@s.text name="dbQuery.query.success.analyticsQuery.message" /> ${databaseQuery}</i>
+            <i><@s.text name="dbQuery.query.success.activityQuery.message" /> ${databaseQuery}</i>
             <br><br>
 
                 <#if !results>

@@ -1,0 +1,7 @@
+/*
+ * Adds styling to query results.
+ */
+p.results {
+    font-size: 6pt;
+    font-family: 'monospace';
+}

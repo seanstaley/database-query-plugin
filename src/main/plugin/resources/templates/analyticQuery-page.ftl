@@ -25,6 +25,7 @@
                 To view the schema of the analytics database, follow this <a href=<@s.text name="dbQuery.link.database.analytics" /> target="_blank" title="Jive 5.0 Analytics Database Schema">link</a>.
                 <br>
                 <br>
+            </p>
                 <#if !selectQuery>
                 <div id="jive-error-box" class="jive-error-box" style>
                     <span class="jive-icon-med jive-icon-redalert"></span>
@@ -57,12 +58,13 @@
                     </div>
                     </#if>
 
+                <p class="results">
                     <#list queryResults as queryResults>
                     ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
                     <hr size="2"/><br>
                     </#list>
+                </p>
                 </#if>
-            </p>
         <#else>
             <@s.text name="dbQuery.analytics.module.disabled" />
         </#if>

@@ -4,6 +4,8 @@ import com.jivesoftware.base.database.dao.JiveJdbcDaoSupport;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.BadSqlGrammarException;
 
+import java.util.Map;
+
 /**
  * Created by IntelliJ IDEA.
  * User: Sean M. Staley
@@ -13,7 +15,8 @@ import org.springframework.jdbc.BadSqlGrammarException;
 public class QueryAuditor extends JiveJdbcDaoSupport {
     Logger log = Logger.getLogger(QueryAuditor.class);
 
-    public static String INSERT_AUDIT_STATEMENT = "INSERT INTO jiveDatabaseQueryAudit VALUES(";
+    public final static String INSERT_AUDIT_STATEMENT = "INSERT INTO jiveDatabaseQueryAudit VALUES(";
+    public final static String GET_AUDIT_RECORDS = "SELECT * FROM jiveDatabaseQueryAudit;";
 
     /**
      * Builds and validates SQL statement that goes to the application database table jiveDatabaseQueryAudit.
@@ -31,22 +34,18 @@ public class QueryAuditor extends JiveJdbcDaoSupport {
         {
             log.error("Database Query Plugin: Missing username field when trying to add database audit log...");
             result = "ERROR";
-            return result;
         }
         else if(databaseUsed == null) {
             log.error("Database Query Plugin: Missing databaseUsed field when trying to add database audit log...");
             result = "ERROR";
-            return result;
         }
         else if(queryPerformed == null) {
             log.error("Database Query Plugin: Missing queryPerformed field when trying to add database audit log...");
             result = "ERROR";
-            return result;
         }
         else if (timePerformed <= 0) {
             log.error("Database Query Plugin: Bad timePerformed field when trying to add database audit log...");
             result = "ERROR";
-            return result;
         }
 
         result = INSERT_AUDIT_STATEMENT + "'" + username + "', '" + databaseUsed + "', '" + queryPerformed + "', " + timePerformed + ");";
@@ -75,5 +74,13 @@ public class QueryAuditor extends JiveJdbcDaoSupport {
         }
 
         return result;
+    }
+
+    //TODO: Need to implement returning records and storing into object.
+    public Map<String, String> obtainResults(){
+        Map results = null;
+
+        results = getSimpleJdbcTemplate().queryForMap(GET_AUDIT_RECORDS);
+        return results;
     }
 }

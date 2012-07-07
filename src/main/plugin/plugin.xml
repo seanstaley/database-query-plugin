@@ -13,7 +13,7 @@
 
     <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>
 
-    <css>/plugins/database-query-plugin/resources/styles/dbQuery.css</css>
+    <css>/resources/styles/dbQuery.css</css>
 
     <components>
         <component id="admin-console">

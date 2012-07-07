@@ -1,7 +1,7 @@
-/*
- * Adds styling to query results.
- */
+/* CSS for Database Query Plugin */
+
+/* Class for database query results */
 p.results {
-    font-size: 6pt;
+    font-size: 1pt;
     font-family: 'monospace';
 }

@@ -1,4 +1,4 @@
-<html>
+<html xmlns="http://www.w3.org/1999/html">
     <head>
         <title>Analytic Database Querying</title>
         <meta name="pageID" content="analytics-query-page"/>
@@ -11,6 +11,10 @@
             from within this portion of the application. The results will be shown below once you submit the query
             to the application database.
         </content>
+
+        <style type="text/css" media="screen">
+            @import "styles/dbQuery.css";
+        </style>
     </head>
 
     <body>
@@ -47,23 +51,25 @@
             </form>
 
                 <#if completed>
-                <br>
-                <i><@s.text name="dbQuery.query.success.analyticsQuery.message" /> ${databaseQuery}</i>
-                <br><br>
+                    <br>
+                    <i><@s.text name="dbQuery.query.success.analyticsQuery.message" /> ${databaseQuery}</i>
+                    <br><br>
 
-                    <#if !results>
-                    <div id="jive-info-box" class="jive-info-box" style>
-                        <span class="jive-icon-med jive-icon-info"></span>
-                        <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
-                    </div>
-                    </#if>
+                        <#if !results>
+                            <div id="jive-info-box" class="jive-info-box" style>
+                                <span class="jive-icon-med jive-icon-info"></span>
+                                <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
+                            </div>
+                        </#if>
 
-                <p class="results">
-                    <#list queryResults as queryResults>
-                    ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
-                    <hr size="2"/><br>
-                    </#list>
-                </p>
+                    <p>
+                        <#list queryResults as queryResults>
+                            <p class="results">
+                                ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
+                            </p>
+                            <hr size="2"/><br>
+                        </#list>
+                    </p>
                 </#if>
         <#else>
             <@s.text name="dbQuery.analytics.module.disabled" />

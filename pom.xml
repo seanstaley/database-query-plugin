@@ -346,8 +346,8 @@
     -->
     <properties>
         <!-- If using <parent> section, remove the <sbs.version> line below. -->
-        <sbs.version>4.5.6.3</sbs.version>
-        <final.name>${project.artifactId}-${project.version}-${sbs.version}</final.name>
+        <sbs.version>4.5.7.2</sbs.version>
+        <final.name>${project.artifactId}-${sbs.version}-${project.version}-</final.name>
         <build.number>${env.BUILD_NUMBER}</build.number>
         <build.project.name>${env.TEAMCITY_PROJECT_NAME}</build.project.name>
         <maven-javadoc-plugin.version>2.6.1</maven-javadoc-plugin.version>

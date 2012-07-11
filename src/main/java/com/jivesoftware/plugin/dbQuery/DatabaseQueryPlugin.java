@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 public class DatabaseQueryPlugin implements Plugin {
     Logger log = Logger.getLogger(DatabaseQueryPlugin.class);
 
-    public void initPlugin() {
+    public void init() {
         log.info("Starting Database Query Plugin....");
     }
 

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!--
-        ~  $Revision: 96475 $
-        ~  $Date: 2009-11-02 16:51:02 -0800 (Mon, 02 Nov 2009) $
-        ~
-        ~  Copyright (C) 1999-${YEAR} Jive Software. All rights reserved.
-        ~
-        ~  This software is the proprietary information of Jive Software. Use is subject to license terms.
-        -->
+<!--
+  ~  $Revision: 96475 $
+  ~  $Date: 2009-11-02 16:51:02 -0800 (Mon, 02 Nov 2009) $
+  ~
+  ~  Copyright (C) 1999-${YEAR} Jive Software. All rights reserved.
+  ~
+  ~  This software is the proprietary information of Jive Software. Use is subject to license terms.
+  -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <!--
      These parameters were pased in via the commandline when this pom was created by the archetype.
       -->
-    <modelVersion>4.5.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
     <groupId>com.jivesoftware.plugin.dbQuery</groupId>
     <artifactId>database-query-plugin</artifactId>
     <name>database-query-plugin</name>
@@ -20,19 +20,32 @@
     <packaging>jar</packaging>
     <url>http://www.jivesoftware.com</url>
 
-    <properties>
-        <!-- If using <parent> section, remove the <jive.version> line below. -->
-        <jive.version>4.5.0</jive.version>
-        <final.name>${project.artifactId}-${jive.version}-${project.version}</final.name>
-        <build.number>${env.BUILD_NUMBER}</build.number>
-        <build.project.name>${env.TEAMCITY_PROJECT_NAME}</build.project.name>
-        <emma-maven-plugin.version>1.0-alpha-3</emma-maven-plugin.version>
-        <emma.coverage.out.file>${project.build.directory}/coverage.ec</emma.coverage.out.file>
-    </properties>
-
     <build>
         <finalName>${final.name}</finalName>
         <plugins>
+            <!-- For Site Report -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-site-plugin</artifactId>
+                <version>2.2</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.6</version>
+                <inherited>true</inherited>
+                <configuration>
+                    <systemProperties combine.children="append">
+                        <property>
+                            <!-- Emma Remote Control feature is set to false to prevent "java.net.BindException:
+                                       Address already in use" error. Set it to true if you ever want to remotely
+                                       connect to Emma. -->
+                            <name>emma.rt.control</name>
+                            <value>false</value>
+                        </property>
+                    </systemProperties>
+                </configuration>
+            </plugin>
             <!-- For compilation-->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -43,41 +56,29 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
-            <!-- Weave aspects into the plugin -->
+            <!-- Weave transactions into the plugin -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
                 <version>1.3</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>1.6.9</version>
-                    </dependency>
-                </dependencies>
                 <configuration>
                     <aspectLibraries>
                         <aspectLibrary>
                             <groupId>org.springframework</groupId>
                             <artifactId>spring-aspects</artifactId>
                         </aspectLibrary>
-                        <aspectLibrary>
-                            <groupId>com.jivesoftware</groupId>
-                            <artifactId>jive</artifactId>
-                        </aspectLibrary>
                     </aspectLibraries>
                     <source>1.6</source>
-                    <target>1.6</target>
                 </configuration>
                 <executions>
                     <execution>
                         <goals>
                             <goal>compile</goal>
-                            <goal>test-compile</goal>
                         </goals>
                     </execution>
                 </executions>
             </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
@@ -86,9 +87,7 @@
                     <execution>
                         <id>assembly</id>
                         <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
+                        <goals><goal>single</goal></goals>
                         <configuration>
                             <appendAssemblyId>false</appendAssemblyId>
                             <descriptors>
@@ -99,23 +98,22 @@
                 </executions>
             </plugin>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
+                <groupId> org.apache.maven.plugins</groupId>
                 <artifactId>maven-antrun-plugin</artifactId>
                 <version>1.6</version>
                 <executions>
                     <execution>
-                        <!-- Unpackages this Jive plugin.  That way it can be used in conjunction with the -DpluginDirs= property, which
+                        <!-- Unpackages this SBS plugin.  That way it can be used in conjunction with the -DpluginDirs= property, which
                              bypasses the standard plugin installation (which happens via the admin console), by pointing to exploded plugin jar created by this. -->
-                        <id>explode-jive-plugin</id>
+                        <id>explode-sbs-plugin</id>
                         <phase>package</phase>
                         <goals>
                             <goal>run</goal>
                         </goals>
                         <configuration>
                             <tasks>
-                                <mkdir dir="${basedir}/target/${final.name}"/>
-                                <unjar src="${basedir}/target/${final.name}.jar"
-                                       dest="${basedir}/target/${final.name}"/>
+                                <mkdir dir="${basedir}/target/${final.name}" />
+                                <unjar src="${basedir}/target/${final.name}.jar" dest="${basedir}/target/${final.name}" />
                             </tasks>
                         </configuration>
                     </execution>
@@ -135,108 +133,182 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--  Setup of war file for functional test runs -->
+            <!-- For unit testing -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-dependency-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>unpack-war</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>unpack</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <artifactItems>
-                        <artifactItem>
-                            <groupId>com.jivesoftware</groupId>
-                            <artifactId>jive</artifactId>
-                            <type>war</type>
-                            <overWrite>false</overWrite>
-                        </artifactItem>
-                    </artifactItems>
-                    <outputDirectory>${project.build.directory}/war</outputDirectory>
-                </configuration>
-            </plugin>
-            <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.6</version>
                 <configuration>
-                    <skip>true</skip>
+                    <excludes>
+                        <exclude>**/selenium/*Test.java</exclude>
+                    </excludes>
+                    <argLine>-Xms128m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=1024m</argLine>
                 </configuration>
-                <executions>
-                    <execution>
-                        <id>unit</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>test</goal>
-                        </goals>
-                        <configuration>
-                            <skip>false</skip>
-                            <excludes>
-                                <exclude>**/selenium/*Test.java</exclude>
-                                <exclude>**/*IntTest.java</exclude>
-                            </excludes>
-                            <includes>
-                                <include>**/*Test.java</include>
-                                <include>**/*TestCase.java</include>
-                            </includes>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
+
         </plugins>
     </build>
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>${maven-project-info-reports-plugin.version}</version>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>index</report>
+                            <report>summary</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>${maven-javadoc-plugin.version}</version>
+                <configuration>
+                    <debug>false</debug>
+                    <minmemory>128m</minmemory>
+                    <maxmemory>1g</maxmemory>
+                    <quiet>true</quiet>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>emma-maven-plugin</artifactId>
+                <version>${emma-maven-plugin.version}</version>
+                <inherited>true</inherited>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>findbugs-maven-plugin</artifactId>
+                <version>${findbugs-maven-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>${maven-pmd-plugin.version}</version>
+                <configuration>
+                    <rulesets>
+                        <ruleset>../rulesets/basic.xml</ruleset>
+                        <ruleset>../rulesets/braces.xml</ruleset>
+                        <ruleset>../rulesets/codesize.xml</ruleset>
+                        <ruleset>../rulesets/coupling.xml</ruleset>
+                        <ruleset>../rulesets/design.xml</ruleset>
+                        <ruleset>../rulesets/imports.xml</ruleset>
+                        <ruleset>../rulesets/logging-java.xml</ruleset>
+                        <ruleset>../rulesets/optimizations.xml</ruleset>
+                        <ruleset>../rulesets/strictexception.xml</ruleset>
+                        <ruleset>../rulesets/strings.xml</ruleset>
+                        <ruleset>../rulesets/unusedcode.xml</ruleset>
+                    </rulesets>
+                    <linkXref>true</linkXref>
+                    <sourceEncoding>utf-8</sourceEncoding>
+                    <targetJdk>1.5</targetJdk>
+                    <minimumTokens>100</minimumTokens>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-report-plugin</artifactId>
+                <version>${maven-surefire-report-plugin.version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jxr-plugin</artifactId>
+                <version>${maven-jxr-plugin.version}</version>
+                <configuration>
+                    <linkJavadoc>true</linkJavadoc>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>taglist-maven-plugin</artifactId>
+                <version>${taglist-maven-plugin.version}</version>
+                <configuration>
+                    <tagListOptions>
+                        <tagClasses>
+                            <tagClass>
+                                <displayName>Todo Work</displayName>
+                                <tags>
+                                    <tag>
+                                        <matchString>TODO</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>FIXME</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>HACK</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                    <tag>
+                                        <matchString>deprecated</matchString>
+                                        <matchType>ignoreCase</matchType>
+                                    </tag>
+                                </tags>
+                            </tagClass>
+                        </tagClasses>
+                    </tagListOptions>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </reporting>
+
     <dependencies>
         <dependency>
             <groupId>com.jivesoftware</groupId>
-            <artifactId>jive</artifactId>
-            <version>${jive.version}</version>
+            <artifactId>jive-sbs-employee</artifactId>
+            <version>${sbs.version}</version>
             <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jivesoftware</groupId>
-            <artifactId>jive-lib</artifactId>
-            <version>${jive.version}</version>
-            <type>pom</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>javax.servlet</groupId>
-            <artifactId>servlet-api</artifactId>
-            <version>2.4</version>
-            <type>jar</type>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-aspects</artifactId>
-            <version>3.0.3.RELEASE</version>
             <scope>provided</scope>
         </dependency>
 
-        <!-- If using <parent> section, remove several deps below can be removed. -->
+        <dependency>
+            <groupId>com.jivesoftware</groupId>
+            <artifactId>jive-sbs-employee-all</artifactId>
+            <version>${sbs.version}</version>
+            <type>pom</type>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>2.3</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <!-- The following dependencies are for unit testing-->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8</version>
+            <version>4.4</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.objenesis</groupId>
             <artifactId>objenesis</artifactId>
-            <version>1.2</version>
+            <version>1.0</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib</artifactId>
-            <version>2.2</version>
+            <version>2.1</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jmock</groupId>
+            <artifactId>jmock-junit4</artifactId>
+            <version>2.4.0</version>
+            <scope>test</scope>
+        </dependency>
+
         <dependency>
             <groupId>org.powermock</groupId>
             <artifactId>powermock-module-junit4</artifactId>
@@ -255,135 +327,36 @@
             <version>1.8.5</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.dbunit</groupId>
-            <artifactId>dbunit</artifactId>
-            <version>2.4.3</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-test</artifactId>
-            <version>2.5</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mortbay.jetty</groupId>
-            <artifactId>jetty</artifactId>
-            <version>6.1.8</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>emma</groupId>
-            <artifactId>emma</artifactId>
-            <version>2.1.5320</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jivesoftware</groupId>
-            <artifactId>jive</artifactId>
-            <version>${jive.version}</version>
-            <type>jar</type>
-            <classifier>test</classifier>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.jivesoftware</groupId>
-            <artifactId>jive</artifactId>
-            <version>${jive.version}</version>
-            <type>war</type>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.hamcrest</groupId>
-            <artifactId>hamcrest-library</artifactId>
-            <version>1.2</version>
-            <scope>test</scope>
-        </dependency>
-    </dependencies>
-    <profiles>
-        <profile>
-            <id>int</id>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.codehaus.mojo</groupId>
-                        <artifactId>emma-maven-plugin</artifactId>
-                        <version>${emma-maven-plugin.version}</version>
-                        <inherited>true</inherited>
-                        <executions>
-                            <execution>
-                                <phase>process-classes</phase>
-                                <goals>
-                                    <goal>instrument</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <!--  For unit testing -->
-                    <plugin>
-                        <artifactId>maven-surefire-plugin</artifactId>
-                        <version>2.6</version>
-                        <configuration>
-                            <skip>true</skip>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>integration</id>
-                                <phase>integration-test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>false</skip>
-                                    <excludes>
-                                        <exclude>**/selenium/*Test.java</exclude>
-                                    </excludes>
-                                    <includes>
-                                        <include>**/*IntTest.java</include>
-                                    </includes>
 
-                                    <forkMode>perTest</forkMode>
-                                    <argLine>-Xdebug -Xnoagent -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n -Xms1024m -Xmx1512m -XX:MaxPermSize=128m -server -XX:+CMSClassUnloadingEnabled -Djava.awt.headless=true</argLine>
-                                    <classesDirectory>${project.build.directory}/generated-classes/emma/classes
-                                    </classesDirectory>
-                                    <additionalClasspathElements>
-                                        <additionalClasspathElement>${project.build.directory}/test-classes
-                                        </additionalClasspathElement>
-                                        <additionalClasspathElement>${project.build.directory}/war/WEB-INF/classes
-                                        </additionalClasspathElement>
-                                        <additionalClasspathElement>${project.build.directory}/${project.name}
-                                        </additionalClasspathElement>
-                                    </additionalClasspathElements>
-                                    <systemPropertyVariables>
-                                        <pluginDirs>${project.build.directory}/${project.name}</pluginDirs>
-                                        <jive.devMode>true</jive.devMode>
-                                        <emma.coverage.out.file>${emma.coverage.out.file}</emma.coverage.out.file>
-                                    </systemPropertyVariables>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>unit</id>
-                                <phase>test</phase>
-                                <goals>
-                                    <goal>test</goal>
-                                </goals>
-                                <configuration>
-                                    <skip>false</skip>
-                                    <excludes>
-                                        <exclude>**/selenium/*Test.java</exclude>
-                                        <exclude>**/*IntTest.java</exclude>
-                                    </excludes>
-                                    <includes>
-                                        <include>**/*Test.java</include>
-                                        <include>**/*TestCase.java</include>
-                                    </includes>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
+    </dependencies>
+
+    <!--
+    TODO: consider archetype config
+    If, you have a parent project you can pull project-wide properties (incl. sbs.version)
+    by uncommenting the following parent section and making appropriate replacements.
+        <parent>
+            <groupId>com.jivesoftware.module1</groupId>
+            <artifactId>REPLACE_ME_WITH_PARENT_ARTIFACT_ID</artifactId>
+            <version>REPLACE_ME_WITH_PARENT_VERSION</version>
+            <relativePath>../pom.xml</relativePath>
+        </parent>
+    -->
+    <!--
+   This is where you set the Jive SBS version your plugin is compiled against.
+    -->
+    <properties>
+        <!-- If using <parent> section, remove the <sbs.version> line below. -->
+        <sbs.version>4.5.6.3</sbs.version>
+        <final.name>${project.artifactId}-${project.version}-${sbs.version}</final.name>
+        <build.number>${env.BUILD_NUMBER}</build.number>
+        <build.project.name>${env.TEAMCITY_PROJECT_NAME}</build.project.name>
+        <maven-javadoc-plugin.version>2.6.1</maven-javadoc-plugin.version>
+        <maven-project-info-reports-plugin.version>2.1.1</maven-project-info-reports-plugin.version>
+        <emma-maven-plugin.version>1.0-alpha-3</emma-maven-plugin.version>
+        <findbugs-maven-plugin.version>2.3</findbugs-maven-plugin.version>
+        <maven-jxr-plugin.version>2.2</maven-jxr-plugin.version>
+        <maven-pmd-plugin.version>2.5</maven-pmd-plugin.version>
+        <maven-surefire-report-plugin.version>2.6</maven-surefire-report-plugin.version>
+        <taglist-maven-plugin.version>2.4</taglist-maven-plugin.version>
+    </properties>
 </project>

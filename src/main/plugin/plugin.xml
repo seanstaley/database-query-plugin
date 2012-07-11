@@ -5,8 +5,8 @@
     <author>Sean M. Staley</author>
     <authorURL>http://www.jivesoftware.com/</authorURL>
     <version>4.5.X-1</version>
-    <minServerVersion>4.5.6</minServerVersion>
-    <maxServerVersion>4.5.8</maxServerVersion>
+    <minServerVersion>4.5.6.3</minServerVersion>
+    <maxServerVersion>4.5.6.3</maxServerVersion>
     <databaseKey>1000000</databaseKey>
 
     <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>

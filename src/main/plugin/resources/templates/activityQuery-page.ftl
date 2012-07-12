@@ -11,6 +11,8 @@
             from within this portion of the application. The results will be shown below once you submit the query
             to the activity engine database.
         </content>
+
+        <link rel='stylesheet' type='text/css' href="<@s.url value='/plugins/database-query-plugin/resources/styles/dbQuery.css'/>"
     </head>
 
     <body>
@@ -57,8 +59,10 @@
                 </#if>
 
                 <#list queryResults as queryResults>
-                ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
-                <hr size="2"/><br>
+                    <p class="results">
+                        ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
+                    </p>
+                    <hr size="2"/><br>
                 </#list>
             </#if>
         </p>

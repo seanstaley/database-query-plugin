@@ -2,6 +2,7 @@
 
 /* Class for database query results */
 p.results {
-    font-size: 1pt;
+    font-size: 9pt;
     font-family: 'monospace';
+    color: navy;
 }

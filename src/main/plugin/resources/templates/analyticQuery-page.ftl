@@ -12,9 +12,7 @@
             to the application database.
         </content>
 
-        <style type="text/css" media="screen">
-            @import "styles/dbQuery.css";
-        </style>
+        <link rel='stylesheet' type='text/css' href="<@s.url value='/plugins/database-query-plugin/resources/styles/dbQuery.css'/>"
     </head>
 
     <body>

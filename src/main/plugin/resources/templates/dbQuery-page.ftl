@@ -43,7 +43,7 @@
         <form action="database-query-page.jspa" method="POST">
             <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10"></textarea>
             <br>
-            <input type="submit" value="Submit" /> <input type="reset" value="Clear" />
+            <input type="submit" value="Submit" /> <input type="reset" value="Cancel" />
         </form>
 
         <#if completed>
@@ -58,12 +58,14 @@
                 </div>
             </#if>
 
-            <#list queryResults as queryResults>
-                <p class="results">
-                    ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
-                </p>
-                <hr size="2"/><br>
-            </#list>
+            <div style="border: 2px ridge;  background-color: #FFFFFF; overflow: scroll; width:800px; height: 200px;">
+                <#list queryResults as queryResults>
+                    <p class="results">
+                        ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
+                    </p>
+                    <hr size="2"/>
+                </#list>
+            </div>
         </#if>
     </p>
 </body>

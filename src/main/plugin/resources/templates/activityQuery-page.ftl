@@ -57,13 +57,14 @@
                     <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
                 </div>
                 </#if>
-
-                <#list queryResults as queryResults>
-                    <p class="results">
-                        ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
-                    </p>
-                    <hr size="2"/><br>
-                </#list>
+                <div style="border: 2px ridge;  background-color: #FFFFFF; overflow: scroll; width:800px; height: 200px;">
+                    <#list queryResults as queryResults>
+                        <p class="results">
+                            ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
+                        </p>
+                        <hr size="2"/>
+                    </#list>
+                </div>
             </#if>
         </p>
     </body>

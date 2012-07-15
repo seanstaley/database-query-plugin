@@ -60,14 +60,14 @@
                             </div>
                         </#if>
 
-                    <p>
+                    <div style="border: 2px ridge;  background-color: #FFFFFF; overflow: scroll; width:800px; height: 200px;">
                         <#list queryResults as queryResults>
                             <p class="results">
                                 ${queryResults?replace(',',' | ')?replace('{','')?replace('}','')?replace('=',' = ')}<br>
                             </p>
-                            <hr size="2"/><br>
+                            <hr size="2"/>
                         </#list>
-                    </p>
+                    </div>
                 </#if>
         <#else>
             <@s.text name="dbQuery.analytics.module.disabled" />

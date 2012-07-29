@@ -1,8 +1,8 @@
 <schema name="database-query-plugin">
     <table name="jiveDatabaseQueryAudit" description="Table for Auditing the Database Query Plugin">
         <column name="username" type="varchar" nullable="false" description="Username of the user that performed the query"/>
-        <column name="databaseUsed" type="varchar" size="10" nullable="false" description="ID of the author" />
-        <column name="queryUsed" type="varchar" size="255" nullable="false" description="URL of the feed" />
-        <column name="timePerformed" type="int" size="50" nullable="false" description="" />
+        <column name="databaseUsed" type="varchar" size="20" nullable="false" description="Name of the database that the query was performed against" />
+        <column name="queryUsed" type="varchar" size="500" nullable="false" description="Query that was performed against the database" />
+        <column name="timestamp" type="bigint" nullable="false" description="Time that the user performed the query" />
     </table>
 </schema>

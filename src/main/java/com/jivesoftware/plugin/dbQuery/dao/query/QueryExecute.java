@@ -1,9 +1,9 @@
-package com.jivesoftware.plugin.dbQuery.dao;
+package com.jivesoftware.plugin.dbQuery.dao.query;
 
 import com.jivesoftware.base.database.dao.JiveJdbcDaoSupport;
+import com.jivesoftware.plugin.dbQuery.dao.audit.QueryAuditorDao;
 import org.apache.log4j.Logger;
 
-import javax.management.timer.Timer;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ import java.util.Map;
  */
 public class QueryExecute extends JiveJdbcDaoSupport {
     Logger log = Logger.getLogger(QueryExecute.class);
-    Timer timer = new Timer();
+    QueryAuditorDao queryAuditorDao;
 
     /**
      * Method to validate the query to make sure that you can not use any other functions but SELECT.
@@ -48,12 +48,12 @@ public class QueryExecute extends JiveJdbcDaoSupport {
     public List<Map<String, Object>> runQuery(String queryInput){
         log.debug("Database Query Plugin: Inside of the QueryExecute.runQuery method...");
 
+        //Querying the database for a list of mapped results and setting that to results.
         List<Map<String, Object>> results;
 
-        //Querying the database for a list of mapped results and setting that to results.
         results = getSimpleJdbcTemplate().queryForList(queryInput);
-        log.info("Database Query Plugin: runQuery method in Database Query Plugin provided these results for the "
-                + queryInput + " query:" + '\n' + results);
+        log.debug("Database Query Plugin: runQuery method in Database Query Plugin provided these results for  "
+                + queryInput + ":'\n'" + results);
 
         return results;
     }

@@ -12,23 +12,23 @@
 
     <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
 
-    <bean id="queryExecute" class="com.jivesoftware.plugin.dbQuery.dao.QueryExecute">
+    <bean id="queryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.QueryExecute">
         <property name="dataSource">
             <util:property-path path="dataSourceFactory.dataSource"/>
         </property>
     </bean>
 
-    <bean id="analyticsQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.AnalyticsQueryExecute">
+    <bean id="analyticsQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute">
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
-    <bean id="queryAuditor" class="com.jivesoftware.plugin.dbQuery.audit.QueryAuditor">
+    <bean id="queryAuditorDao" class="com.jivesoftware.plugin.dbQuery.dao.audit.QueryAuditorDao">
         <property name="dataSource">
             <util:property-path path="dataSourceFactory.dataSource"/>
         </property>
     </bean>
 
-    <bean id="activityQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.ActivityQueryExecute">
+    <bean id="activityQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.ActivityQueryExecute">
         <property name="dataSource" ref="eaeDataSource"/>
     </bean>
 

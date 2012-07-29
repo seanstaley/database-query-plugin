@@ -1,6 +1,7 @@
-package com.jivesoftware.plugin.dbQuery.action;
+package com.jivesoftware.plugin.dbQuery.action.audit;
 
 import com.jivesoftware.community.action.admin.AdminActionSupport;
+import com.jivesoftware.plugin.dbQuery.audit.QueryAuditor;
 
 /**
  * Created by IntelliJ IDEA.
@@ -9,6 +10,10 @@ import com.jivesoftware.community.action.admin.AdminActionSupport;
  * Time: 11:02 PM
  */
 public class QueryAuditorAction extends AdminActionSupport {
+
+	private static final long serialVersionUID = -281176533728456888L;
+	
+	QueryAuditor queryAuditor;
 
     @Override
     public String execute(){

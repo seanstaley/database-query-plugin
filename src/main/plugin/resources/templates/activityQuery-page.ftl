@@ -27,17 +27,17 @@
             <br>
             <br>
             <#if !selectQuery>
-            <div id="jive-error-box" class="jive-error-box" style>
-                <span class="jive-icon-med jive-icon-redalert"></span>
-                <@s.text name="dbQuery.query.error.databaseQuery.notSelect" />
-            </div>
+                <div id="jive-error-box" class="jive-error-box" style>
+                    <span class="jive-icon-med jive-icon-redalert"></span>
+                    <@s.text name="dbQuery.query.error.databaseQuery.notSelect" />
+                </div>
             </#if>
 
             <#if !cleanQuery>
-            <div id="jive-error-box" class="jive-error-box" style>
-                <span class="jive-icon-med jive-icon-redalert"></span>
-                <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
-            </div>
+                <div id="jive-error-box" class="jive-error-box" style>
+                    <span class="jive-icon-med jive-icon-redalert"></span>
+                    <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
+                </div>
             </#if>
 
         <form action="activity-query-page.jspa" method="POST">
@@ -47,16 +47,17 @@
         </form>
 
             <#if completed>
-            <br>
-            <i><@s.text name="dbQuery.query.success.activityQuery.message" /> ${databaseQuery}</i>
-            <br><br>
+                <br>
+                <i><@s.text name="dbQuery.query.success.activityQuery.message" /> ${databaseQuery}</i>
+                <br><br>
 
                 <#if !results>
-                <div id="jive-info-box" class="jive-info-box" style>
-                    <span class="jive-icon-med jive-icon-info"></span>
-                    <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
-                </div>
+                    <div id="jive-info-box" class="jive-info-box" style>
+                        <span class="jive-icon-med jive-icon-info"></span>
+                        <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
+                    </div>
                 </#if>
+
                 <div style="border: 2px ridge;  background-color: #FFFFFF; overflow: scroll; width:800px; height: 200px;">
                     <#list queryResults as queryResults>
                         <p class="results">

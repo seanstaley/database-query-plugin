@@ -1,7 +1,8 @@
-package com.jivesoftware.plugin.dbQuery.action;
+package com.jivesoftware.plugin.dbQuery.action.query;
 
 import com.jivesoftware.community.analytics.action.AnalyticsActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.AnalyticsQueryExecute;
+import com.jivesoftware.plugin.dbQuery.dao.audit.QueryAuditorDao;
+import com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.BadSqlGrammarException;
 
@@ -15,7 +16,10 @@ import java.util.Map;
  * Time: 7:24 PM
  */
 public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
-    Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
+	private static final long serialVersionUID = 1L;
+    private final static String THIS_DATABASE = "ANALYTICS";
+
+	Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
 
     private String databaseQuery;
     private List<Map<String, Object>> queryResults;
@@ -26,6 +30,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
     private boolean isResults = true;
 
     private AnalyticsQueryExecute analyticsQueryExecute;
+    private QueryAuditorDao queryAuditorDao;
 
     @Override
     public String execute() {
@@ -55,6 +60,13 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
             setCompleted(false);
             setCleanQuery(false);
             return INPUT;
+        }
+
+        //Adding an audit statement for the query.
+        int auditLogged = queryAuditorDao.addAuditStatement(getUser().getUsername(), THIS_DATABASE, databaseQuery, System.currentTimeMillis());
+        if (auditLogged == 0) {
+            log.error("Query was not inserted into the jiveDatabaseQueryAudit table! Please refer back to " +
+                    "the audit log page in the Admin Console.");
         }
 
         if (queryResults.isEmpty()) {
@@ -119,5 +131,13 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
 
     public void setIsResults(boolean results) {
         this.isResults = results;
+    }
+
+    public QueryAuditorDao getQueryAuditorDao() {
+        return queryAuditorDao;
+    }
+
+    public void setQueryAuditorDao(QueryAuditorDao queryAuditorDao) {
+        this.queryAuditorDao = queryAuditorDao;
     }
 }

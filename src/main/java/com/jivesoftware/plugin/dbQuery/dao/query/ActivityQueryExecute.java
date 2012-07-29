@@ -1,4 +1,4 @@
-package com.jivesoftware.plugin.dbQuery.dao;
+package com.jivesoftware.plugin.dbQuery.dao.query;
 
 /**
  * Created by IntelliJ IDEA.

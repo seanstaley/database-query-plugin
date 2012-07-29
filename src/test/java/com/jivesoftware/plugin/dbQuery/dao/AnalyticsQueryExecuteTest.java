@@ -1,5 +1,6 @@
 package com.jivesoftware.plugin.dbQuery.dao;
 
+import com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

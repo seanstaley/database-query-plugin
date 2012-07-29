@@ -1,8 +1,8 @@
-package com.jivesoftware.plugin.dbQuery.action;
+package com.jivesoftware.plugin.dbQuery.action.query;
 
 import com.jivesoftware.community.action.admin.AdminActionSupport;
-import com.jivesoftware.plugin.dbQuery.audit.QueryAuditor;
-import com.jivesoftware.plugin.dbQuery.dao.QueryExecute;
+import com.jivesoftware.plugin.dbQuery.dao.audit.QueryAuditorDao;
+import com.jivesoftware.plugin.dbQuery.dao.query.QueryExecute;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.BadSqlGrammarException;
 
@@ -16,23 +16,28 @@ import java.util.Map;
  * Time: 11:24 AM
  */
 public class RunQueryAction extends AdminActionSupport {
-    Logger log = Logger.getLogger(RunQueryAction.class);
+	private static final long serialVersionUID = 7695055626966332768L;
+    private final static String THIS_DATABASE = "APPLICATION";
+
+	Logger log = Logger.getLogger(RunQueryAction.class);
 
     private String databaseQuery;
     private List<Map<String, Object>> queryResults;
     private QueryExecute queryExecute;
-    private QueryAuditor queryAuditor;
+    private QueryAuditorDao queryAuditorDao;
+
 
     private boolean isSelectQuery = true;
     private boolean isCleanQuery = true;
     private boolean isCompleted = true;
     private boolean isResults = true;
+    private boolean isQueryLogged = true;
 
     @Override
     public String execute() {
         log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
 
-        int auditSuccess = 0;
+        boolean auditSuccess = false;
 
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null){
@@ -49,17 +54,23 @@ public class RunQueryAction extends AdminActionSupport {
             return INPUT;
         }
 
-        //auditSuccess = queryAuditor.addEntry(queryAuditor.buildEntry(getUser().getUsername(),"APPLICATION", databaseQuery, 10000000));
-
         //Catching dirty SQL talk and running a nice query.
         try{
             queryResults = queryExecute.runQuery(databaseQuery);
-            log.info("Database Query Plugin: Query Results: " + queryResults);
+            log.debug("Database Query Plugin: Query Results: " + queryResults);
         } catch (BadSqlGrammarException e) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
             setCompleted(false);
             setIsCleanQuery(false);
             return INPUT;
+        }
+
+
+        //Adding an audit statement for the query.
+        int auditLogged = queryAuditorDao.addAuditStatement(getUser().getUsername(), THIS_DATABASE, databaseQuery, System.currentTimeMillis());
+        if (auditLogged == 0) {
+            log.error("Query was not inserted into the jiveDatabaseQueryAudit table! Please refer back to " +
+                    "the audit log page in the Admin Console.");
         }
 
         if (queryResults.isEmpty()) {
@@ -124,5 +135,13 @@ public class RunQueryAction extends AdminActionSupport {
 
     public void setIsResults(boolean results) {
         this.isResults = results;
+    }
+
+    public QueryAuditorDao getQueryAuditorDao() {
+        return queryAuditorDao;
+    }
+
+    public void setQueryAuditorDao(QueryAuditorDao queryAuditorDao) {
+        this.queryAuditorDao = queryAuditorDao;
     }
 }

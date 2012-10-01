@@ -18,8 +18,16 @@
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/activityQuery-page.ftl</result>
         </action>
 
-        <action name="query-auditor-page" class="com.jivesoftware.plugin.dbQuery.action.audit.QueryAuditorAction">
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/auditQuery-page.ftl</result>
+        <action name="export-query-results"
+                class="com.jivesoftware.plugin.dbQuery.action.csv.QueryCsvAction">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="defaultStack"/>
+            <result name="export" type="stream">
+                <param name="contentType">text/csv</param>
+                <param name="inputName">csvStream</param>
+                <param name="contentDisposition">attachment; filename="${QueryTableCSVFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
         </action>
     </package>
 </struts>

@@ -23,36 +23,46 @@
 
                     <item id="database-query-page" name="admin.decorator.menu.system.dbQuery.item.application"
                           url="database-query-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.application.desc" />
-
+                          description="admin.decorator.menu.system.dbQuery.item.application.desc"/>
                     <item id="analytics-query-page" name="admin.decorator.menu.system.dbQuery.item.analytics"
                           url="analytics-query-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.analytics.desc" />
+                          description="admin.decorator.menu.system.dbQuery.item.analytics.desc"/>
 
                     <item id="activity-query-page" name="admin.decorator.menu.system.dbQuery.item.activity"
                           url="activity-query-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.activity.desc" />
-
-                    <item id="query-auditor-page" name="admin.decorator.menu.system.dbQuery.item.auditor"
-                          url="query-auditor-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.auditor.desc" />
+                          description="admin.decorator.menu.system.dbQuery.item.activity.desc"/>
                 </section>
             </tab>
         </component>
+        <component id="database-query-actions">
+            <tab id="database-query-actions-tab" name="sgroup.actions.gtitle" cssClass="jive-actions-create">
+                <item id="jive-link-exportResults" name="dbquery.csv.export.title"
+                      cssClass="jive-icon-med jive-icon-data-export" onclick="doExport(); return false;"
+                      url="#">
+                    <description>
+                        <![CDATA[<@s.text name="dbquery.csv.export.hint"/>]]></description>
+                </item>
+                <item id="jive-link-queryExportStarted" style="display:none;"
+                      name="dbquery.csv.export.starting">
+                    <action>
+                        <![CDATA[<span class="jive-icon-med jive-icon-data-export"></span><@s.text name="dbquery.csv.export.exporting"/>]]></action>
+                </item>
+            </tab>
+        </component>
     </components>
-	<!-- 
-    <authorURL>
-    <pluginURL>
-    <databaseKey>
-    <databaseVersion>
-    <components>
-    <css>
-    <soy>
-    <javascript>
-    <widget>
-    <macro>
-    <urlmapping>
-    <sitemesh>
-	-->
+    <!--
+     <authorURL>
+     <pluginURL>
+     <databaseKey>
+     <databaseVersion>
+     <components>
+     <css>
+     <soy>
+     <javascript>
+     <widget>
+     <macro>
+     <urlmapping>
+     <sitemesh>
+     -->
 
 </plugin>

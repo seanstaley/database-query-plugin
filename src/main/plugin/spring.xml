@@ -22,12 +22,6 @@
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
-    <bean id="queryAuditorDao" class="com.jivesoftware.plugin.dbQuery.dao.audit.QueryAuditorDao">
-        <property name="dataSource">
-            <util:property-path path="dataSourceFactory.dataSource"/>
-        </property>
-    </bean>
-
     <bean id="activityQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.ActivityQueryExecute">
         <property name="dataSource" ref="eaeDataSource"/>
     </bean>

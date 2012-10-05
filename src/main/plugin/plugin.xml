@@ -5,8 +5,8 @@
     <author>Sean M. Staley</author>
     <authorURL>http://www.jivesoftware.com/</authorURL>
     <version>5.0.3-2</version>
-    <minServerVersion>5.0.3</minServerVersion>
-    <maxServerVersion>5.0.3</maxServerVersion>
+    <minServerVersion>5.0.0</minServerVersion>
+    <maxServerVersion>5.50</maxServerVersion>
 
     <databaseKey>database-query</databaseKey>
     <databaseVersion>1050302</databaseVersion>
@@ -50,19 +50,4 @@
             </tab>
         </component>
     </components>
-    <!--
-     <authorURL>
-     <pluginURL>
-     <databaseKey>
-     <databaseVersion>
-     <components>
-     <css>
-     <soy>
-     <javascript>
-     <widget>
-     <macro>
-     <urlmapping>
-     <sitemesh>
-     -->
-
 </plugin>

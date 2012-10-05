@@ -22,8 +22,4 @@
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
-    <bean id="activityQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.ActivityQueryExecute">
-        <property name="dataSource" ref="eaeDataSource"/>
-    </bean>
-
 </beans>

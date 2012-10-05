@@ -61,13 +61,8 @@
     </div>
     </#if>
 
-<div style="border: 2px ridge;  background-color: #FFFFFF; overflow: scroll; width:800px; height: 200px;">
+<div id="resultDiv">
     <table border="0">
-        <tr>
-            <#list columnNames as currentColumnTitle>
-                <td><b>${currentColumnTitle}</b></td>
-            </#list>
-        </tr>
         <#list queryResults as arraylists>
             <tr>
                 <#list arraylists as rowEntry>
@@ -76,6 +71,7 @@
             </tr>
         </#list>
     </table>
+</div>
 </div>
 </#if>
 </p>

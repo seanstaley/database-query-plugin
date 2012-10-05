@@ -13,13 +13,12 @@ import java.util.ArrayList;
  * Date: 5/15/12
  * Time: 7:24 PM
  */
-public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
-	private static final long serialVersionUID = 1L;
+public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
+    private static final long serialVersionUID = 1L;
 
-	Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
+    Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
 
     private String databaseQuery;
-    private ArrayList<String> columnNames;
     private ArrayList<ArrayList<String>> queryResults;
 
     private boolean isSelectQuery = true;
@@ -34,7 +33,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
         log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
 
         //Is the box blank? Cereal?!
-        if (getDatabaseQuery() == null){
+        if (getDatabaseQuery() == null) {
             log.info("Database Query Plugin: Application query was blank.");
             setCompleted(false);
             return INPUT;
@@ -49,11 +48,13 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
         }
 
         //Catching dirty SQL talk and running a nice query.
-        try{
+        try {
             queryResults = analyticsQueryExecute.returnQueryResults(databaseQuery);
             log.info("Database Query Plugin: Query Results: " + queryResults);
-        } catch (BadSqlGrammarException e) {
-            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
+        }
+        catch (BadSqlGrammarException e) {
+            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
+                    getUser().getUsername(), e);
             setCompleted(false);
             setCleanQuery(false);
             return INPUT;
@@ -67,11 +68,11 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
         return SUCCESS;
     }
 
-    public void setDatabaseQuery(String databaseQuery){
+    public void setDatabaseQuery(String databaseQuery) {
         this.databaseQuery = databaseQuery;
     }
 
-    public String getDatabaseQuery(){
+    public String getDatabaseQuery() {
         return databaseQuery;
     }
 
@@ -99,11 +100,11 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
         isCompleted = completed;
     }
 
-    public ArrayList<ArrayList<String>> getQueryResults(){
+    public ArrayList<ArrayList<String>> getQueryResults() {
         return queryResults;
     }
 
-    public void setQueryResults(ArrayList<ArrayList<String>> queryResults){
+    public void setQueryResults(ArrayList<ArrayList<String>> queryResults) {
         this.queryResults = queryResults;
     }
 
@@ -121,9 +122,5 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
 
     public void setIsResults(boolean results) {
         this.isResults = results;
-    }
-
-    public ArrayList<String> getColumnNames() {
-        return analyticsQueryExecute.retrieveColumnNames(analyticsQueryExecute.retrieveResults(databaseQuery));
     }
 }

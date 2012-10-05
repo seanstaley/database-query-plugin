@@ -14,11 +14,10 @@ import java.util.ArrayList;
  * Time: 11:24 AM
  */
 public class RunActivityQueryAction extends AdminActionSupport {
-	private static final long serialVersionUID = -9188224137576756823L;
-	Logger log = Logger.getLogger(RunQueryAction.class);
+    private static final long serialVersionUID = -9188224137576756823L;
+    Logger log = Logger.getLogger(RunQueryAction.class);
 
     private String databaseQuery;
-    private ArrayList<String> columnNames;
     private ArrayList<ArrayList<String>> queryResults;
     private ActivityQueryExecute activityQueryExecute;
 
@@ -32,7 +31,7 @@ public class RunActivityQueryAction extends AdminActionSupport {
         log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
 
         //Is the box blank? Cereal?!
-        if (getDatabaseQuery() == null){
+        if (getDatabaseQuery() == null) {
             log.info("Database Query Plugin: Application query was blank.");
             setCompleted(false);
             return INPUT;
@@ -47,11 +46,13 @@ public class RunActivityQueryAction extends AdminActionSupport {
         }
 
         //Catching dirty SQL talk and running a nice query.
-        try{
+        try {
             queryResults = activityQueryExecute.returnQueryResults(databaseQuery);
             log.info("Database Query Plugin: Query Results: " + queryResults);
-        } catch (BadSqlGrammarException e) {
-            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
+        }
+        catch (BadSqlGrammarException e) {
+            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
+                    getUser().getUsername(), e);
             setCompleted(false);
             setIsCleanQuery(false);
             return INPUT;
@@ -65,27 +66,27 @@ public class RunActivityQueryAction extends AdminActionSupport {
         return SUCCESS;
     }
 
-    public void setDatabaseQuery(String databaseQuery){
+    public void setDatabaseQuery(String databaseQuery) {
         this.databaseQuery = databaseQuery;
     }
 
-    public String getDatabaseQuery(){
+    public String getDatabaseQuery() {
         return databaseQuery;
     }
 
-    public ArrayList<ArrayList<String>> getQueryResults(){
+    public ArrayList<ArrayList<String>> getQueryResults() {
         return queryResults;
     }
 
-    public void setQueryResults(ArrayList<ArrayList<String>> queryResults){
+    public void setQueryResults(ArrayList<ArrayList<String>> queryResults) {
         this.queryResults = queryResults;
     }
 
-    public ActivityQueryExecute getActivityQueryExecute(){
+    public ActivityQueryExecute getActivityQueryExecute() {
         return activityQueryExecute;
     }
 
-    public void setActivityQueryExecute(ActivityQueryExecute activityQueryExecute){
+    public void setActivityQueryExecute(ActivityQueryExecute activityQueryExecute) {
         this.activityQueryExecute = activityQueryExecute;
     }
 
@@ -119,9 +120,5 @@ public class RunActivityQueryAction extends AdminActionSupport {
 
     public void setIsResults(boolean results) {
         this.isResults = results;
-    }
-
-    public ArrayList<String> getColumnNames() {
-        return activityQueryExecute.retrieveColumnNames(activityQueryExecute.retrieveResults(databaseQuery));
     }
 }

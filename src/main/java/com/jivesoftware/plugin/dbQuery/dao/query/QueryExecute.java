@@ -50,15 +50,18 @@ public class QueryExecute extends JiveJdbcDaoSupport {
      * @param query Query to execute against the database
      * @return The dirty results of the query that was performed against the application database.
      */
-    public List<Map<String, Object>> retrieveResults(String query) {
+    public List
+            <Map<String, Object>> retrieveResults(String query) {
         return getSimpleJdbcTemplate().queryForList(query);
     }
 
     /**
-     * @param unformattedResults
-     * @return
+     * Provides us with a nice ArrayList of column names.
+     *
+     * @param unformattedResults the raw unformatted results that is returned by Spring.
+     * @return an ArrayList that contains all of the names of the columns in the table that has been queried.
      */
-    public ArrayList<String> retrieveColumnNames(List<Map<String, Object>> unformattedResults) {
+    private ArrayList<String> retrieveColumnNames(List<Map<String, Object>> unformattedResults) {
         // Get Column Names from Map and place into ArrayList
         ArrayList<String> columnNames = new ArrayList<String>();
 
@@ -81,6 +84,9 @@ public class QueryExecute extends JiveJdbcDaoSupport {
     private ArrayList<ArrayList<String>> formatResults(List<Map<String, Object>> unformattedResults) {
         ArrayList<ArrayList<String>> allRows = new ArrayList<ArrayList<String>>();
         ArrayList<String> columnNames = retrieveColumnNames(unformattedResults);
+
+        //Adding columnNames to provided list
+        allRows.add(columnNames);
 
         // Iterate through the List of Maps. For each map, grab all of the columns and display.
         for (Map<String, Object> vanillaMaps : unformattedResults) {

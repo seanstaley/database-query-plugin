@@ -1,8 +1,16 @@
 /* CSS for Database Query Plugin */
 
-/* Class for database query results */
-p.results {
-    font-size: 9pt;
-    font-family: 'monospace';
-    color: black;
+/* Class for div created for Results */
+#resultDiv {
+    border: 2px ridge;
+    background-color: #FFFFFF;
+    overflow: scroll;
+    width: 900px;
+    height: 300px;
+}
+
+/* formatting table results */
+td {
+    border-top: 1px dashed black;
+    border-left: 1px dashed black;
 }

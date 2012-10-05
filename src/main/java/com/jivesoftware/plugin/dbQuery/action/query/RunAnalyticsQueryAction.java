@@ -34,7 +34,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null) {
-            log.info("Database Query Plugin: Application query was blank.");
             setCompleted(false);
             return INPUT;
         }

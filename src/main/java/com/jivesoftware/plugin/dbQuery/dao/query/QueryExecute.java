@@ -50,8 +50,7 @@ public class QueryExecute extends JiveJdbcDaoSupport {
      * @param query Query to execute against the database
      * @return The dirty results of the query that was performed against the application database.
      */
-    public List
-            <Map<String, Object>> retrieveResults(String query) {
+    public List<Map<String, Object>> retrieveResults(String query) {
         return getSimpleJdbcTemplate().queryForList(query);
     }
 

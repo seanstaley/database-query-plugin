@@ -46,9 +46,9 @@ public class QueryCsvAction extends AdminActionSupport {
     }
 
     /**
-     * Generates the name of the CSV export file for the current social group, if any.
+     * Generates the name of the CSV export file for the query results, if any.
      *
-     * @return the csv export filename for the current social group, and a null socialGroup is acceptable
+     * @return the csv export filename for the current query results
      */
     public String getDatabaseCSVFilename() {
         return StringUtils.makeURLSafe(getText("dbQuery.csv.filename")) + ".csv";

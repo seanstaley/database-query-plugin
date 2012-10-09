@@ -15,14 +15,6 @@
     <link rel='stylesheet' type='text/css'
           href="<@s.url value='/plugins/database-query-plugin/resources/styles/dbQuery.css'/>"/>
 
-    <script type="text/javascript">
-        function doExport() {
-            $j('#export_all_form').submit();
-            $j('#jive-link-queryExportStarted').show();
-            $j('#jive-link-exportResults').hide();
-        }
-    </script>
-
 </head>
 
 <body>
@@ -81,9 +73,7 @@
         </#list>
     </table>
 </div>
-<form id="export_all_form" method="post" action="/export-query-results.jspa?query=${databaseQuery}">
-    <@jive.token name="dbQuery.exportResults.${databaseQuery}" />
-</form>
+
 </#if>
 </p>
 </body>

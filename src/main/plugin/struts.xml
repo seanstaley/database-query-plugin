@@ -13,9 +13,9 @@
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
         </action>
 
-        <action name="activity-query-page" class="com.jivesoftware.plugin.dbQuery.action.query.RunActivityQueryAction">
-            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/activityQuery-page.ftl</result>
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/activityQuery-page.ftl</result>
+        <action name="export-query-page" class="com.jivesoftware.plugin.dbQuery.action.csv.QueryCsvAction">
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
         </action>
 
         <action name="export-query-results"
@@ -25,7 +25,7 @@
             <result name="export" type="stream">
                 <param name="contentType">text/csv</param>
                 <param name="inputName">csvStream</param>
-                <param name="contentDisposition">attachment; filename="${QueryTableCSVFilename}"</param>
+                <param name="contentDisposition">attachment; filename="${databaseCSVFilename}"</param>
                 <param name="bufferSize">1024</param>
             </result>
         </action>

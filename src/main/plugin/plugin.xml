@@ -26,11 +26,15 @@
                     <item id="analytics-query-page" name="admin.decorator.menu.system.dbQuery.item.analytics"
                           url="analytics-query-page.jspa"
                           description="admin.decorator.menu.system.dbQuery.item.analytics.desc"/>
+                    <item id="export-query-page" name="admin.decorator.menu.system.dbQuery.item.export"
+                          url="export-query-page.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.export.desc"/>
                 </section>
             </tab>
         </component>
+
         <component id="database-query-actions">
-            <tab id="database-query-actions-tab" name="sgroup.actions.gtitle" cssClass="jive-actions-create">
+            <tab id="database-query-actions-tab">
                 <item id="jive-link-exportResults" name="dbquery.csv.export.title"
                       cssClass="jive-icon-med jive-icon-data-export" onclick="doExport(); return false;"
                       url="#">

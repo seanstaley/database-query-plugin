@@ -20,7 +20,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
     private String databaseQuery;
     private ArrayList<ArrayList<String>> queryResults;
-
     private boolean isSelectQuery = true;
     private boolean isCleanQuery = true;
     private boolean isCompleted = true;
@@ -30,7 +29,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
     @Override
     public String execute() {
-        log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
 
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null) {
@@ -40,7 +38,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
         //Is the query NOT a SELECT query?
         else if (!analyticsQueryExecute.validateSelectQuery(databaseQuery)) {
-            log.info("Database Query Plugin: Query did not begin with a SELECT! Try again...");
             setSelectQuery(false);
             setCompleted(false);
             return INPUT;
@@ -49,7 +46,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
         //Catching dirty SQL talk and running a nice query.
         try {
             queryResults = analyticsQueryExecute.returnQueryResults(databaseQuery);
-            log.info("Database Query Plugin: Query Results: " + queryResults);
         }
         catch (BadSqlGrammarException e) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
@@ -59,8 +55,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
             return INPUT;
         }
 
-        if (queryResults.isEmpty()) {
-            log.info("Database Query Plugin: Results of query returned 0 results...");
+        if (queryResults.get(0).get(0).toString().equals(analyticsQueryExecute.NO_RESULTS)) {
             setIsResults(false);
         }
 

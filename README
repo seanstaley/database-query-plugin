@@ -1,23 +1,10 @@
 Plugin Name: Database Query Plugin
-Author: Sean M. Staley, Jive Software
-Version: 2.0.0
+Author: Sean M. Staley
+Version: 5.0-2.2
 
-Description:
-Simple plugin that adds database querying functionality to the Jive application. With this
-plugin you can query your application or analytics database directly through the Admin
-Console. No additional costs are required to use this plugin.This is not a supported plugin
-by Jive Software, but is supported by the author, Sean Staley (sean.staley@jivesoftware.com).
-Please contact me for any questions that you might have about this plugin.
+Requirements to Install:
+ * Jive SBS 5.0 - 5.0.4
+ * Connection to Analytics Database (Optional)
 
-This plugin is open source and the source should be used for educational purposes only.
-
-Requirements:
-* Jive SBS 4.5.4, 5.0.2, 5.0.3
-* Analytics module must be enabled to query analytics database.
-* Tested only with Postgres at the moment, but feel free to give it a try with any other 
-  database!
-  
-Future Releases:
-* More language support
-* Activity engine database querying
-* Jive 5.0.4 support.
+Fixes in this version:
+ * #18: Unexpected Error occurs when table does not have any results

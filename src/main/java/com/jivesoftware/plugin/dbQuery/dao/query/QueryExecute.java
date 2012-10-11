@@ -18,6 +18,8 @@ import java.util.Map;
 public class QueryExecute extends JiveJdbcDaoSupport {
     Logger log = Logger.getLogger(QueryExecute.class);
 
+    public static final String NO_RESULTS = "Your query did not return any results.";
+
     /**
      * Method to validate the query to make sure that you can not use any other functions but SELECT.
      *
@@ -64,6 +66,10 @@ public class QueryExecute extends JiveJdbcDaoSupport {
         // Get Column Names from Map and place into ArrayList
         ArrayList<String> columnNames = new ArrayList<String>();
 
+        if (unformattedResults.isEmpty()) {
+            return null;
+        }
+
         Map<String, Object> firstRow = unformattedResults.get(0);
         Iterator keyIterator = firstRow.entrySet().iterator();
         while (keyIterator.hasNext()) {
@@ -84,24 +90,35 @@ public class QueryExecute extends JiveJdbcDaoSupport {
         ArrayList<ArrayList<String>> allRows = new ArrayList<ArrayList<String>>();
         ArrayList<String> columnNames = retrieveColumnNames(unformattedResults);
 
-        //Adding columnNames to provided list
-        allRows.add(columnNames);
+        if (columnNames != null) {
 
-        // Iterate through the List of Maps. For each map, grab all of the columns and display.
-        for (Map<String, Object> vanillaMaps : unformattedResults) {
-            ArrayList<String> row = new ArrayList<String>();
-            for (int index = 0; index <= columnNames.size() - 1; index++) {
-                try {
-                row.add(vanillaMaps.get(columnNames.get(index)).toString());
-                } catch (NullPointerException npe) {
-                    row.add(" ");
-                    continue;
+            //Adding columnNames to provided list
+            allRows.add(columnNames);
+
+            // Iterate through the List of Maps. For each map, grab all of the columns and display.
+            for (Map<String, Object> vanillaMaps : unformattedResults) {
+                ArrayList<String> row = new ArrayList<String>();
+                for (int index = 0; index <= columnNames.size() - 1; index++) {
+                    try {
+                        row.add(vanillaMaps.get(columnNames.get(index)).toString());
+                    }
+                    catch (NullPointerException npe) {
+                        row.add(" ");
+                        continue;
+                    }
                 }
+                allRows.add(row);
             }
-            allRows.add(row);
+            return allRows;
         }
-    return allRows;
-}
+
+        if (columnNames == null) {
+            ArrayList<String> noResults = new ArrayList<String>();
+            noResults.add(NO_RESULTS);
+            allRows.add(0, noResults);
+        }
+        return allRows;
+    }
 
     /**
      * The public facing method that provides the end user with the formatted query rows.

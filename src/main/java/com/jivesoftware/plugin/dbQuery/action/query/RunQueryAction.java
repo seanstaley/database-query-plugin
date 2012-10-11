@@ -20,8 +20,6 @@ public class RunQueryAction extends AdminActionSupport {
     private String databaseQuery;
     private ArrayList<ArrayList<String>> queryResults;
     private QueryExecute queryExecute;
-
-
     private boolean isSelectQuery = true;
     private boolean isCleanQuery = true;
     private boolean isCompleted = true;
@@ -29,8 +27,6 @@ public class RunQueryAction extends AdminActionSupport {
 
     @Override
     public String execute() {
-        log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
-
         //Is the box blank? Cereal?!
         if (getDatabaseQuery() == null) {
             setCompleted(false);
@@ -39,7 +35,6 @@ public class RunQueryAction extends AdminActionSupport {
 
         //Is the query NOT a SELECT query?
         else if (!queryExecute.validateSelectQuery(databaseQuery)) {
-            log.info("Database Query Plugin: Query did not begin with a SELECT! Try again...");
             setSelectQuery(false);
             setCompleted(false);
             return INPUT;
@@ -48,7 +43,6 @@ public class RunQueryAction extends AdminActionSupport {
         //Catching dirty SQL talk and running a nice query.
         try {
             queryResults = queryExecute.returnQueryResults(databaseQuery);
-            log.debug("Database Query Plugin: Query Results: " + queryResults);
         }
         catch (BadSqlGrammarException e) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
@@ -58,16 +52,7 @@ public class RunQueryAction extends AdminActionSupport {
             return INPUT;
         }
 
-        /**
-         //Adding an audit statement for the query.
-         int auditLogged = queryAuditorDao.addAuditStatement(getUser().getUsername(), THIS_DATABASE, databaseQuery, System.currentTimeMillis());
-         if (auditLogged == 0) {
-         log.error("Query was not inserted into the jiveDatabaseQueryAudit table! Please refer back to " +
-         "the audit log page in the Admin Console.");
-         }*/
-
-        if (queryResults.isEmpty()) {
-            log.info("Database Query Plugin: Results of query returned 0 results...");
+        if (queryResults.get(0).get(0).toString().equals(queryExecute.NO_RESULTS)) {
             setIsResults(false);
         }
 

@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 /**
@@ -19,6 +20,8 @@ import java.util.Iterator;
  */
 public class QueryCsvAction extends AdminActionSupport {
     Logger log = Logger.getLogger(QueryCsvAction.class);
+    Date date = new Date();
+
     private InputStream csvStream;
     private QueryExecute queryExecute;
     private String databaseQuery;
@@ -155,5 +158,9 @@ public class QueryCsvAction extends AdminActionSupport {
 
     public void setSelectQuery(boolean selectQuery) {
         this.selectQuery = selectQuery;
+    }
+
+    public String getExportHash() {
+        return Long.toString(Math.abs((getDatabaseQuery() + getUser().getID() + date.getTime()).hashCode()));
     }
 }

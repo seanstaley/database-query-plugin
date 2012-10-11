@@ -42,7 +42,7 @@
 <form id="export_all_form" method="post"
       action="<@s.url action='export-query-results'><@s.param name='databaseQuery' value='${databaseQuery}' /></@s.url>">
     <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10"></textarea>
-<@jive.token name="dbQuery.resultExport.${databaseQuery.hashCode()}" />
+<@jive.token name="dbQuery.resultExport.${exportHash}" />
 </form>
 
 <@jive.renderActionSidebar 'database-query-actions' />

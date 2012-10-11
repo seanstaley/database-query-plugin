@@ -8,3 +8,4 @@ Requirements to Install:
 
 Fixes in this version:
  * #18: Unexpected Error occurs when table does not have any results
+ * #24: Added exportHash to CSV exporting action for token name.

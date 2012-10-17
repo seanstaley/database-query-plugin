@@ -1,12 +1,11 @@
-package com.jivesoftware.plugin.dbQuery.action;
+package com.jivesoftware.plugin.dbQuery.action.query;
 
 import com.jivesoftware.community.analytics.action.AnalyticsActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.AnalyticsQueryExecute;
+import com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute;
 import org.apache.log4j.Logger;
 import org.springframework.jdbc.BadSqlGrammarException;
 
-import java.util.List;
-import java.util.Map;
+import java.util.ArrayList;
 
 /**
  * Created by IntelliJ IDEA.
@@ -14,12 +13,13 @@ import java.util.Map;
  * Date: 5/15/12
  * Time: 7:24 PM
  */
-public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
+public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
+    private static final long serialVersionUID = 1L;
+
     Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
 
     private String databaseQuery;
-    private List<Map<String, Object>> queryResults;
-
+    private ArrayList<ArrayList<String>> queryResults;
     private boolean isSelectQuery = true;
     private boolean isCleanQuery = true;
     private boolean isCompleted = true;
@@ -29,47 +29,44 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
 
     @Override
     public String execute() {
-        log.debug("Database Query Plugin: Inside of execute() of RunQueryAction...");
 
         //Is the box blank? Cereal?!
-        if (getDatabaseQuery() == null){
-            log.info("Database Query Plugin: Application query was blank.");
+        if (getDatabaseQuery() == null) {
             setCompleted(false);
             return INPUT;
         }
 
         //Is the query NOT a SELECT query?
         else if (!analyticsQueryExecute.validateSelectQuery(databaseQuery)) {
-            log.info("Database Query Plugin: Query did not begin with a SELECT! Try again...");
             setSelectQuery(false);
             setCompleted(false);
             return INPUT;
         }
 
         //Catching dirty SQL talk and running a nice query.
-        try{
-            queryResults = analyticsQueryExecute.runQuery(databaseQuery);
-            log.info("Database Query Plugin: Query Results: " + queryResults);
-        } catch (BadSqlGrammarException e) {
-            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
+        try {
+            queryResults = analyticsQueryExecute.returnQueryResults(databaseQuery);
+        }
+        catch (BadSqlGrammarException e) {
+            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
+                    getUser().getUsername(), e);
             setCompleted(false);
             setCleanQuery(false);
             return INPUT;
         }
 
-        if (queryResults.isEmpty()) {
-            log.info("Database Query Plugin: Results of query returned 0 results...");
+        if (queryResults.get(0).get(0).toString().equals(analyticsQueryExecute.NO_RESULTS)) {
             setIsResults(false);
         }
 
         return SUCCESS;
     }
 
-    public void setDatabaseQuery(String databaseQuery){
+    public void setDatabaseQuery(String databaseQuery) {
         this.databaseQuery = databaseQuery;
     }
 
-    public String getDatabaseQuery(){
+    public String getDatabaseQuery() {
         return databaseQuery;
     }
 
@@ -97,11 +94,11 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport{
         isCompleted = completed;
     }
 
-    public List<Map<String, Object>> getQueryResults(){
+    public ArrayList<ArrayList<String>> getQueryResults() {
         return queryResults;
     }
 
-    public void setQueryResults(List<Map<String, Object>> queryResults){
+    public void setQueryResults(ArrayList<ArrayList<String>> queryResults) {
         this.queryResults = queryResults;
     }
 

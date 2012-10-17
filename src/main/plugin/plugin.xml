@@ -2,45 +2,51 @@
         xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
     <name>database-query-plugin</name>
     <description>Adds ability to query the databases directly from the Admin Console.</description>
-    <author>Sean M. Staley</author>
+    <author>Sean M. Staley, Ben Walker</author>
     <authorURL>http://www.jivesoftware.com/</authorURL>
-    <version>4.5.4-1</version>
-    <minServerVersion>4.5.4.0</minServerVersion>
-    <maxServerVersion>4.5.4.2</maxServerVersion>
-    <databaseKey>1000000</databaseKey>
+    <version>5.0.3-2</version>
+    <minServerVersion>5.0.0</minServerVersion>
+    <maxServerVersion>5.50</maxServerVersion>
+
+    <databaseKey>database-query</databaseKey>
+    <databaseVersion>1050302</databaseVersion>
 
     <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>
+
+    <css>/resources/styles/dbQuery.css</css>
 
     <components>
         <component id="admin-console">
             <tab id="system">
                 <section id="section-database-query" name="admin.decorator.menu.system.dbQuery.section"
                          description="admin.decorator.menu.system.dbQuery.section.desc">
-
                     <item id="database-query-page" name="admin.decorator.menu.system.dbQuery.item.application"
                           url="database-query-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.application.desc" />
-
+                          description="admin.decorator.menu.system.dbQuery.item.application.desc"/>
                     <item id="analytics-query-page" name="admin.decorator.menu.system.dbQuery.item.analytics"
                           url="analytics-query-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.analytics.desc" />
+                          description="admin.decorator.menu.system.dbQuery.item.analytics.desc"/>
+                    <item id="export-query-page" name="admin.decorator.menu.system.dbQuery.item.export"
+                          url="export-query-page.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.export.desc"/>
                 </section>
             </tab>
         </component>
-    </components>
-	<!-- 
-    <authorURL>
-    <pluginURL>
-    <databaseKey>
-    <databaseVersion>
-    <components>
-    <css>
-    <soy>
-    <javascript>
-    <widget>
-    <macro>
-    <urlmapping>
-    <sitemesh>
-	-->
 
+        <component id="database-query-actions">
+            <tab id="database-query-actions-tab">
+                <item id="jive-link-exportResults" name="dbquery.csv.export.title"
+                      cssClass="jive-icon-med jive-icon-data-export" onclick="doExport(); return false;"
+                      url="#">
+                    <description>
+                        <![CDATA[<@s.text name="dbquery.csv.export.hint"/>]]></description>
+                </item>
+                <item id="jive-link-queryExportStarted" style="display:none;"
+                      name="dbquery.csv.export.starting">
+                    <action>
+                        <![CDATA[<span class="jive-icon-med jive-icon-data-export"></span><@s.text name="dbquery.csv.export.exporting"/>]]></action>
+                </item>
+            </tab>
+        </component>
+    </components>
 </plugin>

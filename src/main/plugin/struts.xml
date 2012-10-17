@@ -3,14 +3,32 @@
 <struts>
     <package name="database-query-plugin-actions" extends="community-admin-default" namespace="/admin">
 
-        <action name="database-query-page" class="com.jivesoftware.plugin.dbQuery.action.RunQueryAction">
+        <action name="database-query-page" class="com.jivesoftware.plugin.dbQuery.action.query.RunQueryAction">
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
             <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
         </action>
 
-        <action name="analytics-query-page" class="com.jivesoftware.plugin.dbQuery.action.RunAnalyticsQueryAction">
+        <action name="analytics-query-page" class="com.jivesoftware.plugin.dbQuery.action.query.RunAnalyticsQueryAction">
             <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+        </action>
+
+        <action name="export-query-page" class="com.jivesoftware.plugin.dbQuery.action.csv.QueryCsvAction">
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
+        </action>
+
+        <action name="export-query-results"
+                class="com.jivesoftware.plugin.dbQuery.action.csv.QueryCsvAction">
+            <interceptor-ref name="token"/>
+            <interceptor-ref name="defaultStack"/>
+            <result name="export" type="stream">
+                <param name="contentType">text/csv</param>
+                <param name="inputName">csvStream</param>
+                <param name="contentDisposition">attachment; filename="${databaseCSVFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
         </action>
     </package>
 </struts>

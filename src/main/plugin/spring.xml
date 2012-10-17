@@ -8,16 +8,17 @@
        default-autowire="no" default-init-method="init" default-destroy-method="destroy">
 
     <import resource="classpath:spring-analyticsContext.xml" />
+    <import resource="classpath:/com/jivesoftware/community/eae/spring-eaeContext.xml" />
 
     <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
 
-    <bean id="queryExecute" class="com.jivesoftware.plugin.dbQuery.dao.QueryExecute">
+    <bean id="queryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.QueryExecute">
         <property name="dataSource">
             <util:property-path path="dataSourceFactory.dataSource"/>
         </property>
     </bean>
 
-    <bean id="analyticsQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.AnalyticsQueryExecute">
+    <bean id="analyticsQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute">
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 

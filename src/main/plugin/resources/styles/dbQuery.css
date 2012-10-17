@@ -1,0 +1,38 @@
+/* CSS for Database Query Plugin */
+
+/* Class for div created for Results */
+#resultDiv {
+    border: 2px ridge;
+    background-color: #FFFFFF;
+    overflow: scroll;
+    width: 900px;
+    height: 300px;
+}
+
+/* formatting table results */
+table {
+    border-collapse: collapse;
+}
+
+table td, table th {
+    border: 1px dashed black;
+    padding: 5px;
+}
+
+table tr:first-child td {
+    border-top: 0;
+}
+
+table tr:last-child td {
+    border-bottom: 0;
+}
+
+table tr td:first-child,
+table tr th:first-child {
+    border-left: 0;
+}
+
+table tr td:last-child,
+table tr th:last-child {
+    border-right: 0;
+}

@@ -2,7 +2,7 @@
         xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
     <name>database-query-plugin</name>
     <description>Adds ability to query the databases directly from the Admin Console.</description>
-    <author>Sean M. Staley</author>
+    <author>Sean M. Staley, Ben Walker</author>
     <authorURL>http://www.jivesoftware.com/</authorURL>
     <version>5.0.3-2</version>
     <minServerVersion>5.0.0</minServerVersion>

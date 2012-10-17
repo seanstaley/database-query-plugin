@@ -12,6 +12,19 @@ import org.junit.Test;
  * Time: 5:10 PM
  */
 public class QueryExecuteTest {
+    /**
+     * Tests to perform and complete:
+     *
+     * 1. Make sure only accepts SELECTS - DONE
+     * 2. Make sure we do not allow nulls - DONE
+     * 3. Make sure that it allows lowercase queries - DONE
+     * 4. Verify that results are actually returned.
+     * 5. Verify that a bad query returns a BadSqlMismatchException
+     * 6. Make sure we handle queries with no results appropriately.
+     * 7. Verify that results are formatted correctly in an ArrayList of ArrayLists
+     * 8. Verify that the column names are returned.
+     */
+
     private QueryExecute queryExecute = new QueryExecute();
 
     public static String LOWERCASE_SELECT = "select * from jiveuser;";

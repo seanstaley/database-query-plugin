@@ -39,6 +39,13 @@
 </div>
 </#if>
 
+<#if !cleanQuery>
+<div id="jive-error-box" class="jive-error-box" style>
+    <span class="jive-icon-med jive-icon-redalert"></span>
+    <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
+</div>
+</#if>
+
 <form id="export_all_form" method="post"
       action="<@s.url action='export-query-results'><@s.param name='databaseQuery' value='${databaseQuery}' /></@s.url>">
     <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10"></textarea>

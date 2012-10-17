@@ -6,6 +6,7 @@ import com.jivesoftware.plugin.dbQuery.dao.query.QueryExecute;
 import com.jivesoftware.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.BadSqlGrammarException;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -27,6 +28,9 @@ public class QueryCsvAction extends AdminActionSupport {
     private String databaseQuery;
     private boolean selectQuery = true;
 
+
+    private boolean cleanQuery = true;
+
     public String execute() {
         ArrayList<ArrayList<String>> arrayOfRows;
 
@@ -35,16 +39,26 @@ public class QueryCsvAction extends AdminActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        else if (!queryExecute.validateSelectQuery(databaseQuery)) {
+        if (!queryExecute.validateSelectQuery(databaseQuery)) {
             setSelectQuery(false);
             return INPUT;
         }
 
-        arrayOfRows = queryExecute.returnQueryResults(databaseQuery);
-        response.setHeader("Cache-Control", "private");
-        String csv = generateCsv(arrayOfRows);
-        InputStream stream = createCsvStream(csv);
-        setCsvStream(stream);
+        try {
+            arrayOfRows = queryExecute.returnQueryResults(databaseQuery);
+            response.setHeader("Cache-Control", "private");
+            String csv = generateCsv(arrayOfRows);
+            InputStream stream = createCsvStream(csv);
+            setCsvStream(stream);
+
+        }
+        catch (BadSqlGrammarException bse) {
+            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
+                    getUser().getUsername());
+            setCleanQuery(false);
+            return INPUT;
+
+        }
         return "export";
     }
 
@@ -162,5 +176,13 @@ public class QueryCsvAction extends AdminActionSupport {
 
     public String getExportHash() {
         return Long.toString(Math.abs((getDatabaseQuery() + getUser().getID() + date.getTime()).hashCode()));
+    }
+
+    public boolean isCleanQuery() {
+        return cleanQuery;
+    }
+
+    public void setCleanQuery(boolean cleanQuery) {
+        this.cleanQuery = cleanQuery;
     }
 }

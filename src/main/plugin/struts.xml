@@ -28,6 +28,7 @@
                 <param name="contentDisposition">attachment; filename="${databaseCSVFilename}"</param>
                 <param name="bufferSize">1024</param>
             </result>
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
         </action>
     </package>
 </struts>

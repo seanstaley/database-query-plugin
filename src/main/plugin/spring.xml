@@ -8,7 +8,6 @@
        default-autowire="no" default-init-method="init" default-destroy-method="destroy">
 
     <import resource="classpath:spring-analyticsContext.xml" />
-    <import resource="classpath:/com/jivesoftware/community/eae/spring-eaeContext.xml" />
 
     <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
 

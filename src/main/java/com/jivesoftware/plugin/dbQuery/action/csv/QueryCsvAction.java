@@ -50,7 +50,6 @@ public class QueryCsvAction extends AdminActionSupport {
             String csv = generateCsv(arrayOfRows);
             InputStream stream = createCsvStream(csv);
             setCsvStream(stream);
-
         }
         catch (BadSqlGrammarException bse) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +

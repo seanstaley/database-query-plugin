@@ -4,9 +4,9 @@
     <description>Adds ability to query the databases directly from the Admin Console.</description>
     <author>Sean M. Staley, Ben Walker</author>
     <authorURL>http://www.jivesoftware.com/</authorURL>
-    <version>5.0.3-2</version>
-    <minServerVersion>5.0.0</minServerVersion>
-    <maxServerVersion>5.50</maxServerVersion>
+    <version>4.5-2</version>
+    <minServerVersion>4.5.0</minServerVersion>
+    <maxServerVersion>4.5.8</maxServerVersion>
 
     <databaseKey>database-query</databaseKey>
     <databaseVersion>1050302</databaseVersion>

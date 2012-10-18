@@ -22,7 +22,7 @@
 
     <properties>
         <!-- If using <parent> section, remove the <jive.version> line below. -->
-        <jive.version>5.0.3.0</jive.version>
+        <jive.version>6.0.0.0</jive.version>
         <final.name>${project.artifactId}-${jive.version}-${project.version}</final.name>
         <build.number>${env.BUILD_NUMBER}</build.number>
         <build.project.name>${env.TEAMCITY_PROJECT_NAME}</build.project.name>

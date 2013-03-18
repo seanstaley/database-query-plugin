@@ -2,8 +2,8 @@
         xsi:noNamespaceSchemaLocation="http://www.jivesoftware.com/schemas/clearspace/2_5/plugin.xsd">
     <name>database-query-plugin</name>
     <description>Adds ability to query the databases directly from the Admin Console.</description>
-    <author>Sean M. Staley, Ben Walker</author>
-    <authorURL>http://www.jivesoftware.com/</authorURL>
+    <author>StaleyLabs</author>
+    <authorURL>http://www.staleylabs.com/</authorURL>
     <version>6.0-2</version>
     <minServerVersion>6.0.0</minServerVersion>
     <maxServerVersion>6.1.0</maxServerVersion>
@@ -29,6 +29,9 @@
                     <item id="export-query-page" name="admin.decorator.menu.system.dbQuery.item.export"
                           url="export-query-page.jspa"
                           description="admin.decorator.menu.system.dbQuery.item.export.desc"/>
+                    <item id="about-page" name="admin.decorator.menu.system.dbQuery.item.about"
+                          url="database-query-about.jspa"
+                          description="admin.decorator.menu.system.dbQuery.item.export.desc" />
                 </section>
             </tab>
         </component>

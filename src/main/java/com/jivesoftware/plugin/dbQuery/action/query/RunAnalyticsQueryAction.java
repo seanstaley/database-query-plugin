@@ -1,22 +1,25 @@
 package com.jivesoftware.plugin.dbQuery.action.query;
 
 import com.jivesoftware.community.analytics.action.AnalyticsActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute;
+import com.jivesoftware.plugin.dbQuery.dao.impl.AnalyticsExecutionDaoImpl;
+import com.jivesoftware.plugin.dbQuery.service.QueryFormatService;
+import com.jivesoftware.plugin.dbQuery.service.QueryValidationService;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import java.util.ArrayList;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sean M. Staley
+ * StaleyLabs
+ *
+ * @author Sean M. Staley
  * Date: 5/15/12
  * Time: 7:24 PM
  */
 public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
     private static final long serialVersionUID = 1L;
-
-    Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
+    private static Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
 
     private String databaseQuery;
     private ArrayList<ArrayList<String>> queryResults;
@@ -25,7 +28,12 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
     private boolean isCompleted = true;
     private boolean isResults = true;
 
-    private AnalyticsQueryExecute analyticsQueryExecute;
+    @Autowired
+    private AnalyticsExecutionDaoImpl analyticsExecutionDao;
+    @Autowired
+    private QueryValidationService validationService;
+    @Autowired
+    private QueryFormatService formatService;
 
     @Override
     public String execute() {
@@ -37,7 +45,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        else if (!analyticsQueryExecute.validateSelectQuery(databaseQuery)) {
+        else if (!validationService.validateSelectQuery(databaseQuery)) {
             setSelectQuery(false);
             setCompleted(false);
             return INPUT;
@@ -45,7 +53,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
         //Catching dirty SQL talk and running a nice query.
         try {
-            queryResults = analyticsQueryExecute.returnQueryResults(databaseQuery);
+            queryResults = formatService.returnQueryResults(databaseQuery);
         }
         catch (BadSqlGrammarException e) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
@@ -55,7 +63,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
             return INPUT;
         }
 
-        if (queryResults.get(0).get(0).toString().equals(analyticsQueryExecute.NO_RESULTS)) {
+        if (queryResults.get(0).get(0).equals(analyticsExecutionDao.NO_RESULTS)) {
             setIsResults(false);
         }
 
@@ -100,14 +108,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
     public void setQueryResults(ArrayList<ArrayList<String>> queryResults) {
         this.queryResults = queryResults;
-    }
-
-    public AnalyticsQueryExecute getAnalyticsQueryExecute() {
-        return analyticsQueryExecute;
-    }
-
-    public void setAnalyticsQueryExecute(AnalyticsQueryExecute analyticsQueryExecute) {
-        this.analyticsQueryExecute = analyticsQueryExecute;
     }
 
     public boolean isResults() {

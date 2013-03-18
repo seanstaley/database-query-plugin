@@ -12,14 +12,20 @@
 
     <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
 
-    <bean id="queryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.QueryExecute">
+    <bean id="applicationExecutionDao" class="com.jivesoftware.plugin.dbQuery.dao.impl.ApplicationExecutionDaoImpl">
         <property name="dataSource">
-            <util:property-path path="dataSourceFactory.dataSource"/>
+            <util:property-path path="dataSourceFactory.dataSource" />
         </property>
     </bean>
 
-    <bean id="analyticsQueryExecute" class="com.jivesoftware.plugin.dbQuery.dao.query.AnalyticsQueryExecute">
+    <bean id="analyticsExecutionDao" class="com.jivesoftware.plugin.dbQuery.dao.impl.AnalyticsExecutionDaoImpl">
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
+
+    <bean id="csvBuildService" class="com.jivesoftware.plugin.dbQuery.service.CsvBuildService" />
+
+    <bean id="formatService" class="com.jivesoftware.plugin.dbQuery.service.QueryFormatService" />
+
+    <bean id="validationService" class="com.jivesoftware.plugin.dbQuery.service.QueryValidationService" />
 
 </beans>

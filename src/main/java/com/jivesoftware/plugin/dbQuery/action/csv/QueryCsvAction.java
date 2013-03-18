@@ -2,10 +2,12 @@ package com.jivesoftware.plugin.dbQuery.action.csv;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.jivesoftware.community.action.admin.AdminActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.query.QueryExecute;
+import com.jivesoftware.plugin.dbQuery.service.QueryFormatService;
+import com.jivesoftware.plugin.dbQuery.service.QueryValidationService;
 import com.jivesoftware.util.StringUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import java.io.*;
@@ -14,22 +16,23 @@ import java.util.Date;
 import java.util.Iterator;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sean M. Staley
- * Date: 9/17/12
- * Time: 5:55 PM
+ * StaleyLabs
+ *
+ * @author Sean M. Staley
+ * @version 1.0 (9/17/12)
  */
 public class QueryCsvAction extends AdminActionSupport {
-    Logger log = Logger.getLogger(QueryCsvAction.class);
+    private static Logger log = Logger.getLogger(QueryCsvAction.class);
     Date date = new Date();
-
     private InputStream csvStream;
-    private QueryExecute queryExecute;
     private String databaseQuery;
     private boolean selectQuery = true;
-
-
     private boolean cleanQuery = true;
+
+    @Autowired
+    private QueryValidationService validationService;
+    @Autowired
+    private QueryFormatService formatService;
 
     public String execute() {
         ArrayList<ArrayList<String>> arrayOfRows;
@@ -39,20 +42,19 @@ public class QueryCsvAction extends AdminActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        if (!queryExecute.validateSelectQuery(databaseQuery)) {
+        if (!validationService.validateSelectQuery(databaseQuery)) {
             setSelectQuery(false);
             return INPUT;
         }
 
         try {
-            arrayOfRows = queryExecute.returnQueryResults(databaseQuery);
+            arrayOfRows = formatService.returnQueryResults(databaseQuery);
             response.setHeader("Cache-Control", "private");
             String csv = generateCsv(arrayOfRows);
             InputStream stream = createCsvStream(csv);
             setCsvStream(stream);
 
-        }
-        catch (BadSqlGrammarException bse) {
+        } catch (BadSqlGrammarException bse) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
                     getUser().getUsername());
             setCleanQuery(false);
@@ -116,12 +118,10 @@ public class QueryCsvAction extends AdminActionSupport {
             IOUtils.copy(new ByteArrayInputStream(csv.getBytes("UTF-8")), writer, "UTF-8");
             writer.flush();
             csvStream = new ByteArrayInputStream(baos.toByteArray());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             log.warn("UTF-8 not supported for CSV encoding, using default encoding", e);
             csvStream = new ByteArrayInputStream(csv.getBytes());
-        }
-        finally {
+        } finally {
             IOUtils.closeQuietly(baos);
             IOUtils.closeQuietly(writer);
         }
@@ -156,14 +156,6 @@ public class QueryCsvAction extends AdminActionSupport {
             this.databaseQuery = " ";
         }
         this.databaseQuery = databaseQuery;
-    }
-
-    public QueryExecute getQueryExecute() {
-        return queryExecute;
-    }
-
-    public void setQueryExecute(QueryExecute queryExecute) {
-        this.queryExecute = queryExecute;
     }
 
     public boolean getSelectQuery() {

@@ -1,7 +1,7 @@
 package com.jivesoftware.plugin.dbQuery.action.query;
 
 import com.jivesoftware.community.action.admin.AdminActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.ApplicationExecutionDao;
+import com.jivesoftware.plugin.dbQuery.dao.AbstractApplicationExecutionDao;
 import com.jivesoftware.plugin.dbQuery.service.QueryFormatService;
 import com.jivesoftware.plugin.dbQuery.service.QueryValidationService;
 import org.apache.log4j.Logger;
@@ -28,7 +28,7 @@ public class RunQueryAction extends AdminActionSupport {
     private boolean isResults = true;
 
     @Autowired
-    private ApplicationExecutionDao applicationExecutionDao;
+    private AbstractApplicationExecutionDao applicationExecutionDao;
     @Autowired
     private QueryValidationService validationService;
     @Autowired

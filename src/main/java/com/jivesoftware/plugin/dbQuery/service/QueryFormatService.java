@@ -1,6 +1,6 @@
 package com.jivesoftware.plugin.dbQuery.service;
 
-import com.jivesoftware.plugin.dbQuery.dao.ApplicationExecutionDao;
+import com.jivesoftware.plugin.dbQuery.dao.AbstractApplicationExecutionDao;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -16,11 +16,11 @@ import java.util.Map;
  * @version 2.0 (2/7/13)
  */
 public class QueryFormatService {
-    private static Logger log = Logger.getLogger(QueryFormatService.class);
     public static final String NO_RESULTS = "Your query did not return any results.";
+    private static Logger log = Logger.getLogger(QueryFormatService.class);
 
     @Autowired
-    private ApplicationExecutionDao applicationExecutionDao;
+    private AbstractApplicationExecutionDao applicationExecutionDao;
 
     /**
      * Provides us with a nice ArrayList of column names.
@@ -57,22 +57,32 @@ public class QueryFormatService {
         ArrayList<String> columnNames = retrieveColumnNames(unformattedResults);
 
         if (columnNames != null) {
+            int currentList = 0;
 
             //Adding columnNames to provided list
             allRows.add(columnNames);
 
             // Iterate through the List of Maps. For each map, grab all of the columns and display.
             for (Map<String, Object> vanillaMaps : unformattedResults) {
+                currentList++;
                 ArrayList<String> row = new ArrayList<String>();
+
                 for (int index = 0; index <= columnNames.size() - 1; index++) {
                     try {
                         row.add(vanillaMaps.get(columnNames.get(index)).toString());
-                    }
-                    catch (NullPointerException npe) {
+                    } catch (NullPointerException npe) {
                         row.add(" ");
                         continue;
+                    } finally {
+                        unformattedResults.remove(currentList);
+
+                        if(currentList % 10 == 0) {
+                            log.debug("Requesting a garbage collection...");
+                            System.gc();
+                        }
                     }
                 }
+                // Add the row to the new ArrayList.
                 allRows.add(row);
             }
             return allRows;

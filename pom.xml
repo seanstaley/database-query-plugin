@@ -374,4 +374,19 @@
             </build>
         </profile>
     </profiles>
+
+    <developers>
+        <developer>
+            <id>sean</id>
+            <name>Sean M. Staley</name>
+            <email>sean.staley@gmail.com</email>
+            <organization>StaleyLabs</organization>
+        </developer>
+        <developer>
+            <id>ben</id>
+            <name>Ben Walker</name>
+            <email>ben.walker@jivesoftware.com</email>
+            <organization>Jive Software</organization>
+        </developer>
+    </developers>
 </project>

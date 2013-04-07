@@ -1,6 +1,6 @@
 package com.jivesoftware.plugin.dbQuery.dao.impl;
 
-import com.jivesoftware.plugin.dbQuery.dao.ApplicationExecutionDao;
+import com.jivesoftware.plugin.dbQuery.dao.AbstractApplicationExecutionDao;
 
 import java.util.List;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Map;
  * Date: 5/14/12
  * Time: 5:11 PM
  */
-public class ApplicationExecutionDaoImpl extends ApplicationExecutionDao {
+public class ApplicationExecutionDaoImpl extends AbstractApplicationExecutionDao {
 
     public List<Map<String, Object>> retrieveResults(String query) {
         return super.retrieveResults(query);

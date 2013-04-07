@@ -1,7 +1,7 @@
 package com.jivesoftware.plugin.dbQuery.action.query;
 
 import com.jivesoftware.community.analytics.action.AnalyticsActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.impl.AnalyticsExecutionDaoImpl;
+import com.jivesoftware.plugin.dbQuery.dao.impl.ApplicationExecutionDaoImpl;
 import com.jivesoftware.plugin.dbQuery.service.QueryFormatService;
 import com.jivesoftware.plugin.dbQuery.service.QueryValidationService;
 import org.apache.log4j.Logger;
@@ -29,11 +29,11 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
     private boolean isResults = true;
 
     @Autowired
-    private AnalyticsExecutionDaoImpl analyticsExecutionDao;
+    protected ApplicationExecutionDaoImpl analyticsExecutionDao;
     @Autowired
-    private QueryValidationService validationService;
+    protected QueryValidationService validationService;
     @Autowired
-    private QueryFormatService formatService;
+    protected QueryFormatService formatService;
 
     @Override
     public String execute() {
@@ -66,7 +66,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
         if (queryResults.get(0).get(0).equals(analyticsExecutionDao.NO_RESULTS)) {
             setIsResults(false);
         }
-
         return SUCCESS;
     }
 

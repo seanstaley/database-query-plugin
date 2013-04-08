@@ -17,7 +17,7 @@ import java.util.Map;
  */
 public class QueryFormatService {
     public static final String NO_RESULTS = "Your query did not return any results.";
-    private static Logger log = Logger.getLogger(QueryFormatService.class);
+    private static final Logger log = Logger.getLogger(QueryFormatService.class);
 
     @Autowired
     private AbstractApplicationExecutionDao applicationExecutionDao;
@@ -35,60 +35,59 @@ public class QueryFormatService {
         if (unformattedResults.isEmpty()) {
             return null;
         }
-
         Map<String, Object> firstRow = unformattedResults.get(0);
+
         Iterator keyIterator = firstRow.entrySet().iterator();
         while (keyIterator.hasNext()) {
             Map.Entry entry = (Map.Entry) keyIterator.next();
             columnNames.add(entry.getKey().toString());
         }
-
         return columnNames;
     }
 
     /**
      * This method is necessary to restructure the results into a nice array of row strings.
      *
-     * @param unformattedResults results that are contained in a list of maps.
+     * @param rawResults results that are contained in a list of maps.
      * @return results that are formatted into an ArrayList for convention
      */
-    private ArrayList<ArrayList<String>> formatResults(List<Map<String, Object>> unformattedResults) {
+    private ArrayList<ArrayList<String>> formatResults(List<Map<String, Object>> rawResults) {
         ArrayList<ArrayList<String>> allRows = new ArrayList<ArrayList<String>>();
-        ArrayList<String> columnNames = retrieveColumnNames(unformattedResults);
+        ArrayList<String> columnNames = retrieveColumnNames(rawResults);
 
         if (columnNames != null) {
-            int currentList = 0;
-
             //Adding columnNames to provided list
             allRows.add(columnNames);
 
             // Iterate through the List of Maps. For each map, grab all of the columns and display.
-            for (Map<String, Object> vanillaMaps : unformattedResults) {
-                currentList++;
+            log.debug("Beginning to format " + rawResults.size() + " results.");
+            for (int currentRow = 0; currentRow < rawResults.size();) {
+                Map<String, Object> vanillaMaps = rawResults.get(currentRow);
                 ArrayList<String> row = new ArrayList<String>();
 
                 for (int index = 0; index <= columnNames.size() - 1; index++) {
-                    try {
-                        row.add(vanillaMaps.get(columnNames.get(index)).toString());
-                    } catch (NullPointerException npe) {
-                        row.add(" ");
-                        continue;
-                    } finally {
-                        unformattedResults.remove(currentList);
+                    String columnKey = columnNames.get(index);
+                    String columnEntry = (String) vanillaMaps.get(columnKey);
 
-                        if(currentList % 10 == 0) {
-                            log.debug("Requesting a garbage collection...");
-                            System.gc();
-                        }
+                    if(columnEntry != null) {
+                        row.add(vanillaMaps.get(columnKey).toString());
+                    } else {
+                        row.add(" ");
                     }
                 }
-                // Add the row to the new ArrayList.
+                // Add the row to the the new results.
                 allRows.add(row);
+
+                // Memory Issues
+                if (rawResults.size() != 1) {
+                    rawResults.remove(currentRow);
+                } else {
+                    System.gc();
+                    break;
+                }
             }
             return allRows;
-        }
-
-        if (columnNames == null) {
+        } else {
             ArrayList<String> noResults = new ArrayList<String>();
             noResults.add(NO_RESULTS);
             allRows.add(0, noResults);

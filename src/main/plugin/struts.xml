@@ -18,7 +18,7 @@
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
         </action>
 
-        <action name="about-page" class="com.jivesoftware.plugin.dbQuery.action.AboutPluginAction">
+        <action name="database-query-about" class="com.jivesoftware.plugin.dbQuery.action.AboutPluginAction">
             <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/about.ftl</result>
         </action>
 

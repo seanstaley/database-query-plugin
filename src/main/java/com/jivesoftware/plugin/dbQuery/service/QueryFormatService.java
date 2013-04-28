@@ -67,7 +67,7 @@ public class QueryFormatService {
 
                 for (int index = 0; index <= columnNames.size() - 1; index++) {
                     String columnKey = columnNames.get(index);
-                    String columnEntry = (String) vanillaMaps.get(columnKey);
+                    Object columnEntry = vanillaMaps.get(columnKey);
 
                     if(columnEntry != null) {
                         row.add(vanillaMaps.get(columnKey).toString());

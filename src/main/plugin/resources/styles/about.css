@@ -1,0 +1,76 @@
+/* Table Styling */
+table {
+    border-collapse: separate;
+    border-spacing: 5px;
+}
+
+thead {
+    display: table-header-group;
+    vertical-align: middle;
+}
+
+th:first-child {
+    -moz-border-radius: 6px 0 0 0;
+    -webkit-border-radius: 6px 0 0 0;
+    border-radius: 6px 0 0 0;
+}
+
+th:last-child {
+    -moz-border-radius: 0 6px 0 0;
+    -webkit-border-radius: 0 6px 0 0;
+    border-radius: 0 6px 0 0;
+}
+
+th:only-child {
+    -moz-border-radius: 6px 6px 0 0;
+    -webkit-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
+
+.bordered {
+    border: solid #ccc 1px;
+    -moz-border-radius: 6px;
+    -webkit-border-radius: 6px;
+    border-radius: 6px;
+    -webkit-box-shadow: 0 1px 1px #ccc;
+    -moz-box-shadow: 0 1px 1px #ccc;
+    box-shadow: 0 1px 1px #ccc;
+}
+
+.bordered tr:hover {
+    background: #fbf8e9;
+    -o-transition: all 0.1s ease-in-out;
+    -webkit-transition: all 0.1s ease-in-out;
+    -moz-transition: all 0.1s ease-in-out;
+    -ms-transition: all 0.1s ease-in-out;
+    transition: all 0.1s ease-in-out;
+}
+
+.bordered th {
+    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
+}
+
+.bordered tr {
+    background-color: white;
+}
+
+/* Boxes and Spaces */
+.bottom-left {
+    float: left;
+    width: 45%;
+    height: 400px;
+    margin: 10px;
+}
+
+.bottom-right {
+    float: right;
+    width: 45%;
+    height: 400px;
+    margin: 10px;
+}
+
+.text-center-image {
+    width: 30px;
+    height: 30px;
+    vertical-align: middle;
+}

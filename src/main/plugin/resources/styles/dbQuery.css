@@ -13,106 +13,29 @@
     height: 300px;
 }
 
-#resultTable table {
+table {
     border-collapse: collapse;
 }
 
-#resultTable table td, table th {
+table td, table th {
     border: 1px dashed black;
     padding: 5px;
 }
 
-#resultTable table tr:first-child td {
+table tr:first-child td {
     border-top: 0;
 }
 
-#resultTable table tr:last-child td {
+table tr:last-child td {
     border-bottom: 0;
 }
 
-#resultTable table tr td:first-child,
-#resultTable table tr th:first-child {
+table tr td:first-child,
+table tr th:first-child {
     border-left: 0;
 }
 
-#resultTable table tr td:last-child,
-#resultTable table tr th:last-child {
+table tr td:last-child,
+table tr th:last-child {
     border-right: 0;
-}
-
-/* Table Styling */
-#githubTable table {
-    border-collapse: separate;
-    border-spacing: 5px;
-}
-
-#githubTable thead {
-    display: table-header-group;
-    vertical-align: middle;
-}
-
-#githubTable th:first-child {
-    -moz-border-radius: 6px 0 0 0;
-    -webkit-border-radius: 6px 0 0 0;
-    border-radius: 6px 0 0 0;
-}
-
-#githubTable th:last-child {
-    -moz-border-radius: 0 6px 0 0;
-    -webkit-border-radius: 0 6px 0 0;
-    border-radius: 0 6px 0 0;
-}
-
-#githubTable th:only-child {
-    -moz-border-radius: 6px 6px 0 0;
-    -webkit-border-radius: 6px 6px 0 0;
-    border-radius: 6px 6px 0 0;
-}
-
-.bordered {
-    border: solid #ccc 1px;
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-    -webkit-box-shadow: 0 1px 1px #ccc;
-    -moz-box-shadow: 0 1px 1px #ccc;
-    box-shadow: 0 1px 1px #ccc;
-}
-
-.bordered tr:hover {
-    background: #fbf8e9;
-    -o-transition: all 0.1s ease-in-out;
-    -webkit-transition: all 0.1s ease-in-out;
-    -moz-transition: all 0.1s ease-in-out;
-    -ms-transition: all 0.1s ease-in-out;
-    transition: all 0.1s ease-in-out;
-}
-
-.bordered th {
-    background-image: -webkit-linear-gradient(top, #ebf3fc, #dce9f9);
-}
-
-.bordered tr {
-    background-color: white;
-}
-
-/* Boxes and Spaces */
-.bottom-left {
-    float: left;
-    width: 45%;
-    height: 400px;
-    margin: 10px;
-}
-
-.bottom-right {
-    float: right;
-    width: 45%;
-    height: 400px;
-    margin: 10px;
-}
-
-.text-center-image {
-    width: 30px;
-    height: 30px;
-    vertical-align: middle;
 }

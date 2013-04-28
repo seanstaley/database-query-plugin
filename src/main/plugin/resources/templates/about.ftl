@@ -10,7 +10,7 @@
         query plugin. This includes the author, bugs, source, etc.
     </content>
     <link rel='stylesheet' type='text/css'
-          href="<@s.url value='/plugins/database-query-plugin/resources/styles/dbQuery.css'/>"/>
+          href="<@s.url value='/plugins/database-query-plugin/resources/styles/about.css'/>"/>
     <script type="text/javascript"
             src="<@s.url value='/plugins/database-query-plugin/resources/script/vendor/jquery-1.9.1.min.js'/>"></script>
     <script type="text/javascript"

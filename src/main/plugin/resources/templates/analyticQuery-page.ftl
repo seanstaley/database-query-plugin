@@ -64,7 +64,7 @@
         </#if>
 
     <div id="resultDiv">
-        <table border="0">
+        <table id="resultTable" border="0">
             <#list queryResults as arraylists>
                 <tr>
                     <#list arraylists as rowEntry>

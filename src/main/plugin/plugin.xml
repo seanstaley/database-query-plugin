@@ -6,7 +6,7 @@
     <authorURL>http://www.staleylabs.com/</authorURL>
     <version>6.0-2</version>
     <minServerVersion>6.0.0</minServerVersion>
-    <maxServerVersion>6.1.0</maxServerVersion>
+    <maxServerVersion>6.5.0</maxServerVersion>
 
     <databaseKey>database-query</databaseKey>
     <databaseVersion>1050302</databaseVersion>
@@ -29,7 +29,7 @@
                     <item id="export-query-page" name="admin.decorator.menu.system.dbQuery.item.export"
                           url="export-query-page.jspa"
                           description="admin.decorator.menu.system.dbQuery.item.export.desc"/>
-                    <item id="about-page" name="admin.decorator.menu.system.dbQuery.item.about"
+                    <item id="database-query-about" name="admin.decorator.menu.system.dbQuery.item.about"
                           url="database-query-about.jspa"
                           description="admin.decorator.menu.system.dbQuery.item.export.desc" />
                 </section>

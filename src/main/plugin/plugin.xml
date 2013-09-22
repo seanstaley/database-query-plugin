@@ -4,14 +4,14 @@
     <description>Adds ability to query the databases directly from the Admin Console.</description>
     <author>StaleyLabs</author>
     <authorURL>http://www.staleylabs.com/</authorURL>
-    <version>6.0-2</version>
+    <version>2.0</version>
     <minServerVersion>6.0.0</minServerVersion>
     <maxServerVersion>6.5.0</maxServerVersion>
 
     <databaseKey>database-query</databaseKey>
     <databaseVersion>1050302</databaseVersion>
 
-    <class>com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin</class>
+    <class>com.staleylabs.query.DatabaseQueryPlugin</class>
 
     <css>/resources/styles/dbQuery.css</css>
 

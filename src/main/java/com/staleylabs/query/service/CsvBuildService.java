@@ -1,4 +1,4 @@
-package com.jivesoftware.plugin.dbQuery.service;
+package com.staleylabs.query.service;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.jivesoftware.util.StringUtils;
@@ -13,10 +13,12 @@ import java.util.List;
  * StaleyLabs
  *
  * @author Sean M. Staley
- * @version 6.0-2 (3/8/13)
+ * @version 2.0
+ * @since 6.0-2 (3/8/13)
  */
 public class CsvBuildService {
-    private static Logger log = Logger.getLogger(CsvBuildService.class);
+
+    private static final Logger log = Logger.getLogger(CsvBuildService.class);
 
     /**
      * Creates and returns an InputStream to stream the given CSV file.
@@ -36,12 +38,10 @@ public class CsvBuildService {
             IOUtils.copy(new ByteArrayInputStream(csv.getBytes("UTF-8")), writer, "UTF-8");
             writer.flush();
             csvStream = new ByteArrayInputStream(baos.toByteArray());
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             log.warn("UTF-8 not supported for CSV encoding, using default encoding", e);
             csvStream = new ByteArrayInputStream(csv.getBytes());
-        }
-        finally {
+        } finally {
             IOUtils.closeQuietly(baos);
             IOUtils.closeQuietly(writer);
         }
@@ -66,7 +66,7 @@ public class CsvBuildService {
 
         for (List<String> currentRow : arraysOfRows) {
             for (int i = 0; i < currentRow.size(); i++) {
-                line[i] = currentRow.get(i).toString();
+                line[i] = currentRow.get(i);
             }
             csvWriter.writeNext(line);
         }

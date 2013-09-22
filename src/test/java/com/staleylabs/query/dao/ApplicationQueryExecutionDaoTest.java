@@ -1,4 +1,4 @@
-package com.jivesoftware.plugin.dbQuery.dao;
+package com.staleylabs.query.dao;
 
 import com.jivesoftware.base.database.dao.JiveJdbcDaoSupport;
 import org.junit.After;
@@ -12,9 +12,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -24,13 +25,14 @@ import static org.mockito.MockitoAnnotations.initMocks;
  * @version 2.0 (3/19/13)
  */
 
-public class AbstractApplicationExecutionDaoTest {
+public class ApplicationQueryExecutionDaoTest {
     private static final int RESULT_SIZE = 10;
     private static final String SELECT_JIVE_USER = "SELECT * FROM JIVEUSER;";
-    private static final String SELECT_JIVE_USER_COUNT = "SELECT COUNT(*) FROM JIVEUSER;";
+    private static final String SELECT_JIVE_USER_COUNT = "SELECT COUNT(1) FROM JIVEUSER;";
 
     @InjectMocks
-    private MockExecutionDao classUnderTest;
+    private ApplicationQueryExecutionDao classUnderTest;
+
     private List<Map<String, Object>> mockResultSet;
 
     @Mock
@@ -38,12 +40,10 @@ public class AbstractApplicationExecutionDaoTest {
 
     @Before
     public void setUp() throws Exception {
-        classUnderTest = new MockExecutionDao();
+        classUnderTest = new ApplicationQueryExecutionDao();
         mockResultSet = buildMockResultSet(RESULT_SIZE);
 
         initMocks(this);
-        when(jiveJdbcDaoSupport.getSimpleJdbcTemplate().queryForList(SELECT_JIVE_USER)).thenReturn(mockResultSet);
-        when(jiveJdbcDaoSupport.getSimpleJdbcTemplate().queryForInt(SELECT_JIVE_USER_COUNT)).thenReturn(RESULT_SIZE);
     }
 
     @After
@@ -54,22 +54,35 @@ public class AbstractApplicationExecutionDaoTest {
 
     @Test
     public void testRetrieveResults() throws Exception {
-        List<Map<String, Object>> result = classUnderTest.retrieveResults(SELECT_JIVE_USER);
+        List<Map<String, Object>> result = classUnderTest.retrieveResults(SELECT_JIVE_USER, 1, 1);
 
         verify(jiveJdbcDaoSupport.getSimpleJdbcTemplate().queryForList(SELECT_JIVE_USER));
         assertEquals(mockResultSet, result);
     }
 
     @Test
-    public void testGetQueryResultSize() throws Exception {
-        int expected = RESULT_SIZE;
-        int actual = classUnderTest.getQueryResultSize(SELECT_JIVE_USER);
-        assertEquals(expected, actual);
+    public void testIsOverResultLimit() throws Exception {
+
     }
 
     @Test
-    public void testIsOverResultLimit() throws Exception {
+    public void testGenerateQuerySizeString() throws Exception {
+        String query = "SELECT * FROM JIVEUSER;";
 
+        String expected = "SELECT COUNT(1) FROM JIVEUSER;";
+        String actual = classUnderTest.generateQuerySizeString(query);
+
+        assertThat(actual, is(expected));
+    }
+
+    @Test
+    public void testGenerateQuerySizeString_mixed_case() throws Exception {
+        String query = "SELECT * From JIVEUSER;";
+
+        String expected = "SELECT COUNT(1) FROM JIVEUSER;";
+        String actual = classUnderTest.generateQuerySizeString(query);
+
+        assertThat(actual, is(expected));
     }
 
     private List<Map<String, Object>> buildMockResultSet(int resultSize) {
@@ -84,4 +97,3 @@ public class AbstractApplicationExecutionDaoTest {
         return resultList;
     }
 }
-class MockExecutionDao extends AbstractApplicationExecutionDao{};

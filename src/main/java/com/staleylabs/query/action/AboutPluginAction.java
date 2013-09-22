@@ -1,4 +1,4 @@
-package com.jivesoftware.plugin.dbQuery.action;
+package com.staleylabs.query.action;
 
 import com.jivesoftware.community.action.JiveActionSupport;
 import org.apache.log4j.Logger;

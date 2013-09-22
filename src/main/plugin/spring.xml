@@ -10,22 +10,22 @@
     <import resource="classpath:spring-analyticsContext.xml" />
     <import resource="classpath:/com/jivesoftware/community/eae/spring-eaeContext.xml" />
 
-    <bean class="com.jivesoftware.plugin.dbQuery.DatabaseQueryPlugin"/>
+    <bean class="com.staleylabs.query.DatabaseQueryPlugin"/>
 
-    <bean id="applicationExecutionDao" class="com.jivesoftware.plugin.dbQuery.dao.impl.ApplicationExecutionDaoImpl">
+    <bean id="applicationExecutionDao" class="com.staleylabs.query.dao.impl.ApplicationQueryExecutionDaoImpl">
         <property name="dataSource">
             <util:property-path path="dataSourceFactory.dataSource" />
         </property>
     </bean>
 
-    <bean id="analyticsExecutionDao" class="com.jivesoftware.plugin.dbQuery.dao.impl.ApplicationExecutionDaoImpl">
+    <bean id="analyticsExecutionDao" class="com.staleylabs.query.dao.impl.ApplicationQueryExecutionDaoImpl">
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
-    <bean id="csvBuildService" class="com.jivesoftware.plugin.dbQuery.service.CsvBuildService" />
+    <bean id="csvBuildService" class="com.staleylabs.query.service.CsvBuildService" />
 
-    <bean id="formatService" class="com.jivesoftware.plugin.dbQuery.service.QueryFormatService" />
+    <bean id="formatService" class="com.staleylabs.query.service.QueryFormatService" />
 
-    <bean id="validationService" class="com.jivesoftware.plugin.dbQuery.service.QueryValidationService" />
+    <bean id="validationService" class="com.staleylabs.query.service.QueryValidationService" />
 
 </beans>

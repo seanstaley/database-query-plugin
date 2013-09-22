@@ -1,16 +1,18 @@
-package com.jivesoftware.plugin.dbQuery;
+package com.staleylabs.query;
 
 import com.jivesoftware.base.plugin.Plugin;
 import org.apache.log4j.Logger;
 
 /**
- * Created by IntelliJ IDEA.
- * User: Sean M. Staley
- * Date: 5/14/12
- * Time: 10:57 AM
+ * Startup class for the Database Query Plugin.
+ *
+ * @author Sean M. Staley
+ * @version 2.0
+ * @since 1.0 (5/14/12)
  */
 public class DatabaseQueryPlugin implements Plugin {
-    Logger log = Logger.getLogger(DatabaseQueryPlugin.class);
+
+    private static final Logger log = Logger.getLogger(DatabaseQueryPlugin.class);
 
     public void initPlugin() {
         log.info("Starting Database Query Plugin....");

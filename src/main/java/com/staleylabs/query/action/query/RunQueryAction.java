@@ -1,14 +1,15 @@
-package com.jivesoftware.plugin.dbQuery.action.query;
+package com.staleylabs.query.action.query;
 
 import com.jivesoftware.community.action.admin.AdminActionSupport;
-import com.jivesoftware.plugin.dbQuery.dao.AbstractApplicationExecutionDao;
-import com.jivesoftware.plugin.dbQuery.service.QueryFormatService;
-import com.jivesoftware.plugin.dbQuery.service.QueryValidationService;
+import com.jivesoftware.util.StringUtils;
+import com.staleylabs.query.dao.ApplicationQueryExecutionDao;
+import com.staleylabs.query.service.QueryFormatService;
+import com.staleylabs.query.service.QueryValidationService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * StaleyLabs
@@ -17,27 +18,36 @@ import java.util.ArrayList;
  * @version 2.0 (5/14/12)
  */
 public class RunQueryAction extends AdminActionSupport {
+
     private static final long serialVersionUID = 7695055626966332768L;
-    private static Logger log = Logger.getLogger(RunQueryAction.class);
+
+    private static final Logger log = Logger.getLogger(RunQueryAction.class);
 
     private String databaseQuery;
-    private ArrayList<ArrayList<String>> queryResults;
+
+    private List<List<String>> queryResults;
+
     private boolean isSelectQuery = true;
+
     private boolean isCleanQuery = true;
+
     private boolean isCompleted = true;
+
     private boolean isResults = true;
 
-    @Autowired
-    private AbstractApplicationExecutionDao applicationExecutionDao;
+    private int currentPage;
+
+    private int resultsPerPage;
+
     @Autowired
     private QueryValidationService validationService;
+
     @Autowired
     private QueryFormatService formatService;
 
     @Override
     public String execute() {
-        //Is the box blank? Cereal?!
-        if (getDatabaseQuery() == null) {
+        if (StringUtils.isBlank(getDatabaseQuery())) {
             setCompleted(false);
             return INPUT;
         }
@@ -51,18 +61,27 @@ public class RunQueryAction extends AdminActionSupport {
 
         //Catching dirty SQL talk and running a nice query.
         try {
-            queryResults = formatService.returnQueryResults(databaseQuery);
+            if (currentPage < 1) {
+                setCurrentPage(1);
+            }
+
+            if (resultsPerPage < 1) {
+                setResultsPerPage(10);
+            }
+
+            queryResults = formatService.returnQueryResults(databaseQuery, getCurrentPage(), getResultsPerPage());
         } catch (BadSqlGrammarException e) {
-            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
-                    getUser().getUsername(), e);
+            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
             setCompleted(false);
             setIsCleanQuery(false);
+
             return INPUT;
         }
 
-        if (queryResults.get(0).get(0).toString().equals(applicationExecutionDao.NO_RESULTS)) {
+        if (queryResults.get(0).get(0).equals(ApplicationQueryExecutionDao.NO_RESULTS)) {
             setIsResults(false);
         }
+
         return SUCCESS;
     }
 
@@ -74,11 +93,11 @@ public class RunQueryAction extends AdminActionSupport {
         this.databaseQuery = databaseQuery;
     }
 
-    public ArrayList<ArrayList<String>> getQueryResults() {
+    public List<List<String>> getQueryResults() {
         return queryResults;
     }
 
-    public void setQueryResults(ArrayList<ArrayList<String>> queryResults) {
+    public void setQueryResults(List<List<String>> queryResults) {
         this.queryResults = queryResults;
     }
 
@@ -112,5 +131,21 @@ public class RunQueryAction extends AdminActionSupport {
 
     public void setIsResults(boolean results) {
         this.isResults = results;
+    }
+
+    public int getCurrentPage() {
+        return currentPage;
+    }
+
+    public void setCurrentPage(int currentPage) {
+        this.currentPage = (currentPage >= 1) ? currentPage : 1;
+    }
+
+    public int getResultsPerPage() {
+        return resultsPerPage;
+    }
+
+    public void setResultsPerPage(int resultsPerPage) {
+        this.resultsPerPage = (resultsPerPage >= 10) ? resultsPerPage : 10;
     }
 }

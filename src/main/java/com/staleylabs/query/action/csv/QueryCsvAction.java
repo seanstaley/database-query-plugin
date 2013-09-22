@@ -1,43 +1,49 @@
-package com.jivesoftware.plugin.dbQuery.action.csv;
+package com.staleylabs.query.action.csv;
 
 import au.com.bytecode.opencsv.CSVWriter;
 import com.jivesoftware.community.action.admin.AdminActionSupport;
-import com.jivesoftware.plugin.dbQuery.service.QueryFormatService;
-import com.jivesoftware.plugin.dbQuery.service.QueryValidationService;
 import com.jivesoftware.util.StringUtils;
+import com.staleylabs.query.service.QueryFormatService;
+import com.staleylabs.query.service.QueryValidationService;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
+import java.util.List;
 
 /**
  * StaleyLabs
  *
  * @author Sean M. Staley
- * @version 1.0 (9/17/12)
+ * @version 2.0
+ * @since 1.0 (9/17/12)
  */
 public class QueryCsvAction extends AdminActionSupport {
-    private static Logger log = Logger.getLogger(QueryCsvAction.class);
-    Date date = new Date();
+
+    private static final Logger log = Logger.getLogger(QueryCsvAction.class);
+
+    private final Date date = new Date();
+
     private InputStream csvStream;
+
     private String databaseQuery;
+
     private boolean selectQuery = true;
+
     private boolean cleanQuery = true;
 
     @Autowired
     private QueryValidationService validationService;
+
     @Autowired
     private QueryFormatService formatService;
 
     public String execute() {
-        ArrayList<ArrayList<String>> arrayOfRows;
 
-        if (databaseQuery == null || databaseQuery.equals(" ")) {
+        if (StringUtils.isBlank(databaseQuery)) {
             return INPUT;
         }
 
@@ -47,12 +53,14 @@ public class QueryCsvAction extends AdminActionSupport {
             return INPUT;
         }
 
+        final List<List<String>> arrayOfRows;
         try {
-            arrayOfRows = formatService.returnQueryResults(databaseQuery);
+            // TODO: Fix this.
+            arrayOfRows = formatService.returnQueryResults(databaseQuery, 1, 1);
             response.setHeader("Cache-Control", "private");
             String csv = generateCsv(arrayOfRows);
-            InputStream stream = createCsvStream(csv);
-            setCsvStream(stream);
+
+            setCsvStream(createCsvStream(csv));
 
         } catch (BadSqlGrammarException bse) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
@@ -79,21 +87,19 @@ public class QueryCsvAction extends AdminActionSupport {
      * @param arraysOfRows an ArrayList of ArrayList rows that will be written to the CSV
      * @return the full CSV file contents for all results returned from the two input parameters
      */
-    protected String generateCsv(ArrayList<ArrayList<String>> arraysOfRows) {
+    protected String generateCsv(List<List<String>> arraysOfRows) {
         int numberOfColumns = arraysOfRows.get(0).size();
         // Allocate the line array once
         String[] line = new String[numberOfColumns];
 
-        // Remember the 'Not Available' string
-        String notAvailable = getText("dbQuery.csv.notavailable");
         StringWriter writer = new StringWriter();
         CSVWriter csvWriter = new CSVWriter(writer);
 
-        for (ArrayList<String> currentRow : arraysOfRows) {
-            Iterator currentRowIterator = currentRow.iterator();
+        for (List<String> currentRow : arraysOfRows) {
             for (int i = 0; i < currentRow.size(); i++) {
-                line[i] = currentRow.get(i).toString();
+                line[i] = currentRow.get(i);
             }
+
             csvWriter.writeNext(line);
         }
 

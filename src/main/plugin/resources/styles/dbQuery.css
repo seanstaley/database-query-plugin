@@ -24,6 +24,8 @@ table td, table th {
 
 table tr:first-child td {
     border-top: 0;
+    text-align: center;
+    font: bold;
 }
 
 table tr:last-child td {

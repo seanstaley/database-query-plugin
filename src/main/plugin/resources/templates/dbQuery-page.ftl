@@ -44,10 +44,16 @@
 </div>
 </#if>
 
-<form action="database-query-page.jspa" method="POST">
-    <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10"></textarea>
+<form id="queryForm" action="database-query-page.jspa" method="POST">
+    <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10">
+    <#if databaseQuery??>${databaseQuery}</#if>
+    </textarea>
     <br>
-    <input type="submit" value="Submit"/> <input type="reset" value="Cancel"/>
+
+    <div style="padding: 5px">
+        <input type="submit" value="Submit"/> <input type="reset" value="Cancel"/>
+    </div>
+
 </form>
 
 <#if completed>
@@ -74,14 +80,39 @@
     </table>
 </div>
 
+<div id="pageOptions" style="padding: 5px">
+    <div id="resultPerPageDiv" style="align: left">
+        <strong>Results Per Page:</strong>
+        <select id="queryResultsPerPage" name="resultsPerPage" form="queryForm" onchange="sendForm()">
+            <option selected="selected" value="10">10</option>
+            <option value="20">20</option>
+            <option value="30">30</option>
+            <option value="40">40</option>
+            <option value="50">50</option>
+        </select>
+    </div>
+    <div id="queryPagination" style="align: right">
+        Select Page:
+    </div>
+</div>
 </#if>
-</p>
 
 <script type="text/javascript">
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    function sendForm() {
+        document.getElementById("queryForm").submit();
+    }
+
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r;
+        i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date();
+        a = s.createElement(o),
+                m = s.getElementsByTagName(o)[0];
+        a.async = 1;
+        a.src = g;
+        m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
     ga('create', 'UA-40493136-1', 'staleylabs.com');
     ga('send', 'pageview');

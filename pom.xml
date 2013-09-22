@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-        <!--
-        ~  $Revision: 96475 $
-        ~  $Date: 2009-11-02 16:51:02 -0800 (Mon, 02 Nov 2009) $
-        ~
-        ~  Copyright (C) 1999-${YEAR} Jive Software. All rights reserved.
-        ~
-        ~  This software is the proprietary information of Jive Software. Use is subject to license terms.
-        -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-    <!--
-     These parameters were pased in via the commandline when this pom was created by the archetype.
-      -->
     <modelVersion>4.0.0</modelVersion>
-    <groupId>com.jivesoftware.plugin.dbQuery</groupId>
+    <groupId>com.staleylabs.query</groupId>
     <artifactId>database-query-plugin</artifactId>
     <name>database-query-plugin</name>
     <version>2.0</version>
@@ -21,9 +10,8 @@
     <url>http://www.jivesoftware.com</url>
 
     <properties>
-        <!-- If using <parent> section, remove the <jive.version> line below. -->
         <jive.version>6.0.0.1</jive.version>
-        <final.name>${project.artifactId}-${jive.version}-${project.version}</final.name>
+        <final.name>${project.artifactId}</final.name>
         <emma-maven-plugin.version>1.0-alpha-3</emma-maven-plugin.version>
         <emma.coverage.out.file>${project.build.directory}/coverage.ec</emma.coverage.out.file>
     </properties>
@@ -287,6 +275,11 @@
             <artifactId>hamcrest-library</artifactId>
             <version>1.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>15.0</version>
         </dependency>
     </dependencies>
     <profiles>

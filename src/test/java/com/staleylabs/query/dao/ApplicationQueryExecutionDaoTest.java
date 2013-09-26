@@ -13,9 +13,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
@@ -50,14 +48,6 @@ public class ApplicationQueryExecutionDaoTest {
     public void tearDown() throws Exception {
         classUnderTest = null;
         mockResultSet = null;
-    }
-
-    @Test
-    public void testRetrieveResults() throws Exception {
-        List<Map<String, Object>> result = classUnderTest.retrieveResults(SELECT_JIVE_USER, 1, 1);
-
-        verify(jiveJdbcDaoSupport.getSimpleJdbcTemplate().queryForList(SELECT_JIVE_USER));
-        assertEquals(mockResultSet, result);
     }
 
     @Test

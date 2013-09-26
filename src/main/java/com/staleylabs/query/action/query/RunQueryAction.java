@@ -12,14 +12,12 @@ import org.springframework.jdbc.BadSqlGrammarException;
 import java.util.List;
 
 /**
- * StaleyLabs
+ * Controller used for Running an application database query against the Jive application.
  *
  * @author Sean M. Staley
  * @version 2.0 (5/14/12)
  */
 public class RunQueryAction extends AdminActionSupport {
-
-    private static final long serialVersionUID = 7695055626966332768L;
 
     private static final Logger log = Logger.getLogger(RunQueryAction.class);
 
@@ -38,6 +36,8 @@ public class RunQueryAction extends AdminActionSupport {
     private int currentPage;
 
     private int resultsPerPage;
+
+    private int totalPages = 1;
 
     @Autowired
     private QueryValidationService validationService;
@@ -70,6 +70,8 @@ public class RunQueryAction extends AdminActionSupport {
             }
 
             queryResults = formatService.returnQueryResults(databaseQuery, getCurrentPage(), getResultsPerPage());
+            setDatabaseQuery(databaseQuery.toUpperCase());
+            setTotalPages(formatService.getTotalQueryPages());
         } catch (BadSqlGrammarException e) {
             log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " + getUser().getUsername(), e);
             setCompleted(false);
@@ -86,7 +88,7 @@ public class RunQueryAction extends AdminActionSupport {
     }
 
     public String getDatabaseQuery() {
-        return databaseQuery;
+        return StringUtils.trimToEmpty(databaseQuery);
     }
 
     public void setDatabaseQuery(String databaseQuery) {
@@ -147,5 +149,13 @@ public class RunQueryAction extends AdminActionSupport {
 
     public void setResultsPerPage(int resultsPerPage) {
         this.resultsPerPage = (resultsPerPage >= 10) ? resultsPerPage : 10;
+    }
+
+    public int getTotalPages() {
+        return totalPages;
+    }
+
+    public void setTotalPages(int totalPages) {
+        this.totalPages = totalPages;
     }
 }

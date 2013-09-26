@@ -22,7 +22,7 @@ public class PaginationUtils<E> {
 
     private static final Logger log = Logger.getLogger(PaginationUtils.class);
 
-    public QueryPage<E> fetchPage( final JdbcTemplate jt, final String sqlCountRows, final String sqlFetchRows, final int pageNo, final int pageSize) {
+    public QueryPage<E> fetchPage(final JdbcTemplate jt, final String sqlCountRows, final String sqlFetchRows, final int pageNo, final int pageSize) {
 
         // determine how many rows are available
         final int rowCount = jt.queryForInt(sqlCountRows);

@@ -25,9 +25,10 @@
     to the application database.
     <br>
     <br>
-    To view the schema of the application database, follow this <a
-        href="<@s.text name="dbQuery.link.database.application" />" title="Jive 5.0 Application Database Schema"
-        target="_blank">link</a>.
+    To view the schema of the application database, follow this
+    <a href="<@s.text name="dbQuery.link.database.application" />"
+       title="<@s.text name="dbQuery.hover.database.application" />"
+       target="_blank">link</a>.
     <br>
     <br>
 <#if !selectQuery>
@@ -82,26 +83,31 @@
 
 <div id="pageOptions" style="padding: 5px">
     <div id="resultPerPageDiv" style="align: left">
+        <span style="display: none" id="resultPageCount">${resultsPerPage}</span>
         <strong>Results Per Page:</strong>
-        <select id="queryResultsPerPage" name="resultsPerPage" form="queryForm" onchange="sendForm()">
-            <option selected="selected" value="10">10</option>
+        <select id="resultPageSelect" name="resultsPerPage" class="selection" form="queryForm"
+                onchange="sendForm()">
+            <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
             <option value="40">40</option>
             <option value="50">50</option>
         </select>
     </div>
-    <div id="queryPagination" style="align: right">
-        Select Page:
+    <div id="queryPagination">
+        <span style="display: none" id="pageCount">${currentPage}</span>
+        <strong>Select Page:</strong>
+        <select name="currentPage" id="pageSelect" form="queryForm" class="selection" onchange="sendForm()">
+            <#assign x=totalPages>
+            <#list 1..x as i>
+                <option value="${i}">${i}</option>
+            </#list>
+        </select>
     </div>
 </div>
 </#if>
-
+<script type="text/javascript" src='<@s.url value="/plugins/database-query-plugin/resources/script/main.js"/>'></script>
 <script type="text/javascript">
-    function sendForm() {
-        document.getElementById("queryForm").submit();
-    }
-
     (function (i, s, o, g, r, a, m) {
         i['GoogleAnalyticsObject'] = r;
         i[r] = i[r] || function () {

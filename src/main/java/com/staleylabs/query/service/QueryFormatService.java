@@ -1,6 +1,7 @@
 package com.staleylabs.query.service;
 
 import com.jivesoftware.util.CollectionUtils;
+import com.staleylabs.query.beans.QueryPage;
 import com.staleylabs.query.dao.ApplicationQueryExecutionDao;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ public class QueryFormatService {
 
     @Autowired
     private ApplicationQueryExecutionDao applicationExecutionDao;
+
+    private int totalQueryPages;
 
     /**
      * Provides us with a nice ArrayList of column names.
@@ -105,6 +108,15 @@ public class QueryFormatService {
      * @return formatted ArrayList of rows
      */
     public List<List<String>> returnQueryResults(String inputQuery, int pageNumber, int resultsPerPage) {
-        return formatResults(applicationExecutionDao.retrieveResults(inputQuery, pageNumber, resultsPerPage));
+        final QueryPage<Map<String,Object>> mapQueryPage = applicationExecutionDao.retrieveResults(inputQuery, pageNumber, resultsPerPage);
+
+        // Setting the number of query pages.
+        totalQueryPages = mapQueryPage.getPagesAvailable();
+
+        return formatResults(mapQueryPage.getPageItems());
+    }
+
+    public int getTotalQueryPages() {
+        return totalQueryPages;
     }
 }

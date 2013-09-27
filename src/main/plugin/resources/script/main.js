@@ -14,10 +14,18 @@ function sendForm() {
  * @param value The value of the selector that will be selected.
  */
 function updateSelectedOption(node, value) {
-    console.log("Updating node " + node + " with " + value);
-    node.selectedIndex = value - 1;
+    if ((node && node != undefined) && (value && value != undefined)) {
+
+        console.log("Updating node " + node + " with " + value);
+        node.selectedIndex = value - 1;
+    }
 }
 
-updateSelectedOption(document.getElementById("pageSelect"), document.getElementById("pageCount").valueOf().innerHTML);
-updateSelectedOption(document.getElementById("resultPageSelect"), (document.getElementById('resultPageCount').valueOf().innerHTML / 10));
+var pageCountNode = document.getElementById("pageCount");
+var resultPageCountNode = document.getElementById('resultPageCount');
+
+if ((pageCountNode && pageCountNode !== undefined) && (resultPageCountNode && resultPageCountNode !== undefined)) {
+    updateSelectedOption(document.getElementById("pageSelect"), pageCountNode.valueOf().innerHTML);
+    updateSelectedOption(document.getElementById("resultPageSelect"), (resultPageCountNode.valueOf().innerHTML / 10));
+}
 

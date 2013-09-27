@@ -1,32 +1,25 @@
-package com.staleylabs.query.service;
+package com.staleylabs.query.format;
 
 import com.jivesoftware.util.CollectionUtils;
-import com.staleylabs.query.beans.QueryPage;
-import com.staleylabs.query.dao.ApplicationQueryExecutionDao;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 /**
- * StaleyLabs
+ * Utility class used for formatting query results from a collection of maps to a nice list of rows to present to the
+ * User Interface.
  *
  * @author Sean M. Staley
- * @version 2.0 (2/7/13)
+ * @version 2.0 (9/26/13)
  */
 
-public class QueryFormatService {
+public class QueryFormatter {
 
     public static final String NO_RESULTS = "Your query did not return any results.";
 
-    private static final Logger log = Logger.getLogger(QueryFormatService.class);
-
-    @Autowired
-    private ApplicationQueryExecutionDao applicationExecutionDao;
-
-    private int totalQueryPages;
+    private static final Logger log = Logger.getLogger(QueryFormatter.class);
 
     /**
      * Provides us with a nice ArrayList of column names.
@@ -34,7 +27,7 @@ public class QueryFormatService {
      * @param rawResults The raw, ill formatted results that is returned by Spring.
      * @return {@link List} that contains all of the names of the columns in the table that has been queried.
      */
-    private List<String> retrieveColumnNames(List<Map<String, Object>> rawResults) {
+    private static List<String> retrieveColumnNames(List<Map<String, Object>> rawResults) {
         List<String> columnNames = new ArrayList<String>();
 
         if (CollectionUtils.isEmpty(rawResults)) {
@@ -51,10 +44,9 @@ public class QueryFormatService {
      * This method is necessary to restructure the results into a nice array of row strings.
      *
      * @param rawResults Results that are contained in a list of maps.
-     * @return Results that are formatted into a {@link List} for convention
+     * @return Results that are formatted into a {@link java.util.List} for convention
      */
-    private List<List<String>> formatResults(List<Map<String, Object>> rawResults) {
-
+    public static List<List<String>> formatResults(List<Map<String, Object>> rawResults) {
         final List<List<String>> allRows = new ArrayList<List<String>>();
         final List<String> columnNames = retrieveColumnNames(rawResults);
 
@@ -64,6 +56,7 @@ public class QueryFormatService {
 
             // Iterate through the List of Maps. For each map, grab all of the columns and display.
             log.debug("Beginning to format " + rawResults.size() + " results.");
+
             for (int currentRow = 0; currentRow < rawResults.size(); ) {
                 final Map<String, Object> vanillaMaps = rawResults.get(currentRow);
                 final List<String> row = new ArrayList<String>();
@@ -86,7 +79,6 @@ public class QueryFormatService {
                 if (rawResults.size() != 1) {
                     rawResults.remove(currentRow);
                 } else {
-                    System.gc();
                     break;
                 }
             }
@@ -96,27 +88,10 @@ public class QueryFormatService {
         } else {
             List<String> noResults = new ArrayList<String>();
             noResults.add(NO_RESULTS);
+
             allRows.add(0, noResults);
         }
         return allRows;
     }
 
-    /**
-     * The public facing method that provides the end user with the formatted query rows.
-     *
-     * @param inputQuery query that the user would like to run
-     * @return formatted ArrayList of rows
-     */
-    public List<List<String>> returnQueryResults(String inputQuery, int pageNumber, int resultsPerPage) {
-        final QueryPage<Map<String,Object>> mapQueryPage = applicationExecutionDao.retrieveResults(inputQuery, pageNumber, resultsPerPage);
-
-        // Setting the number of query pages.
-        totalQueryPages = mapQueryPage.getPagesAvailable();
-
-        return formatResults(mapQueryPage.getPageItems());
-    }
-
-    public int getTotalQueryPages() {
-        return totalQueryPages;
-    }
 }

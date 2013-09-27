@@ -7,13 +7,13 @@
         http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd"
        default-autowire="no" default-init-method="init" default-destroy-method="destroy">
 
-    <import resource="classpath:spring-analyticsContext.xml" />
+    <import resource="classpath:spring-analyticsContext.xml"/>
 
     <bean class="com.staleylabs.query.DatabaseQueryPlugin"/>
 
     <bean id="applicationExecutionDao" class="com.staleylabs.query.dao.impl.ApplicationQueryExecutionDaoImpl">
         <property name="dataSource">
-            <util:property-path path="dataSourceFactory.dataSource" />
+            <util:property-path path="dataSourceFactory.dataSource"/>
         </property>
     </bean>
 
@@ -21,10 +21,7 @@
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
-    <bean id="csvBuildService" class="com.staleylabs.query.service.CsvBuildService" />
+    <bean id="csvBuildService" class="com.staleylabs.query.service.CsvBuildService"/>
 
-    <bean id="formatService" class="com.staleylabs.query.service.QueryFormatService" />
-
-    <bean id="validationService" class="com.staleylabs.query.service.QueryValidationService" />
-
+    <bean id="queryService" class="com.staleylabs.query.service.QueryService"/>
 </beans>

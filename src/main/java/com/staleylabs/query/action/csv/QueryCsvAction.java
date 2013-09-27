@@ -3,8 +3,8 @@ package com.staleylabs.query.action.csv;
 import au.com.bytecode.opencsv.CSVWriter;
 import com.jivesoftware.community.action.admin.AdminActionSupport;
 import com.jivesoftware.util.StringUtils;
-import com.staleylabs.query.service.QueryFormatService;
-import com.staleylabs.query.service.QueryValidationService;
+import com.staleylabs.query.service.QueryService;
+import com.staleylabs.query.validator.QueryValidator;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +21,7 @@ import java.util.List;
  * @version 2.0
  * @since 1.0 (9/17/12)
  */
+
 public class QueryCsvAction extends AdminActionSupport {
 
     private static final Logger log = Logger.getLogger(QueryCsvAction.class);
@@ -36,10 +37,7 @@ public class QueryCsvAction extends AdminActionSupport {
     private boolean cleanQuery = true;
 
     @Autowired
-    private QueryValidationService validationService;
-
-    @Autowired
-    private QueryFormatService formatService;
+    private QueryService queryService;
 
     public String execute() {
 
@@ -48,27 +46,26 @@ public class QueryCsvAction extends AdminActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        if (!validationService.validateSelectQuery(databaseQuery)) {
+        if (!QueryValidator.validateSelectQuery(databaseQuery)) {
             setSelectQuery(false);
             return INPUT;
         }
 
         final List<List<String>> arrayOfRows;
         try {
-            // TODO: Fix this.
-            arrayOfRows = formatService.returnQueryResults(databaseQuery, 1, 1);
+            arrayOfRows = queryService.returnBulkQueryResults(databaseQuery);
             response.setHeader("Cache-Control", "private");
             String csv = generateCsv(arrayOfRows);
 
             setCsvStream(createCsvStream(csv));
 
         } catch (BadSqlGrammarException bse) {
-            log.error("Database Query Plugin: Bad SQL grammar when querying Application Database by " +
-                    getUser().getUsername());
+            log.error("Bad SQL grammar when generating a CSV in the Application Database.\n" + databaseQuery);
             setCleanQuery(false);
             return INPUT;
 
         }
+
         return "export";
     }
 
@@ -89,6 +86,7 @@ public class QueryCsvAction extends AdminActionSupport {
      */
     protected String generateCsv(List<List<String>> arraysOfRows) {
         int numberOfColumns = arraysOfRows.get(0).size();
+
         // Allocate the line array once
         String[] line = new String[numberOfColumns];
 

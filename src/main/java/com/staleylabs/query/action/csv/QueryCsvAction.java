@@ -46,7 +46,7 @@ public class QueryCsvAction extends AdminActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        if (!QueryValidator.validateSelectQuery(databaseQuery)) {
+        if (QueryValidator.isNotSelectQuery(databaseQuery)) {
             setSelectQuery(false);
             return INPUT;
         }

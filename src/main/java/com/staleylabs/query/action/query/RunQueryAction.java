@@ -16,6 +16,7 @@ import org.springframework.jdbc.BadSqlGrammarException;
  * @version 2.0 (5/14/12)
  */
 
+@SuppressWarnings("FieldCanBeLocal")
 public class RunQueryAction extends AdminActionSupport {
 
     private static final Logger log = Logger.getLogger(RunQueryAction.class);
@@ -46,7 +47,7 @@ public class RunQueryAction extends AdminActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        else if (!QueryValidator.validateSelectQuery(databaseQuery)) {
+        else if (QueryValidator.isNotSelectQuery(databaseQuery)) {
             isSelectQuery = false;
             return INPUT;
         }

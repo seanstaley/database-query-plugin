@@ -41,6 +41,7 @@ public class PaginationUtils<E> {
         // fetch a single page of results
         final int startRow = (pageNo - 1) * pageSize;
         jt.query(sqlFetchRows, new ResultSetExtractor<Object>() {
+            @SuppressWarnings("unchecked")
             @Override
             public Object extractData(ResultSet rs) throws SQLException, DataAccessException {
                 final List pageItems = page.getPageItems();

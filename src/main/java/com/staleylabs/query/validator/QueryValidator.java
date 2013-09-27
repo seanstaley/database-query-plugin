@@ -15,12 +15,12 @@ public final class QueryValidator {
     private static final Logger log = Logger.getLogger(QueryValidator.class);
 
     /**
-     * Method to validate the query to make sure that you can not use any other functions but SELECT.
+     * Validates that a query is not a <strong>SELECT</strong> statement only.
      *
-     * @param defendingQuery The query that is being passed to the application database.
-     * @return <code>true</code> if the query is a <code>SELECT</code> statement, <code>false</code> if anything else
+     * @param defendingQuery Query that requires validation.
+     * @return {@code true} if the query is not a <strong>SELECT</strong> statement.
      */
-    public static boolean validateSelectQuery(String defendingQuery) {
+    public static boolean isNotSelectQuery(String defendingQuery) {
         log.debug("Inside of validateSelectQuery() of QueryValidation; validateSelectQuery method...");
         boolean validated = false;
 
@@ -37,6 +37,16 @@ public final class QueryValidator {
             validated = true;
         }
 
-        return validated;
+        return !validated;
+    }
+
+    /**
+     * Validates that a given query is in fact only a {@code SELECT} query.
+     *
+     * @param defendingQuery Query that needs to be validated.
+     * @return {@code true} if the query is a <strong>SELECT</strong> statement.
+     */
+    public static boolean isSelectQuery(String defendingQuery) {
+        return !isNotSelectQuery(defendingQuery);
     }
 }

@@ -35,6 +35,7 @@ public class MapRowMapper implements RowMapper<Map<String, Object>> {
         return mapRowMapper;
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Map<String, Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
         Map<String, Object> row = Collections.EMPTY_MAP;

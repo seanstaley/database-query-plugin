@@ -49,7 +49,7 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
         }
 
         //Is the query NOT a SELECT query?
-        else if (!QueryValidator.validateSelectQuery(databaseQuery)) {
+        else if (QueryValidator.isNotSelectQuery(databaseQuery)) {
             isSelectQuery = false;
             return INPUT;
         }

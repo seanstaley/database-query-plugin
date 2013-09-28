@@ -17,8 +17,6 @@ import java.util.Map;
 
 public class ApplicationQueryExecutionDao extends JiveJdbcDaoSupport {
 
-    public static final String NO_RESULTS = "Your query did not return any results.";
-
     private static final Logger log = Logger.getLogger(ApplicationQueryExecutionDao.class);
 
     private final PaginationUtils<Map<String, Object>> page = new PaginationUtils<Map<String, Object>>();

@@ -31,6 +31,8 @@ public final class QueryValidator {
             if (query.startsWith("SELECT") && !query.toUpperCase().contains("INTO")) {
                 log.info("Query, " + defendingQuery + ", is a SELECT query and has been validated.");
                 validated = true;
+            } else {
+                log.info("Query, " + defendingQuery + ", is not a SELECT query!");
             }
         } else {
             log.info("Query was empty and therefore validated.");

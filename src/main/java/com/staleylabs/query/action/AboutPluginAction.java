@@ -1,6 +1,6 @@
 package com.staleylabs.query.action;
 
-import com.jivesoftware.community.action.JiveActionSupport;
+import com.jivesoftware.community.action.admin.AdminActionSupport;
 import org.apache.log4j.Logger;
 
 /**
@@ -10,7 +10,8 @@ import org.apache.log4j.Logger;
  * @version 2.0 (3/17/13)
  */
 
-public class AboutPluginAction extends JiveActionSupport {
+public class AboutPluginAction extends AdminActionSupport {
+
     private static final Logger log = Logger.getLogger(AboutPluginAction.class);
 
     @Override

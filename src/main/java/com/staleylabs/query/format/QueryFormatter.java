@@ -27,7 +27,7 @@ public class QueryFormatter {
      * @param rawResults The raw, ill formatted results that is returned by Spring.
      * @return {@link List} that contains all of the names of the columns in the table that has been queried.
      */
-    private static List<String> retrieveColumnNames(List<Map<String, Object>> rawResults) {
+    protected static List<String> retrieveColumnNames(List<Map<String, Object>> rawResults) {
         List<String> columnNames = new ArrayList<String>();
 
         if (CollectionUtils.isEmpty(rawResults)) {
@@ -37,6 +37,7 @@ public class QueryFormatter {
         for (String columnName : rawResults.get(0).keySet()) {
             columnNames.add(columnName);
         }
+
         return columnNames;
     }
 

@@ -60,7 +60,6 @@
         <input type="submit" value="Submit"/> <input type="reset" value="Cancel"/>
     </div>
 </form>
-
 <#if completed>
 <br>
 <strong>

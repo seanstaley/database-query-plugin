@@ -26,8 +26,8 @@
     <br>
     <br>
     To view the schema of the analytics database, follow this <a
-        href=<@s.text name="dbQuery.link.database.analytics" /> target="_blank" title="Jive 5.0 Analytics Database
-    Schema">link</a>.
+        href=<@s.text name="dbQuery.link.database.analytics" /> target="_blank"
+    title="<@.text name="dbQuery.hover.database.analytic"/>">link</a>.
     <br>
     <br>
 </p>
@@ -45,15 +45,17 @@
     </div>
     </#if>
 
-<form action="analytics-query-page.jspa" method="POST">
-    <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10"></textarea>
+<form id="queryForm" action="analytics-query-page.jspa" method="POST">
+    <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10">
+        <#if result?? && result.query??>${result.query}</#if>
+    </textarea>
     <br>
     <input type="submit" value="Submit"/> <input type="reset" value="Clear"/>
 </form>
 
     <#if completed>
     <br>
-    <i><@s.text name="dbQuery.query.success.analyticsQuery.message" /> ${databaseQuery}</i>
+    <i><@s.text name="dbQuery.query.success.analyticsQuery.message" /> ${result.databaseQuery}</i>
     <br><br>
 
         <#if !results>
@@ -65,7 +67,7 @@
 
     <div id="resultDiv">
         <table id="resultTable" border="0">
-            <#list queryResults as arraylists>
+            <#list result.queryResults as arraylists>
                 <tr>
                     <#list arraylists as rowEntry>
                         <td>${rowEntry}</td>
@@ -74,7 +76,34 @@
             </#list>
         </table>
     </div>
+
+    <div id="pageOptions" style="padding: 5px">
+        <div id="resultPerPageDiv" style="align: left">
+            <span style="display: none" id="resultPageCount">${result.currentResultsPerPage}</span>
+
+            <strong>Results Per Page:</strong>
+            <select id="resultPageSelect" name="resultsPerPage" class="selection" form="queryForm">
+                <option value="10">10</option>
+                <option value="20">20</option>
+                <option value="30">30</option>
+                <option value="40">40</option>
+                <option value="50">50</option>
+            </select>
+        </div>
+        <div id="queryPagination">
+            <span style="display: none" id="pageCount">${result.currentPage}</span>
+
+            <strong>Select Page:</strong>
+            <select name="currentPage" id="pageSelect" form="queryForm" class="selection" onchange="sendForm()">
+                <#assign x = result.totalPages>
+                <#list 1..x as i>
+                    <option value="${i}">${i}</option>
+                </#list>
+            </select>
+        </div>
+    </div>
     </#if>
+<script type="text/javascript" src='<@s.url value="/plugins/database-query-plugin/resources/script/main.js"/>'></script>
 <#else>
     <@s.text name="dbQuery.analytics.module.disabled" />
 </#if>

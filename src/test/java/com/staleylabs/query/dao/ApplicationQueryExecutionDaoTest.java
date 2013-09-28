@@ -1,20 +1,9 @@
 package com.staleylabs.query.dao;
 
-import com.jivesoftware.base.database.dao.JiveJdbcDaoSupport;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.MockitoAnnotations.initMocks;
 
 /**
  * StaleyLabs
@@ -24,45 +13,26 @@ import static org.mockito.MockitoAnnotations.initMocks;
  */
 
 public class ApplicationQueryExecutionDaoTest {
-    private static final int RESULT_SIZE = 10;
+
     private static final String SELECT_JIVE_USER = "SELECT * FROM JIVEUSER;";
+
     private static final String SELECT_JIVE_USER_COUNT = "SELECT COUNT(1) FROM JIVEUSER;";
 
-    @InjectMocks
-    private ApplicationQueryExecutionDao classUnderTest;
+    private static final String SELECT_JIVE_USER_SUB_SELECT = "SELECT USER FROM (SELECT USER FROM JIVEUSER);";
 
-    private List<Map<String, Object>> mockResultSet;
+    private static final String SELECT_JIVE_USER_SUB_SELECT_COUNT = "SELECT COUNT(1) FROM (SELECT USER FROM JIVEUSER);";
 
-    @Mock
-    private JiveJdbcDaoSupport jiveJdbcDaoSupport;
+    private static final String SELECT_JIVE_USER_INNER_JOIN = "SELECT * FROM JIVEUSER INNER JOIN JIVEPROPERTY ON NOTHING = NOTHING;";
 
-    @Before
-    public void setUp() throws Exception {
-        classUnderTest = new ApplicationQueryExecutionDao();
-        mockResultSet = buildMockResultSet(RESULT_SIZE);
+    private static final String SELECT_JIVE_USER_INNER_JOIN_COUNT = "SELECT COUNT(1) FROM JIVEUSER INNER JOIN JIVEPROPERTY ON NOTHING = NOTHING;";
 
-        initMocks(this);
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        classUnderTest = null;
-        mockResultSet = null;
-    }
-
-    @Test
-    public void testIsOverResultLimit() throws Exception {
-
-    }
+    private final ApplicationQueryExecutionDao classUnderTest = new ApplicationQueryExecutionDao();
 
     @Test
     public void testGenerateQuerySizeString() throws Exception {
-        String query = "SELECT * FROM JIVEUSER;";
+        String actual = classUnderTest.generateQuerySizeString(SELECT_JIVE_USER);
 
-        String expected = "SELECT COUNT(1) FROM JIVEUSER;";
-        String actual = classUnderTest.generateQuerySizeString(query);
-
-        assertThat(actual, is(expected));
+        assertThat(actual, is(SELECT_JIVE_USER_COUNT));
     }
 
     @Test
@@ -75,15 +45,17 @@ public class ApplicationQueryExecutionDaoTest {
         assertThat(actual, is(expected));
     }
 
-    private List<Map<String, Object>> buildMockResultSet(int resultSize) {
-        List<Map<String, Object>> resultList = new ArrayList<Map<String, Object>>(resultSize);
+    @Test
+    public void testGenerateQuerySizeString_sub_select() throws Exception {
+        String actual = classUnderTest.generateQuerySizeString(SELECT_JIVE_USER_SUB_SELECT);
 
-        for(int count = 0; count<resultSize; count++)  {
-            Map<String, Object> resultMap = new ConcurrentHashMap<String, Object>();
-            resultMap.put("Username", "user"+count);
-            resultMap.put("Password", "wazup"+count);
-            resultList.add(resultMap);
-        }
-        return resultList;
+        assertThat(actual, is(SELECT_JIVE_USER_SUB_SELECT_COUNT));
+    }
+
+    @Test
+    public void testGenerateQuerySizeString_inner_join() throws Exception {
+        String actual = classUnderTest.generateQuerySizeString(SELECT_JIVE_USER_INNER_JOIN);
+
+        assertThat(actual, is(SELECT_JIVE_USER_INNER_JOIN_COUNT));
     }
 }

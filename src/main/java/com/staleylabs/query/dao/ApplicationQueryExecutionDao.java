@@ -5,6 +5,7 @@ import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.beans.QueryPage;
 import com.staleylabs.query.utils.PaginationUtils;
 import org.apache.log4j.Logger;
+import org.springframework.jdbc.BadSqlGrammarException;
 
 import java.util.Map;
 
@@ -27,7 +28,8 @@ public class ApplicationQueryExecutionDao extends JiveJdbcDaoSupport {
      * @param query Query to execute against the database
      * @return The raw results of the query that was performed against the application database.
      */
-    public QueryPage<Map<String, Object>> retrieveResults(final String query, final int pageNumber, final int resultsPerPage) {
+    public QueryPage<Map<String, Object>> retrieveResults(final String query, final int pageNumber,
+                                                          final long resultsPerPage) throws BadSqlGrammarException {
         log.debug("Database Query Plugin: Running the following query. \n" + query);
 
         return page.fetchPage(getJdbcTemplate(), generateQuerySizeString(query), query, pageNumber, resultsPerPage);
@@ -39,7 +41,7 @@ public class ApplicationQueryExecutionDao extends JiveJdbcDaoSupport {
      * @param incomingQuery The query that the user wants to run against the database.
      * @return <code>int</code> representing the number of rows that will be returned.
      */
-    protected String generateQuerySizeString(String incomingQuery) {
+    protected static String generateQuerySizeString(String incomingQuery) {
         final StringBuilder countQuery = new StringBuilder("SELECT COUNT(1) FROM");
         return countQuery.append(StringUtils.substringAfter(incomingQuery.toUpperCase(), "FROM")).toString();
     }

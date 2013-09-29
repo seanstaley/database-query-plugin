@@ -7,7 +7,6 @@ import com.staleylabs.query.service.QueryService;
 import com.staleylabs.query.validator.QueryValidator;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.BadSqlGrammarException;
 
 /**
  * Controller used for Running an application database query against the Jive application.
@@ -52,23 +51,17 @@ public class RunQueryAction extends AdminActionSupport {
             return INPUT;
         }
 
-        //Catching dirty SQL talk and running a nice query.
-        try {
-            if (currentPage < 1) {
-                currentPage = 1;
-            }
-
-            if (resultsPerPage < 1) {
-                resultsPerPage = 10;
-            }
-
-            result = queryService.returnQueryResult(databaseQuery, currentPage, resultsPerPage);
-            isCompleted = true;
-        } catch (BadSqlGrammarException e) {
-            log.error("Bad SQL grammar when querying Application Database:\n" + databaseQuery, e);
-
-            return INPUT;
+        if (currentPage < 1) {
+            currentPage = 1;
         }
+
+        if (resultsPerPage < 1) {
+            resultsPerPage = 10;
+        }
+
+        result = queryService.returnQueryResult(databaseQuery, currentPage, resultsPerPage);
+
+        isCompleted = true;
 
         if (result.getTotalPages() < 1) {
             isResults = false;

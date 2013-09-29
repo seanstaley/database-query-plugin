@@ -2,6 +2,7 @@ package com.staleylabs.query.dto;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,9 +20,17 @@ public class QueryResultTO {
 
     private int currentPage;
 
-    private int totalPages;
+    private long totalPages;
 
     private int currentResultsPerPage;
+
+    private boolean badSyntax;
+
+    private String badSyntaxDescription;
+
+    public QueryResultTO() {
+        this.resultSet = Collections.emptyList();
+    }
 
     public String getQuery() {
         return query;
@@ -47,11 +56,11 @@ public class QueryResultTO {
         this.currentPage = currentPage;
     }
 
-    public int getTotalPages() {
+    public long getTotalPages() {
         return totalPages;
     }
 
-    public void setTotalPages(int totalPages) {
+    public void setTotalPages(long totalPages) {
         this.totalPages = totalPages;
     }
 
@@ -63,6 +72,22 @@ public class QueryResultTO {
         this.currentResultsPerPage = currentResultsPerPage;
     }
 
+    public boolean isBadSyntax() {
+        return badSyntax;
+    }
+
+    public void setBadSyntax(boolean badSyntax) {
+        this.badSyntax = badSyntax;
+    }
+
+    public String getBadSyntaxDescription() {
+        return badSyntaxDescription;
+    }
+
+    public void setBadSyntaxDescription(String badSyntaxDescription) {
+        this.badSyntaxDescription = badSyntaxDescription;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this)
@@ -70,6 +95,8 @@ public class QueryResultTO {
                 .append("currentPage", currentPage)
                 .append("totalPages", totalPages)
                 .append("currentResultsPerPage", currentResultsPerPage)
+                .append("badSyntax", badSyntax)
+                .append("badSyntaxDescription", badSyntaxDescription)
                 .toString();
     }
 }

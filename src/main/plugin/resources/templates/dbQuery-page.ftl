@@ -42,7 +42,7 @@
     </div>
 </#if>
 
-<#if !cleanQuery>
+<#if result?? && result.badSyntax>
     <div id="jive-error-box" class="jive-error-box" style>
         <span class="jive-icon-med jive-icon-redalert"></span>
         <@s.text name="dbQuery.query.error.databaseQuery.dirtyQuery" />
@@ -50,6 +50,7 @@
 </#if>
 </div>
 
+<#-- Form Beginning -->
 <form id="queryForm" action="database-query-page.jspa" method="POST">
     <textarea name="databaseQuery" label="Database Query: " cols="80" rows="10">
     <#if result?? && result.query??>${result.query}</#if>
@@ -60,30 +61,33 @@
         <input type="submit" value="Submit"/> <input type="reset" value="Cancel"/>
     </div>
 </form>
-<#if completed>
+<#-- Form Ending -->
+
+<#-- Completed Query Start -->
+<#if completed && result?? && !result.badSyntax>
 <br>
 <strong>
     <@s.text name="dbQuery.query.success.databaseQuery.message" />
 </strong>
 <br>
 <br>
-    <#if !results>
-    <div id="jive-info-box" class="jive-info-box" style>
-        <span class="jive-icon-med jive-icon-info"></span>
-        <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
-    </div>
-    </#if>
 
 <div id="resultDiv">
-    <table id="resultTable" border="0">
-        <#list result.resultSet as arraylists>
-            <tr>
-                <#list arraylists as rowEntry>
-                    <td>${rowEntry}</td>
+    <#if result?? && result.resultSet??>
+        <#if !result.resultSet?has_content>
+            <@s.text name="dbQuery.query.error.databaseQuery.noResults" />
+        <#else>
+            <table id="resultTable" border="0">
+                <#list result.resultSet as arraylists>
+                    <tr>
+                        <#list arraylists as rowEntry>
+                            <td>${rowEntry}</td>
+                        </#list>
+                    </tr>
                 </#list>
-            </tr>
-        </#list>
-    </table>
+            </table>
+        </#if>
+    </#if>
 </div>
 
 <div id="pageOptions" style="padding: 5px">
@@ -91,7 +95,7 @@
         <span style="display: none" id="resultPageCount">${result.currentResultsPerPage}</span>
 
         <strong>Results Per Page:</strong>
-        <select id="resultPageSelect" name="resultsPerPage" class="selection" form="queryForm">
+        <select id="resultPageSelect" name="resultsPerPage" form="queryForm">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
@@ -103,7 +107,7 @@
         <span style="display: none" id="pageCount">${result.currentPage}</span>
 
         <strong>Select Page:</strong>
-        <select name="currentPage" id="pageSelect" form="queryForm" class="selection" onchange="sendForm()">
+        <select name="currentPage" id="pageSelect" form="queryForm" onchange="sendForm()">
             <#assign x = result.totalPages>
             <#list 1..x as i>
                 <option value="${i}">${i}</option>
@@ -112,6 +116,7 @@
     </div>
 </div>
 </#if>
+<#-- Completed Query Ending -->
 
 <#-- Load scripts at the bottom of the page for better performance. -->
 <script type="text/javascript" src='<@s.url value="/plugins/database-query-plugin/resources/script/main.js"/>'></script>

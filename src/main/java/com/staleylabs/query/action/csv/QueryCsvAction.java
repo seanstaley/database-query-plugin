@@ -1,6 +1,7 @@
 package com.staleylabs.query.action.csv;
 
 import au.com.bytecode.opencsv.CSVWriter;
+import com.jivesoftware.community.JiveGlobals;
 import com.jivesoftware.community.action.admin.AdminActionSupport;
 import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.service.QueryService;
@@ -25,6 +26,8 @@ import java.util.List;
 public class QueryCsvAction extends AdminActionSupport {
 
     private static final Logger log = Logger.getLogger(QueryCsvAction.class);
+
+    private static final int MAX_ROWS = JiveGlobals.getJiveIntProperty("staleylabs.csv.limit", 1000);
 
     private final Date date = new Date();
 
@@ -53,7 +56,7 @@ public class QueryCsvAction extends AdminActionSupport {
 
         final List<List<String>> arrayOfRows;
         try {
-            arrayOfRows = queryService.returnBulkQueryResults(databaseQuery);
+            arrayOfRows = queryService.returnBulkQueryResults(databaseQuery, MAX_ROWS);
             response.setHeader("Cache-Control", "private");
             String csv = generateCsv(arrayOfRows);
 
@@ -98,6 +101,11 @@ public class QueryCsvAction extends AdminActionSupport {
                 line[i] = currentRow.get(i);
             }
 
+            csvWriter.writeNext(line);
+        }
+
+        if (arraysOfRows.size() >= MAX_ROWS ) {
+            line[MAX_ROWS] = "To obtain a full result set, please contact Jive Support.";
             csvWriter.writeNext(line);
         }
 

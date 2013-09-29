@@ -2,8 +2,8 @@ package com.staleylabs.query.utils;
 
 import com.staleylabs.query.beans.QueryPage;
 import com.staleylabs.query.mapper.MapRowMapper;
-import org.apache.log4j.Logger;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
 
@@ -20,15 +20,14 @@ import java.util.List;
 
 public class PaginationUtils<E> {
 
-    private static final Logger log = Logger.getLogger(PaginationUtils.class);
-
-    public QueryPage<E> fetchPage(final JdbcTemplate jt, final String sqlCountRows, final String sqlFetchRows, final int pageNo, final int pageSize) {
+    public QueryPage<E> fetchPage(final JdbcTemplate jt, final String sqlCountRows, final String sqlFetchRows,
+                                  final int pageNo, final long pageSize) throws BadSqlGrammarException {
 
         // determine how many rows are available
         final int rowCount = jt.queryForInt(sqlCountRows);
 
         // calculate the number of pages
-        int pageCount = rowCount / pageSize;
+        long pageCount = rowCount / pageSize;
         if (rowCount > pageSize * pageCount) {
             pageCount++;
         }
@@ -39,7 +38,7 @@ public class PaginationUtils<E> {
         page.setPagesAvailable(pageCount);
 
         // fetch a single page of results
-        final int startRow = (pageNo - 1) * pageSize;
+        final long startRow = (pageNo - 1) * pageSize;
         jt.query(sqlFetchRows, new ResultSetExtractor<Object>() {
             @SuppressWarnings("unchecked")
             @Override

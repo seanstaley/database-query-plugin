@@ -15,7 +15,7 @@ public class QueryPage<E> {
 
     private int pageNumber;
 
-    private int pagesAvailable;
+    private long pagesAvailable;
 
     private List<E> pageItems = Lists.newLinkedList();
 
@@ -27,11 +27,11 @@ public class QueryPage<E> {
         this.pageNumber = pageNumber;
     }
 
-    public int getPagesAvailable() {
+    public long getPagesAvailable() {
         return pagesAvailable;
     }
 
-    public void setPagesAvailable(int pagesAvailable) {
+    public void setPagesAvailable(long pagesAvailable) {
         this.pagesAvailable = pagesAvailable;
     }
 

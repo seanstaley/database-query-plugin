@@ -1,25 +1,28 @@
 package com.staleylabs.query.service;
 
 import au.com.bytecode.opencsv.CSVWriter;
-import com.jivesoftware.util.StringUtils;
+import com.jivesoftware.community.JiveGlobals;
+import com.jivesoftware.community.audit.aop.Audit;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
 
 import java.io.*;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
- * StaleyLabs
+ * Service layer for exporting queries to CSV format instead of a List of List of List of List format.
  *
  * @author Sean M. Staley
  * @version 2.0
- * @since 6.0-2 (3/8/13)
  */
 
+@Service
 public class CsvBuildService {
 
     private static final Logger log = Logger.getLogger(CsvBuildService.class);
+
+    private static final int MAX_ROWS = JiveGlobals.getJiveIntProperty("staleylabs.csv.limit", 1000);
 
     /**
      * Creates and returns an InputStream to stream the given CSV file.
@@ -56,8 +59,10 @@ public class CsvBuildService {
      * @param arraysOfRows an ArrayList of ArrayList rows that will be written to the CSV
      * @return the full CSV file contents for all results returned from the two input parameters
      */
-    public String generateCsv(List<ArrayList<String>> arraysOfRows) {
+    @Audit
+    public String generateCsv(List<List<String>> arraysOfRows) {
         int numberOfColumns = arraysOfRows.get(0).size();
+
         // Allocate the line array once
         String[] line = new String[numberOfColumns];
 
@@ -72,15 +77,11 @@ public class CsvBuildService {
             csvWriter.writeNext(line);
         }
 
-        return writer.toString();
-    }
+        if (arraysOfRows.size() == MAX_ROWS ) {
+            line[0] = "To obtain a full result set, please contact Jive Support.";
+            csvWriter.writeNext(line);
+        }
 
-    /**
-     * Generates the name of the CSV export file for the query results, if any.
-     *
-     * @return the csv export filename for the current query results
-     */
-    public String generateCsvFilename() {
-        return StringUtils.makeURLSafe("application.csv");
+        return writer.toString();
     }
 }

@@ -18,10 +18,9 @@
 </head>
 <body>
 <div id="authorSection">
-    <h4>Developed by:</h4>
+    <h4>Version Developed by:</h4>
     <ul>
         <li>Sean M. Staley</li>
-        <li>Ben Walker</li>
     </ul>
 </div>
 <div id="hostedBy">

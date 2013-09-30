@@ -5,9 +5,7 @@ import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.dto.QueryResultTO;
 import com.staleylabs.query.service.QueryService;
 import com.staleylabs.query.validator.QueryValidator;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.BadSqlGrammarException;
 
 /**
  * StaleyLabs
@@ -19,18 +17,11 @@ import org.springframework.jdbc.BadSqlGrammarException;
 
 public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
-    private static final Logger log = Logger.getLogger(RunAnalyticsQueryAction.class);
-
-    @Autowired
-    protected QueryService queryService;
+    private QueryResultTO result;
 
     private String databaseQuery;
 
-    private QueryResultTO result;
-
     private boolean isSelectQuery = true;
-
-    private boolean isCleanQuery = true;
 
     private boolean isCompleted;
 
@@ -40,38 +31,31 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
     private int resultsPerPage;
 
+    @Autowired
+    private QueryService queryService;
+
     @Override
     public String execute() {
-
-        //Is the box blank? Cereal?!
+        // Parameter validation
         if (StringUtils.isBlank(databaseQuery)) {
             return INPUT;
         }
 
-        //Is the query NOT a SELECT query?
-        else if (QueryValidator.isNotSelectQuery(databaseQuery)) {
+        if (QueryValidator.isNotSelectQuery(databaseQuery)) {
             isSelectQuery = false;
             return INPUT;
         }
 
-        //Catching dirty SQL talk and running a nice query.
-        try {
-            if (currentPage < 1) {
-                setCurrentPage(1);
-            }
-
-            if (resultsPerPage < 1) {
-                setResultsPerPage(10);
-            }
-
-            result = queryService.returnAnalyticQueryResult(databaseQuery, currentPage, resultsPerPage);
-            isCompleted = true;
-        } catch (BadSqlGrammarException e) {
-            log.error("Bad SQL grammar when querying Analytics Database:\n" + databaseQuery, e);
-            isCleanQuery = false;
-
-            return INPUT;
+        if (currentPage < 1) {
+            currentPage = 1;
         }
+
+        if (resultsPerPage < 10 || resultsPerPage > 50) {
+            resultsPerPage = 10;
+        }
+
+        result = queryService.returnAnalyticQueryResult(databaseQuery, currentPage, resultsPerPage);
+        isCompleted = true;
 
         if (result.getTotalPages() < 1) {
             isResults = false;
@@ -90,10 +74,6 @@ public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
     public boolean isCompleted() {
         return isCompleted;
-    }
-
-    public boolean isCleanQuery() {
-        return isCleanQuery;
     }
 
     public boolean isResults() {

@@ -47,9 +47,10 @@ public class QueryService {
 
         log.debug("Found " + mapQueryPage.getPagesAvailable() + " pages for performed query.");
 
+        resultTO.setQuery(query.toUpperCase());
+
         // If there is not at least one page, just return the result set.
         if (mapQueryPage.getPagesAvailable() >= 1) {
-            resultTO.setQuery(query.toUpperCase());
             resultTO.setCurrentPage(pageNumber);
             resultTO.setCurrentResultsPerPage(resultsPerPage);
 

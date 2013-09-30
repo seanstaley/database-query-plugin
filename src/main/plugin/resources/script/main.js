@@ -44,8 +44,13 @@ function updateSelectedOption(node, value) {
  */
 function submitNewQuery() {
     var form = document.forms[0];
-    form['currentPage'].value = 1;
-    form['resultsPerPage'].value = 10;
+
+    if (form['currentPage'] !== undefined && form['resultsPerPage'] !== undefined) {
+        form['currentPage'].value = 1;
+        form['resultsPerPage'].value = 10;
+    }
+
+    _gaq.push(['_trackEvent', 'Query', 'First Query', form['databaseQuery']]);
 }
 
 // Start of on page load content.

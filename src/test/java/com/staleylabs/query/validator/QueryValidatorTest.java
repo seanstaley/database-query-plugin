@@ -73,4 +73,19 @@ public class QueryValidatorTest {
     public void testIsSelectQuery_select_into() throws Exception {
         assertFalse(QueryValidator.isSelectQuery(SELECT_INTO_QUERY));
     }
+
+    @Test
+    public void testValidParameters_select_exceed_results_per_page() throws Exception {
+        assertFalse(QueryValidator.validParameters(SELECT_QUERY, 100));
+    }
+
+    @Test
+    public void testValidParameters_select_normal_results_per_page() throws Exception {
+        assertTrue(QueryValidator.validParameters(SELECT_QUERY, 50));
+    }
+
+    @Test
+    public void testValidParameters_select_minimum_results_per_page() throws Exception {
+        assertTrue(QueryValidator.validParameters(SELECT_QUERY, 10));
+    }
 }

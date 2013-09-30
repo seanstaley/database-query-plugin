@@ -51,4 +51,17 @@ public final class QueryValidator {
     public static boolean isSelectQuery(String defendingQuery) {
         return !isNotSelectQuery(defendingQuery);
     }
+
+    /**
+     * Validation method used to determine that the query matches our given criteria and that the user has not hacked
+     * the plugin to return more than 50 results on the page at a time.
+     *
+     * @param query          The query to be validated.
+     * @param resultsPerPage The number of results set to be displayed.
+     * @return {@code true} if the query is a <strong>SELECT</strong> and the results are between 10 and 50.
+     */
+    public static boolean validParameters(String query, int resultsPerPage) {
+        return (StringUtils.isNotBlank(query) && isSelectQuery(query)
+                && (resultsPerPage >= 10 && resultsPerPage <= 50));
+    }
 }

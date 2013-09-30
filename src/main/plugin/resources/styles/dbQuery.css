@@ -41,3 +41,12 @@ table tr td:last-child,
 table tr th:last-child {
     border-right: 0;
 }
+
+.resultOptions {
+    padding: 5px;
+    width: 900px;
+}
+
+.dbqInformation {
+    width: 900px;
+}

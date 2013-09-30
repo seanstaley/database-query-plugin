@@ -1,9 +1,26 @@
-/*
+/**
+ * JavaScript functions to be used for the plugin.
+ *
+ * @author Sean M. Staley
+ * @version 2.0
+ */
+
+/**
  * Function used to send the query form back to the application once the page number, or results to display has been
  * changed in the UI.
  */
 function sendForm() {
     document.getElementById("queryForm").submit();
+}
+
+/**
+ * Function that is called when the results per page selection is updated.
+ */
+function updateResultsPerPage() {
+    var form = document.forms[0];
+    form['currentPage'].value = 1;
+
+    sendForm();
 }
 
 /**
@@ -21,6 +38,17 @@ function updateSelectedOption(node, value) {
     }
 }
 
+/**
+ * On submitting a new query to the application, the page and results per page will need to be set back to the default
+ * values of the first page, and 10 results.
+ */
+function submitNewQuery() {
+    var form = document.forms[0];
+    form['currentPage'].value = 1;
+    form['resultsPerPage'].value = 10;
+}
+
+// Start of on page load content.
 var pageCountNode = document.getElementById("pageCount");
 var resultPageCountNode = document.getElementById('resultPageCount');
 

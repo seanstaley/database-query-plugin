@@ -19,7 +19,7 @@
           href='<@s.url value="/plugins/database-query-plugin/resources/styles/dbQuery.css"/>'/>
 </head>
 <body>
-<div id="queryInformation">
+<div id="queryInformation" class="dbqInformation">
     <p>
         This page provides you with the ability to directly query the application database from within the
         <i>Admin Console</i> of your Jive application. Please note that you can only perform <strong>SELECT</strong>
@@ -58,7 +58,7 @@
     <br>
 
     <div style="padding: 5px">
-        <input type="submit" value="Submit"/> <input type="reset" value="Cancel"/>
+        <input type="submit" value="Submit" onclick="submitNewQuery()"/> <input type="reset" value="Cancel"/>
     </div>
 </form>
 <#-- Form Ending -->
@@ -90,30 +90,26 @@
     </#if>
 </div>
 
-<div id="pageOptions" style="padding: 5px">
-    <div id="resultPerPageDiv" style="align: left">
-        <span style="display: none" id="resultPageCount">${result.currentResultsPerPage}</span>
+<div id="pageOptions" class="resultOptions">
+    <span style="display: none" id="resultPageCount">${result.currentResultsPerPage}</span>
+    <span style="display: none" id="pageCount">${result.currentPage}</span>
 
-        <strong>Results Per Page:</strong>
-        <select id="resultPageSelect" name="resultsPerPage" form="queryForm">
-            <option value="10">10</option>
-            <option value="20">20</option>
-            <option value="30">30</option>
-            <option value="40">40</option>
-            <option value="50">50</option>
-        </select>
-    </div>
-    <div id="queryPagination">
-        <span style="display: none" id="pageCount">${result.currentPage}</span>
+    <strong>Results Per Page:</strong>
+    <select id="resultPageSelect" name="resultsPerPage" form="queryForm" onchange="updateResultsPerPage()">
+        <option value="10">10</option>
+        <option value="20">20</option>
+        <option value="30">30</option>
+        <option value="40">40</option>
+        <option value="50">50</option>
+    </select>
 
-        <strong>Select Page:</strong>
-        <select name="currentPage" id="pageSelect" form="queryForm" onchange="sendForm()">
-            <#assign x = result.totalPages>
-            <#list 1..x as i>
-                <option value="${i}">${i}</option>
-            </#list>
-        </select>
-    </div>
+    <strong>Select Page:</strong>
+    <select name="currentPage" id="pageSelect" form="queryForm" onchange="sendForm()">
+        <#assign x = result.totalPages>
+        <#list 1..x as i>
+            <option value="${i}">${i}</option>
+        </#list>
+    </select>
 </div>
 </#if>
 <#-- Completed Query Ending -->

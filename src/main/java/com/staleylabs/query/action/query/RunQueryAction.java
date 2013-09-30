@@ -5,7 +5,6 @@ import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.dto.QueryResultTO;
 import com.staleylabs.query.service.QueryService;
 import com.staleylabs.query.validator.QueryValidator;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
@@ -18,15 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 @SuppressWarnings("FieldCanBeLocal")
 public class RunQueryAction extends AdminActionSupport {
 
-    private static final Logger log = Logger.getLogger(RunQueryAction.class);
-
     private QueryResultTO result;
 
     private String databaseQuery;
 
     private boolean isSelectQuery = true;
-
-    private boolean isCleanQuery = true;
 
     private boolean isCompleted;
 
@@ -41,12 +36,12 @@ public class RunQueryAction extends AdminActionSupport {
 
     @Override
     public String execute() {
+        // Parameter validation
         if (StringUtils.isBlank(databaseQuery)) {
             return INPUT;
         }
 
-        //Is the query NOT a SELECT query?
-        else if (QueryValidator.isNotSelectQuery(databaseQuery)) {
+        if (QueryValidator.isNotSelectQuery(databaseQuery)) {
             isSelectQuery = false;
             return INPUT;
         }
@@ -55,7 +50,7 @@ public class RunQueryAction extends AdminActionSupport {
             currentPage = 1;
         }
 
-        if (resultsPerPage < 1) {
+        if (resultsPerPage < 10 || resultsPerPage > 50) {
             resultsPerPage = 10;
         }
 
@@ -80,10 +75,6 @@ public class RunQueryAction extends AdminActionSupport {
 
     public boolean isCompleted() {
         return isCompleted;
-    }
-
-    public boolean isCleanQuery() {
-        return isCleanQuery;
     }
 
     public boolean isResults() {

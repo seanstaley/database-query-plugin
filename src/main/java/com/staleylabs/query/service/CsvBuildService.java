@@ -39,6 +39,11 @@ public class CsvBuildService {
             // need to encode the csv into UTF-8
             baos = new ByteArrayOutputStream();
             writer = new OutputStreamWriter(baos);
+
+            if (JiveGlobals.getJiveBooleanProperty("staleylabs.csv.writeBOM")) {
+                writer.write('\ufeff');
+            }
+
             IOUtils.copy(new ByteArrayInputStream(csv.getBytes("UTF-8")), writer, "UTF-8");
             writer.flush();
             csvStream = new ByteArrayInputStream(baos.toByteArray());

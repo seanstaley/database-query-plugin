@@ -12,13 +12,13 @@
 
     <bean class="com.staleylabs.query.DatabaseQueryPlugin"/>
 
-    <bean id="applicationExecutionDao" class="com.staleylabs.query.dao.impl.ApplicationQueryExecutionDaoImpl">
+    <bean id="applicationExecutionDao" class="com.staleylabs.query.dao.ApplicationQueryExecutionDao">
         <property name="dataSource">
             <util:property-path path="dataSourceFactory.dataSource"/>
         </property>
     </bean>
 
-    <bean id="analyticsExecutionDao" class="com.staleylabs.query.dao.impl.ApplicationQueryExecutionDaoImpl">
+    <bean id="analyticsExecutionDao" class="com.staleylabs.query.dao.ApplicationQueryExecutionDao">
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 

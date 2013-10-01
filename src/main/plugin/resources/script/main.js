@@ -50,7 +50,14 @@ function submitNewQuery() {
         form['resultsPerPage'].value = 10;
     }
 
-    _gaq.push(['_trackEvent', 'Query', 'First Query', form['databaseQuery']]);
+    var _gaq = _gaq || [];
+    _gaq.push(['_trackEvent', 'Query', 'First Query', form['databaseQuery'].value]);
+}
+
+function doExport() {
+    $j('#export_all_form').submit();
+    $j('#jive-link-memberExportStarted').show();
+    $j('#jive-link-exportAllMembers').hide();
 }
 
 // Start of on page load content.

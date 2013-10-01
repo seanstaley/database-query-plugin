@@ -1,6 +1,7 @@
 package com.staleylabs.query.action.query;
 
 import com.jivesoftware.community.analytics.action.AnalyticsActionSupport;
+import com.jivesoftware.community.entitlements.authorization.RequiresRole;
 import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.dto.QueryResultTO;
 import com.staleylabs.query.service.QueryService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @since 1.0 (5/15/12)
  */
 
+@RequiresRole("Manage System")
 public class RunAnalyticsQueryAction extends AnalyticsActionSupport {
 
     private QueryResultTO result;

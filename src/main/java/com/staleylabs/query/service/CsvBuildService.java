@@ -46,9 +46,11 @@ public class CsvBuildService {
 
             IOUtils.copy(new ByteArrayInputStream(csv.getBytes("UTF-8")), writer, "UTF-8");
             writer.flush();
+
             csvStream = new ByteArrayInputStream(baos.toByteArray());
         } catch (IOException e) {
             log.warn("UTF-8 not supported for CSV encoding, using default encoding", e);
+
             csvStream = new ByteArrayInputStream(csv.getBytes());
         } finally {
             IOUtils.closeQuietly(baos);

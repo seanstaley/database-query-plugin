@@ -1,6 +1,7 @@
 package com.staleylabs.query.action.query;
 
-import com.jivesoftware.community.action.admin.AdminActionSupport;
+import com.jivesoftware.community.action.JiveActionSupport;
+import com.jivesoftware.community.entitlements.authorization.RequiresRole;
 import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.dto.QueryResultTO;
 import com.staleylabs.query.service.QueryService;
@@ -15,7 +16,8 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 
 @SuppressWarnings("FieldCanBeLocal")
-public class RunQueryAction extends AdminActionSupport {
+@RequiresRole("Manage System")
+public class RunQueryAction extends JiveActionSupport {
 
     private QueryResultTO result;
 

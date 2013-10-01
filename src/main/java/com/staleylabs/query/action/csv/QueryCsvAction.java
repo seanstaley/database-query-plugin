@@ -2,6 +2,7 @@ package com.staleylabs.query.action.csv;
 
 import com.jivesoftware.community.JiveGlobals;
 import com.jivesoftware.community.action.admin.AdminActionSupport;
+import com.jivesoftware.community.entitlements.authorization.RequiresRole;
 import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.service.CsvBuildService;
 import com.staleylabs.query.service.QueryService;
@@ -22,6 +23,7 @@ import java.util.List;
  * @since 1.0 (9/17/12)
  */
 
+@RequiresRole("Manage System")
 public class QueryCsvAction extends AdminActionSupport {
 
     private static final Logger log = Logger.getLogger(QueryCsvAction.class);

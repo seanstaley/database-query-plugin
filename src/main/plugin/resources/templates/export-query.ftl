@@ -12,17 +12,7 @@
         to the application database.
     </content>
 
-    <link rel='stylesheet' type='text/css'
-          href="<@s.url value='/plugins/database-query-plugin/resources/styles/dbQuery.css'/>"/>
-
-    <script type="text/javascript">
-        function doExport() {
-            $j('#export_all_form').submit();
-            $j('#jive-link-memberExportStarted').show();
-            $j('#jive-link-exportAllMembers').hide();
-        }
-    </script>
-
+<#include "static/headerScripts.ftl"/>
 </head>
 
 <body>
@@ -54,5 +44,6 @@
 
 <@jive.renderActionSidebar 'database-query-actions' />
 </p>
+<script type="text/javascript" src='<@s.url value="/plugins/database-query-plugin/resources/script/main.js"/>'></script>
 </body>
 </html>

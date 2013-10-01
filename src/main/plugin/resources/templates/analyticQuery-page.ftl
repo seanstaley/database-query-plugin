@@ -6,8 +6,7 @@
     <content tag="pageID">analytics-query-page</content>
     <content tag="pagehelp"></content>
 
-    <link rel='stylesheet' type='text/css'
-          href='<@s.url value="/plugins/database-query-plugin/resources/styles/dbQuery.css"/>'/>
+<#include "static/headerScripts.ftl"/>
 </head>
 <body>
 <div id="queryInformation" class="dbqInformation">

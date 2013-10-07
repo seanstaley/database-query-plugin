@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
  * @version 2.0 (3/19/13)
  */
 
-public class ApplicationQueryExecutionDaoTest {
+public class QueryExecutionDaoTest {
 
     private static final String SELECT_JIVE_USER = "SELECT * FROM JIVEUSER;";
 
@@ -26,7 +26,7 @@ public class ApplicationQueryExecutionDaoTest {
 
     private static final String SELECT_JIVE_USER_INNER_JOIN_COUNT = "SELECT COUNT(1) FROM JIVEUSER INNER JOIN JIVEPROPERTY ON NOTHING = NOTHING;";
 
-    private final ApplicationQueryExecutionDao classUnderTest = new ApplicationQueryExecutionDao();
+    private final QueryExecutionDao classUnderTest = new QueryExecutionDao();
 
     @Test
     public void testGenerateQuerySizeString() throws Exception {

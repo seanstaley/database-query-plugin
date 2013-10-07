@@ -14,7 +14,9 @@
         m.parentNode.insertBefore(a, m)
     })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
 
-    ga('create', 'UA-40493136-1', 'staleylabs.com');
+    ga('create', 'UA-40493136-1', 'staleylabs.com', {
+        'cookieDomain': 'none'
+    });
     ga('send', 'pageview');
 
 </script>

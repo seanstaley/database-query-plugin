@@ -3,36 +3,31 @@
 <struts>
     <package name="database-query-plugin-actions" extends="community-admin-default" namespace="/admin">
 
-        <action name="database-query-page" class="com.staleylabs.query.action.query.RunQueryAction">
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
+        <action name="database-query-page" class="com.staleylabs.query.action.query.impl.RunApplicationQueryActionImpl">
+            <result name="query" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
             <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/dbQuery-page.ftl</result>
-        </action>
-
-        <action name="analytics-query-page" class="com.staleylabs.query.action.query.RunAnalyticsQueryAction">
-            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
-        </action>
-
-        <action name="export-query-page" class="com.staleylabs.query.action.csv.QueryCsvAction">
-            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
-        </action>
-
-        <action name="database-query-about" class="com.staleylabs.query.action.AboutPluginAction">
-            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/about.ftl</result>
-        </action>
-
-        <action name="export-query-results"
-                class="com.staleylabs.query.action.csv.QueryCsvAction">
-            <interceptor-ref name="token"/>
-            <interceptor-ref name="defaultStack"/>
             <result name="export" type="stream">
                 <param name="contentType">text/csv</param>
                 <param name="inputName">csvStream</param>
                 <param name="contentDisposition">attachment; filename="${databaseCSVFilename}"</param>
                 <param name="bufferSize">1024</param>
             </result>
-            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/export-query.ftl</result>
         </action>
+
+        <action name="analytics-query-page" class="com.staleylabs.query.action.query.impl.RunAnalyticsQueryActionImpl">
+            <result name="input" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+            <result name="query" type="freemarker">/plugins/database-query-plugin/resources/templates/analyticQuery-page.ftl</result>
+            <result name="export" type="stream">
+                <param name="contentType">text/csv</param>
+                <param name="inputName">csvStream</param>
+                <param name="contentDisposition">attachment; filename="${databaseCSVFilename}"</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <action name="database-query-about" class="com.staleylabs.query.action.AboutPluginAction">
+            <result name="success" type="freemarker">/plugins/database-query-plugin/resources/templates/about.ftl</result>
+        </action>
+
     </package>
 </struts>

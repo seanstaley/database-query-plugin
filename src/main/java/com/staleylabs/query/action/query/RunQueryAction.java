@@ -1,15 +1,20 @@
 package com.staleylabs.query.action.query;
 
+import com.jivesoftware.community.JiveGlobals;
 import com.jivesoftware.community.action.JiveActionSupport;
 import com.jivesoftware.community.entitlements.authorization.RequiresRole;
 import com.jivesoftware.util.StringUtils;
 import com.staleylabs.query.dto.QueryResultTO;
+import com.staleylabs.query.service.CsvBuildService;
 import com.staleylabs.query.service.QueryService;
 import com.staleylabs.query.validator.QueryValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.InputStream;
+import java.util.List;
+
 /**
- * Controller used for Running an application database query against the Jive application.
+ * Base action support for the database query plugin where all types of query pass through.
  *
  * @author Sean M. Staley
  * @version 2.0 (5/14/12)
@@ -19,6 +24,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 @RequiresRole("Manage System")
 public class RunQueryAction extends JiveActionSupport {
 
+    /**
+     * Constant that represents the number of maximum rows that a given CSV report can hold. A restart of the
+     * application is required for this property to take effect, once changed.
+     */
+    private static final long MAX_ROWS = JiveGlobals.getJiveLongProperty("staleylabs.csv.limit", 1000);
+
     private QueryResultTO result;
 
     private String databaseQuery;
@@ -27,17 +38,25 @@ public class RunQueryAction extends JiveActionSupport {
 
     private boolean isCompleted;
 
+    private boolean isExport;
+
     private boolean isResults = true;
 
     private int currentPage;
 
     private int resultsPerPage;
 
+    /**
+     * Dynamic query service that is injected into the action from the sub actions.
+     */
+    protected QueryService queryService;
+
     @Autowired
-    private QueryService queryService;
+    private CsvBuildService csvBuildService;
 
     @Override
     public String execute() {
+
         // Parameter validation
         if (StringUtils.isBlank(databaseQuery)) {
             return INPUT;
@@ -46,6 +65,11 @@ public class RunQueryAction extends JiveActionSupport {
         if (QueryValidator.isNotSelectQuery(databaseQuery)) {
             isSelectQuery = false;
             return INPUT;
+        }
+
+        // Exporting a query? Return export.
+        if (isExport) {
+            return "export";
         }
 
         if (currentPage < 1) {
@@ -64,7 +88,19 @@ public class RunQueryAction extends JiveActionSupport {
             isResults = false;
         }
 
-        return SUCCESS;
+        return "query";
+    }
+
+    /**
+     * Local method used to export a requested query.
+     *
+     * @param databaseQuery The query that is to be exported in CSV format.
+     * @return {@link InputStream} that contains the CSV file.
+     */
+    private InputStream doExport(String databaseQuery) {
+        List<List<String>> bulkResults = queryService.returnBulkQueryResults(databaseQuery, MAX_ROWS);
+
+        return csvBuildService.createCsvStream(csvBuildService.generateCsv(bulkResults, MAX_ROWS));
     }
 
     public void setDatabaseQuery(String databaseQuery) {
@@ -80,7 +116,7 @@ public class RunQueryAction extends JiveActionSupport {
     }
 
     public boolean isResults() {
-        return this.isResults;
+        return isResults;
     }
 
     public void setCurrentPage(int currentPage) {
@@ -97,5 +133,27 @@ public class RunQueryAction extends JiveActionSupport {
 
     public void setResult(QueryResultTO result) {
         this.result = result;
+    }
+
+    public void setExport(String isExport) {
+        this.isExport = true;
+    }
+
+    /**
+     * Getter for csvStream member.
+     *
+     * @return the csvStream member of the class which may be null
+     */
+    public InputStream getCsvStream() {
+        return doExport(databaseQuery);
+    }
+
+    /**
+     * Generates the name of the CSV export file for the impl results, if any.
+     *
+     * @return the csv export filename for the current impl results
+     */
+    public String getDatabaseCSVFilename() {
+        return StringUtils.makeURLSafe(getText("dbQuery.csv.filename")) + ".csv";
     }
 }

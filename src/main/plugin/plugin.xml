@@ -26,29 +26,10 @@
                     <item id="analytics-query-page" name="admin.decorator.menu.system.dbQuery.item.analytics"
                           url="analytics-query-page.jspa"
                           description="admin.decorator.menu.system.dbQuery.item.analytics.desc"/>
-                    <item id="export-query-page" name="admin.decorator.menu.system.dbQuery.item.export"
-                          url="export-query-page.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.export.desc"/>
                     <item id="database-query-about" name="admin.decorator.menu.system.dbQuery.item.about"
                           url="database-query-about.jspa"
-                          description="admin.decorator.menu.system.dbQuery.item.export.desc" />
+                          description="admin.decorator.menu.system.dbQuery.item.export.desc"/>
                 </section>
-            </tab>
-        </component>
-
-        <component id="database-query-actions">
-            <tab id="database-query-actions-tab">
-                <item id="jive-link-exportResults" name="dbquery.csv.export.title"
-                      cssClass="jive-icon-med jive-icon-data-export" onclick="doExport(); return false;"
-                      url="#">
-                    <description>
-                        <![CDATA[<@s.text name="dbquery.csv.export.hint"/>]]></description>
-                </item>
-                <item id="jive-link-queryExportStarted" style="display:none;"
-                      name="dbquery.csv.export.starting">
-                    <action>
-                        <![CDATA[<span class="jive-icon-med jive-icon-data-export"></span><@s.text name="dbquery.csv.export.exporting"/>]]></action>
-                </item>
             </tab>
         </component>
     </components>

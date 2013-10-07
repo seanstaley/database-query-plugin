@@ -22,7 +22,7 @@ public class CsvBuildService {
 
     private static final Logger log = Logger.getLogger(CsvBuildService.class);
 
-    private static final int MAX_ROWS = JiveGlobals.getJiveIntProperty("staleylabs.csv.limit", 1000);
+    protected static final String JIVE_SUPPORT_TEXT = "To obtain a full result set, please contact Jive Support.";
 
     /**
      * Creates and returns an InputStream to stream the given CSV file.
@@ -67,7 +67,7 @@ public class CsvBuildService {
      * @return the full CSV file contents for all results returned from the two input parameters
      */
     @Audit
-    public String generateCsv(List<List<String>> arraysOfRows) {
+    public String generateCsv(List<List<String>> arraysOfRows, long maxRows) {
         int numberOfColumns = arraysOfRows.get(0).size();
 
         // Allocate the line array once
@@ -84,8 +84,10 @@ public class CsvBuildService {
             csvWriter.writeNext(line);
         }
 
-        if (arraysOfRows.size() == MAX_ROWS ) {
-            line[0] = "To obtain a full result set, please contact Jive Support.";
+        if (arraysOfRows.size() >= maxRows) {
+            line = new String[1];
+            line[0] = JIVE_SUPPORT_TEXT;
+
             csvWriter.writeNext(line);
         }
 

@@ -12,17 +12,23 @@
 
     <bean class="com.staleylabs.query.DatabaseQueryPlugin"/>
 
-    <bean id="applicationExecutionDao" class="com.staleylabs.query.dao.ApplicationQueryExecutionDao">
+    <bean id="applicationQueryService" class="com.staleylabs.query.service.QueryService">
+        <constructor-arg ref="applicationExecutionDao"/>
+    </bean>
+
+    <bean id="analyticsQueryService" class="com.staleylabs.query.service.QueryService">
+        <constructor-arg ref="analyticsExecutionDao"/>
+    </bean>
+
+    <bean id="applicationExecutionDao" class="com.staleylabs.query.dao.QueryExecutionDao">
         <property name="dataSource">
             <util:property-path path="dataSourceFactory.dataSource"/>
         </property>
     </bean>
 
-    <bean id="analyticsExecutionDao" class="com.staleylabs.query.dao.ApplicationQueryExecutionDao">
+    <bean id="analyticsExecutionDao" class="com.staleylabs.query.dao.QueryExecutionDao">
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
     <bean id="csvBuildService" class="com.staleylabs.query.service.CsvBuildService"/>
-
-    <bean id="queryService" class="com.staleylabs.query.service.QueryService"/>
 </beans>

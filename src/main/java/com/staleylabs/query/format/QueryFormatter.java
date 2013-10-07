@@ -17,7 +17,7 @@ import java.util.Map;
 
 public class QueryFormatter {
 
-    public static final String NO_RESULTS = "Your query did not return any results.";
+    private static final String NO_RESULTS = "Your query did not return any results.";
 
     private static final Logger log = Logger.getLogger(QueryFormatter.class);
 

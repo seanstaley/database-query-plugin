@@ -48,7 +48,7 @@
     <br>
 
     <div style="padding: 5px">
-        <input type="submit" value="Submit" onclick="submitNewQuery()"/> <input type="reset" value="Cancel"/>
+        <input type="submit" value="Submit" onclick="submitNewQuery()"/> <input type="submit" value="Export" name="export" onclick="recordExport()"/> <input type="reset" value="Cancel"/>
     </div>
 </form>
 <#-- Form Ending -->

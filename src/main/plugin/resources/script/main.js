@@ -33,7 +33,6 @@ function updateResultsPerPage() {
 function updateSelectedOption(node, value) {
     if ((node && node != undefined) && (value && value != undefined)) {
 
-        console.log("Updating node " + node + " with " + value);
         node.selectedIndex = value - 1;
     }
 }
@@ -54,10 +53,12 @@ function submitNewQuery() {
     _gaq.push(['_trackEvent', 'Query', 'First Query', form['databaseQuery'].value]);
 }
 
-function doExport() {
-    $j('#export_all_form').submit();
-    $j('#jive-link-memberExportStarted').show();
-    $j('#jive-link-exportAllMembers').hide();
+function recordExport() {
+    var form = document.forms[0];
+    var query = form['databaseQuery'].value;
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_trackEvent', 'Export', 'Export Featured Executed', query]);
 }
 
 // Start of on page load content.

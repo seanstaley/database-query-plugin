@@ -1,11 +1,10 @@
 package com.staleylabs.query.service;
 
 import com.staleylabs.query.beans.QueryPage;
-import com.staleylabs.query.dao.ApplicationQueryExecutionDao;
+import com.staleylabs.query.dao.QueryExecutionDao;
 import com.staleylabs.query.dto.QueryResultTO;
 import com.staleylabs.query.format.QueryFormatter;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.BadSqlGrammarException;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +26,11 @@ public class QueryService {
 
     private static final int FIRST_PAGE = 1;
 
-    @Autowired
-    private ApplicationQueryExecutionDao applicationExecutionDao;
+    private QueryExecutionDao queryExecutionDao;
 
-    @Autowired
-    private ApplicationQueryExecutionDao analyticsExecutionDao;
+    public QueryService(QueryExecutionDao queryExecutionDao) {
+        this.queryExecutionDao = queryExecutionDao;
+    }
 
     /**
      * Method used to simply map the simple DTO object from the results provided by the application.
@@ -68,11 +67,10 @@ public class QueryService {
      * @return {@link QueryResultTO} object that will contain all information needed for the UI.
      */
     protected static QueryResultTO mapBadQueryResults(String query, BadSqlGrammarException e) {
-        final String exceptionMessage = String.format("%s: %s", e.getSQLException(), e.getSql());
         final QueryResultTO resultTO = new QueryResultTO();
 
         resultTO.setBadSyntax(true);
-        resultTO.setBadSyntaxDescription(exceptionMessage);
+        resultTO.setBadSyntaxDescription(e.getLocalizedMessage());
         resultTO.setQuery(query);
 
         return resultTO;
@@ -90,7 +88,7 @@ public class QueryService {
         QueryPage<Map<String, Object>> mapQueryPage = new QueryPage<Map<String, Object>>();
 
         try {
-            mapQueryPage = applicationExecutionDao.retrieveResults(inputQuery, FIRST_PAGE, resultSize);
+            mapQueryPage = queryExecutionDao.retrieveResults(inputQuery, FIRST_PAGE, resultSize);
         } catch (BadSqlGrammarException e) {
             log.error("Bad Syntax!", e);
         }
@@ -108,31 +106,11 @@ public class QueryService {
         QueryPage<Map<String, Object>> mapQueryPage;
 
         try {
-            mapQueryPage = applicationExecutionDao.retrieveResults(query, pageNumber, resultsPerPage);
+            mapQueryPage = queryExecutionDao.retrieveResults(query, pageNumber, resultsPerPage);
         } catch (BadSqlGrammarException e) {
             log.warn("Bad SQL grammar when querying Application Database:\n" + query, e);
 
             return mapBadQueryResults(query, e);
-        }
-
-        return mapQueryResults(query, pageNumber, resultsPerPage, mapQueryPage);
-    }
-
-    /**
-     * Used to provide a single page of results from the analytics database.
-     *
-     * @param query SQL query that is being requested to run.
-     * @return {@link QueryResultTO} object that will contain all information needed for the UI.
-     */
-    public QueryResultTO returnAnalyticQueryResult(String query, int pageNumber, int resultsPerPage) {
-        QueryPage<Map<String, Object>> mapQueryPage;
-
-        try {
-            mapQueryPage = analyticsExecutionDao.retrieveResults(query, pageNumber, resultsPerPage);
-        } catch (BadSqlGrammarException sql) {
-            log.warn("Bad SQL grammar when querying Analytics Database:\n" + query, sql);
-
-            return mapBadQueryResults(query, sql);
         }
 
         return mapQueryResults(query, pageNumber, resultsPerPage, mapQueryPage);

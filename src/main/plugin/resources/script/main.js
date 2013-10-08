@@ -52,6 +52,9 @@ function submitNewQuery() {
     ga('send', 'event', 'Query', form['databaseQuery'].value);
 }
 
+/**
+ * On exporting a query from the application, let's record what query was used so that we can do top queries one day.
+ */
 function recordExport() {
     var form = document.forms[0];
     var query = form['databaseQuery'].value;
@@ -59,7 +62,7 @@ function recordExport() {
     ga('send', 'event', 'Export', form['databaseQuery'].value);
 }
 
-// Start of on page load content.
+// Start of on page load content. ======================================================================================
 var pageCountNode = document.getElementById("pageCount");
 var resultPageCountNode = document.getElementById('resultPageCount');
 

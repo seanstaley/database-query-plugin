@@ -49,16 +49,14 @@ function submitNewQuery() {
         form['resultsPerPage'].value = 10;
     }
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_trackEvent', 'Query', 'First Query', form['databaseQuery'].value]);
+    ga('send', 'event', 'Query', form['databaseQuery'].value);
 }
 
 function recordExport() {
     var form = document.forms[0];
     var query = form['databaseQuery'].value;
 
-    var _gaq = _gaq || [];
-    _gaq.push(['_trackEvent', 'Export', 'Export Featured Executed', query]);
+    ga('send', 'event', 'Export', form['databaseQuery'].value);
 }
 
 // Start of on page load content.
@@ -69,4 +67,3 @@ if ((pageCountNode && pageCountNode !== undefined) && (resultPageCountNode && re
     updateSelectedOption(document.getElementById("pageSelect"), pageCountNode.valueOf().innerHTML);
     updateSelectedOption(document.getElementById("resultPageSelect"), (resultPageCountNode.valueOf().innerHTML / 10));
 }
-

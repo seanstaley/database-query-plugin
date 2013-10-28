@@ -31,15 +31,6 @@
     </a>
     Source control and issue tracking provided by GitHub.
 </div>
-<div id="feedback">
-    <h4>Feedback, Issue Reporting</h4>
-
-    <p>
-        Have an issue that you would like to have reported? Have feedback about this
-        plugin? Feel free to contact me using this <a href="mailto:sean.staley@gmail.com">
-        link</a>.
-    </p>
-</div>
 
 <div id="GitHubIssues">
     <h3>Opened Bugs and Enhancements</h3>

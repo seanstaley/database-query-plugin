@@ -10,7 +10,7 @@
     <url>http://www.jivesoftware.com</url>
 
     <properties>
-        <jive.version>6.0.0.1</jive.version>
+        <jive.version>6.0.3.1</jive.version>
         <final.name>${project.artifactId}</final.name>
         <emma-maven-plugin.version>1.0-alpha-3</emma-maven-plugin.version>
         <emma.coverage.out.file>${project.build.directory}/coverage.ec</emma.coverage.out.file>

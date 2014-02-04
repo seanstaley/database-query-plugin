@@ -10,7 +10,7 @@
     <url>http://www.jivesoftware.com</url>
 
     <properties>
-        <jive.version>6.0.3.1</jive.version>
+        <jive.version>7.0.0.0</jive.version>
         <final.name>${project.artifactId}</final.name>
         <emma-maven-plugin.version>1.0-alpha-3</emma-maven-plugin.version>
         <emma.coverage.out.file>${project.build.directory}/coverage.ec</emma.coverage.out.file>
@@ -25,8 +25,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <!-- Weave aspects into the plugin -->

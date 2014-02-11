@@ -54,7 +54,7 @@ public class CsvBuildServiceTest {
         System.out.println("CSV generated array:" + actual);
 
         assertTrue(StringUtils.startsWith(actual, "\"00\",\"01\",\"02\",\"03\",\"04\"\n"));
-        assertTrue(StringUtils.endsWith(actual, "\"" + CsvBuildService.JIVE_SUPPORT_TEXT + "\"\n"));
+        assertTrue(StringUtils.endsWith(actual, "\"" + CsvBuildService.RESULT_SET_TOO_LARGE_TO_COMPLETE + "\"\n"));
     }
 
     private List<List<String>> buildArrayOfRows(int rowCount) {

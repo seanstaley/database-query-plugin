@@ -22,7 +22,7 @@ public class CsvBuildService {
 
     private static final Logger log = Logger.getLogger(CsvBuildService.class);
 
-    protected static final String JIVE_SUPPORT_TEXT = "To obtain a full result set, please contact Jive Support.";
+    protected static final String RESULT_SET_TOO_LARGE_TO_COMPLETE = "Result Set Too Large to Complete.";
 
     /**
      * Creates and returns an InputStream to stream the given CSV file.
@@ -86,7 +86,7 @@ public class CsvBuildService {
 
         if (arraysOfRows.size() >= maxRows) {
             line = new String[1];
-            line[0] = JIVE_SUPPORT_TEXT;
+            line[0] = RESULT_SET_TOO_LARGE_TO_COMPLETE;
 
             csvWriter.writeNext(line);
         }

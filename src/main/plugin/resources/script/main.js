@@ -48,18 +48,6 @@ function submitNewQuery() {
         form['currentPage'].value = 1;
         form['resultsPerPage'].value = 10;
     }
-
-    ga('send', 'event', 'Query', form['databaseQuery'].value);
-}
-
-/**
- * On exporting a query from the application, let's record what query was used so that we can do top queries one day.
- */
-function recordExport() {
-    var form = document.forms[0];
-    var query = form['databaseQuery'].value;
-
-    ga('send', 'event', 'Export', form['databaseQuery'].value);
 }
 
 // Start of on page load content. ======================================================================================

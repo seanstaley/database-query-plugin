@@ -30,5 +30,15 @@
         <property name="dataSource" ref="analyticsDataSource"/>
     </bean>
 
+    <bean class="com.staleylabs.query.action.query.impl.RunApplicationQueryActionImpl">
+        <property name="csvBuildService" ref="csvBuildService"/>
+        <property name="applicationQueryService" ref="applicationQueryService"/>
+    </bean>
+
+    <bean class="com.staleylabs.query.action.query.impl.RunAnalyticsQueryActionImpl">
+        <property name="csvBuildService" ref="csvBuildService"/>
+        <property name="analyticsQueryService" ref="analyticsQueryService"/>
+    </bean>
+
     <bean id="csvBuildService" class="com.staleylabs.query.service.CsvBuildService"/>
 </beans>

@@ -8,7 +8,6 @@ import com.staleylabs.query.dto.QueryResultTO;
 import com.staleylabs.query.service.CsvBuildService;
 import com.staleylabs.query.service.QueryService;
 import com.staleylabs.query.validator.QueryValidator;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.InputStream;
 import java.util.List;
@@ -46,12 +45,13 @@ public class RunQueryAction extends JiveActionSupport {
 
     private int resultsPerPage;
 
+    private InputStream csvStream;
+
     /**
      * Dynamic query service that is injected into the action from the sub actions.
      */
     protected QueryService queryService;
 
-    @Autowired
     private CsvBuildService csvBuildService;
 
     @Override
@@ -133,6 +133,14 @@ public class RunQueryAction extends JiveActionSupport {
 
     public void setResult(QueryResultTO result) {
         this.result = result;
+    }
+
+    public CsvBuildService getCsvBuildService() {
+        return csvBuildService;
+    }
+
+    public void setCsvBuildService(CsvBuildService csvBuildService) {
+        this.csvBuildService = csvBuildService;
     }
 
     public void setExport(String isExport) {

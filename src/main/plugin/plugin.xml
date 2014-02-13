@@ -5,8 +5,8 @@
     <author>StaleyLabs</author>
     <authorURL>http://www.staleylabs.com/</authorURL>
     <version>2.0</version>
-    <minServerVersion>7.0.0</minServerVersion>
-    <maxServerVersion>7.9.0</maxServerVersion>
+    <minServerVersion>5.0.0</minServerVersion>
+    <maxServerVersion>5.9.0</maxServerVersion>
 
     <databaseKey>database-query</databaseKey>
     <databaseVersion>1050302</databaseVersion>
